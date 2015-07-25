@@ -62,7 +62,7 @@ minetest.register_node("cottages:anvil", {
 	},
 	on_construct = function(pos)
 
-               	local meta = minetest.env:get_meta(pos);
+		local meta = minetest.get_meta(pos);
                	meta:set_string("infotext", S("Anvil"));
                	local inv = meta:get_inventory();
                	inv:set_size("input",    1);
@@ -99,7 +99,7 @@ minetest.register_node("cottages:anvil", {
 
         can_dig = function(pos,player)
 
-                local meta  = minetest.get_meta(pos);
+		local meta  = minetest.get_meta(pos);
                 local inv   = meta:get_inventory();
 		local owner = meta:get_string('owner');
 
@@ -163,8 +163,8 @@ minetest.register_node("cottages:anvil", {
 		end
 		local name = puncher:get_player_name();
 
-               	local meta = minetest.env:get_meta(pos);
-               	local inv  = meta:get_inventory();
+		local meta = minetest.get_meta(pos);
+		local inv  = meta:get_inventory();
 
 		local input = inv:get_stack('input',1);
 

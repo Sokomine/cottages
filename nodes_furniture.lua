@@ -206,7 +206,7 @@ minetest.register_node("cottages:shelf", {
 
 		on_construct = function(pos)
 
-                	local meta = minetest.env:get_meta(pos);
+                	local meta = minetest.get_meta(pos);
 
 	                meta:set_string("formspec",
                                 "size[8,8]"..
@@ -218,17 +218,17 @@ minetest.register_node("cottages:shelf", {
         	end,
 
 	        can_dig = function( pos,player )
-	                local  meta = minetest.env:get_meta( pos );
+	                local  meta = minetest.get_meta( pos );
 	                local  inv = meta:get_inventory();
 	                return inv:is_empty("main");
 	        end,
 
                 on_metadata_inventory_put  = function(pos, listname, index, stack, player)
-	                local  meta = minetest.env:get_meta( pos );
+	                local  meta = minetest.get_meta( pos );
                         meta:set_string('infotext', S('open storage shelf (in use)'));
                 end,
                 on_metadata_inventory_take = function(pos, listname, index, stack, player)
-	                local  meta = minetest.env:get_meta( pos );
+	                local  meta = minetest.get_meta( pos );
 	                local  inv = meta:get_inventory();
 	                if( inv:is_empty("main")) then
                            meta:set_string('infotext', S('open storage shelf (empty)'));
@@ -293,7 +293,7 @@ minetest.register_node("cottages:washing", {
 		},
                 on_rightclick = function(pos, node, player)
                    -- works only with water beneath
-                   local node_under = minetest.env:get_node( {x=pos.x, y=(pos.y-1), z=pos.z} );
+                   local node_under = minetest.get_node( {x=pos.x, y=(pos.y-1), z=pos.z} );
 		   if( not( node_under ) or node_under.name == "ignore" or (node_under.name ~= 'default:water_source' and node_under.name ~= 'default:water_flowing')) then
                       minetest.chat_send_player( player:get_player_name(), S("Sorry. This washing place is out of water. Please place it above water!"));
 		   else

@@ -31,12 +31,12 @@ cottages_window_sutter_operate = function( pos, old_node_state_name, new_node_st
 
    for i,v in ipairs(offsets) do
 
-      local node = minetest.env:get_node_or_nil( {x=pos.x, y=(pos.y+v), z=pos.z } );
+      local node = minetest.get_node_or_nil( {x=pos.x, y=(pos.y+v), z=pos.z } );
       if( node and node.name and node.name==old_node_state_name 
         and ( (v > 0 and stop_up   == 0 ) 
            or (v < 0 and stop_down == 0 ))) then
 
-         minetest.env:add_node({x=pos.x, y=(pos.y+v), z=pos.z }, {name = new_node_state_name, param2 = node.param2})
+         minetest.swap_node({x=pos.x, y=(pos.y+v), z=pos.z }, {name = new_node_state_name, param2 = node.param2})
 
       -- found a diffrent node - no need to search further up
       elseif( v > 0 and stop_up   == 0 ) then
@@ -72,7 +72,7 @@ minetest.register_node("cottages:window_shutter_open", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    minetest.env:add_node(pos, {name = "cottages:window_shutter_closed", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = node.param2})
                     cottages_window_sutter_operate( pos, "cottages:window_shutter_open", "cottages:window_shutter_closed" );
                 end,
 		is_ground_content = false,
@@ -100,7 +100,7 @@ minetest.register_node("cottages:window_shutter_closed", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    minetest.env:add_node(pos, {name = "cottages:window_shutter_open", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = node.param2})
                     cottages_window_sutter_operate( pos, "cottages:window_shutter_closed", "cottages:window_shutter_open" );
                 end,
 		is_ground_content = false,
@@ -116,9 +116,9 @@ minetest.register_abm({
    action = function(pos)
 
         -- at this time, sleeping in a bed is not possible
-        if( not(minetest.env:get_timeofday() < 0.2 or minetest.env:get_timeofday() > 0.805)) then
-           local old_node = minetest.env:get_node( pos );
-           minetest.env:add_node(pos, {name = "cottages:window_shutter_open", param2 = old_node.param2})
+        if( not(minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805)) then
+           local old_node = minetest.get_node( pos );
+           minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = old_node.param2})
            cottages_window_sutter_operate( pos, "cottages:window_shutter_closed", "cottages:window_shutter_open" );
        end
    end
@@ -133,9 +133,9 @@ minetest.register_abm({
    action = function(pos)
 
         -- same time at which sleeping is allowed in beds
-        if( minetest.env:get_timeofday() < 0.2 or minetest.env:get_timeofday() > 0.805) then
-           local old_node = minetest.env:get_node( pos );
-           minetest.env:add_node(pos, {name = "cottages:window_shutter_closed", param2 = old_node.param2})
+        if( minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805) then
+           local old_node = minetest.get_node( pos );
+           minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = old_node.param2})
            cottages_window_sutter_operate( pos, "cottages:window_shutter_open", "cottages:window_shutter_closed" );
         end
    end
@@ -166,7 +166,7 @@ minetest.register_node("cottages:half_door", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    local node2 = minetest.env:get_node( {x=pos.x,y=(pos.y+1),z=pos.z});
+                    local node2 = minetest.get_node( {x=pos.x,y=(pos.y+1),z=pos.z});
 
                     local param2 = node.param2;
                     if(     param2%4 == 1) then param2 = param2+1; --2;
@@ -174,11 +174,11 @@ minetest.register_node("cottages:half_door", {
                     elseif( param2%4 == 3) then param2 = param2-3; --0;
                     elseif( param2%4 == 0) then param2 = param2+3; --3;
                     end;
-                    minetest.env:add_node(pos, {name = "cottages:half_door", param2 = param2})
+                    minetest.swap_node(pos, {name = "cottages:half_door", param2 = param2})
                     -- if the node above consists of a door of the same type, open it as well
                     -- Note: doors beneath this one are not opened! It is a special feature of these doors that they can be opend partly
                     if( node2 ~= nil and node2.name == node.name and node2.param2==node.param2) then
-                       minetest.env:add_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "cottages:half_door", param2 = param2})
+                       minetest.swap_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "cottages:half_door", param2 = param2})
                     end
                 end,
 		is_ground_content = false,
@@ -207,7 +207,7 @@ minetest.register_node("cottages:half_door_inverted", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    local node2 = minetest.env:get_node( {x=pos.x,y=(pos.y+1),z=pos.z});
+                    local node2 = minetest.get_node( {x=pos.x,y=(pos.y+1),z=pos.z});
 
                     local param2 = node.param2;
                     if(     param2%4 == 1) then param2 = param2-1; --0;
@@ -215,10 +215,10 @@ minetest.register_node("cottages:half_door_inverted", {
                     elseif( param2%4 == 2) then param2 = param2+1; --3;
                     elseif( param2%4 == 3) then param2 = param2-1; --2;
                     end;
-                    minetest.env:add_node(pos, {name = "cottages:half_door_inverted", param2 = param2})
+                    minetest.swap_node(pos, {name = "cottages:half_door_inverted", param2 = param2})
                     -- open upper parts of this door (if there are any)
                     if( node2 ~= nil and node2.name == node.name and node2.param2==node.param2) then
-                       minetest.env:add_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "cottages:half_door_inverted", param2 = param2})
+                       minetest.swap_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "cottages:half_door_inverted", param2 = param2})
                     end
                 end,
 		is_ground_content = false,
@@ -256,7 +256,7 @@ minetest.register_node("cottages:gate_closed", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    minetest.env:add_node(pos, {name = "cottages:gate_open", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:gate_open", param2 = node.param2})
                 end,
 		is_ground_content = false,
 })
@@ -290,7 +290,7 @@ minetest.register_node("cottages:gate_open", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    minetest.env:add_node(pos, {name = "cottages:gate_closed", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:gate_closed", param2 = node.param2})
                 end,
 		is_ground_content = false,
 		drop = "cottages:gate_closed",
@@ -345,7 +345,7 @@ cottages.register_hatch = function( nodename, description, texture, receipe_item
                 },
                 on_rightclick = function(pos, node, puncher)
 
-                    minetest.env:add_node(pos, {name = node.name, param2 = new_facedirs[ node.param2+1 ]})
+                    minetest.swap_node(pos, {name = node.name, param2 = new_facedirs[ node.param2+1 ]})
                 end,
 		is_ground_content = false,
 		on_place = minetest.rotate_node,
