@@ -79,7 +79,7 @@ if( stairs and stairs.register_stair_and_slab) then
 
    stairs.register_stair_and_slab("clay", "default:clay",
 	        {crumbly=3},
-		{"default_clay.png"},
+		{"cottages_clay.png"},
 		S("Clay Stairs"),
 		S("Clay Slab"),
 		default.node_sound_dirt_defaults())

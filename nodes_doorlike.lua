@@ -234,7 +234,7 @@ minetest.register_node("cottages:gate_closed", {
 		description = S("closed fence gate"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		tiles = {"default_wood.png"},
+		tiles = {cottages.texture_furniture},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -266,7 +266,7 @@ minetest.register_node("cottages:gate_open", {
 		description = S("opened fence gate"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		tiles = {"default_wood.png"},
+		tiles = {cottages.texture_furniture},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		drop = "cottages:gate_closed",
@@ -364,7 +364,7 @@ end
 
 -- further alternate hatch materials: wood, tree, copper_block
 cottages.register_hatch( 'cottages:hatch_wood',  'wooden hatch', 'cottages_minimal_wood.png', 'stairs:slab_wood' );
-cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch',  'default_steel_block.png',   'default:steel_ingot' );
+cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch',  'cottages_steel_block.png',   'default:steel_ingot' );
 
 
 

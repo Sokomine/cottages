@@ -24,6 +24,29 @@ cottages = {}
 
 -- uncomment parts you do not want
 
+-- texture used for fence gate and bed posts
+cottages.texture_furniture  = "default_wood.png";
+-- texture for the side of roof nodes
+cottages.texture_roof_sides = "default_wood.png";
+-- if the default wood node does not exist, use an alternate wood texture
+-- (which is also used for furnitures and doors in this mod)
+if( not( minetest.registered_nodes['default:wood'])) then
+	cottages.texture_roof_sides = "cottages_minimal_wood.png";
+	cottages.texture_furniture  = "cottages_minimal_wood.png";
+end
+
+-- texture for roofs where the tree bark is the main roof texture
+cottages.textures_roof_wood = "default_tree.png";
+if( not( minetest.registered_nodes["default:tree"])) then
+	-- realtest has diffrent barks; the spruce one seems to be the most fitting
+	if( minetest.registered_nodes["trees:spruce_log" ]) then
+		cottages.textures_roof_wood = "trees_spruce_trunk.png";
+	else
+		-- does not look so well in this case as it's no bark; but what else shall we do?
+		cottages.textures_roof_wood = "cottages_minimal_wood.png";
+	end
+end
+
 dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");

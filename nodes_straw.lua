@@ -81,7 +81,7 @@ minetest.register_node("cottages:threshing_floor", {
 	drawtype = "nodebox",
 	description = S("threshing floor"),
 -- TODO: stone also looks pretty well for this
-	tiles = {"default_junglewood.png^farming_wheat.png","default_junglewood.png","default_junglewood.png^default_stick.png"},
+	tiles = {"cottages_junglewood.png^farming_wheat.png","cottages_junglewood.png","cottages_junglewood.png^default_stick.png"},
 	paramtype  = "light",
         paramtype2 = "facedir",
 	groups = {cracky=2},
@@ -250,7 +250,7 @@ minetest.register_node("cottages:handmill", {
 	description = S("mill, powered by punching"),
 	drawtype = "mesh",
     mesh = "cottages_handmill.obj",
-	tiles = {"default_stone.png"},
+	tiles = {"cottages_stone.png"},
 	paramtype  = "light",
     paramtype2 = "facedir",
 	groups = {cracky=2},
