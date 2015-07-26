@@ -111,7 +111,7 @@ end
                 drawtype = "mesh",
 				mesh = "cottages_barrel.obj",
                 tiles = {"cottages_barrel.png" },
-                groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2
+                groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory=1,
                 },
 		drop = "cottages:barrel",
 --                on_rightclick = function(pos, node, puncher)
@@ -131,7 +131,7 @@ end
                 drawtype = "mesh",
 				mesh = "cottages_barrel_closed_lying.obj",
                 tiles = {"cottages_barrel.png" },
-                groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2
+                groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory=1,
                 },
 		drop = "cottages:barrel",
                 on_rightclick = function(pos, node, puncher)
@@ -155,7 +155,7 @@ end
                 drawtype = "mesh",
 				mesh = "cottages_barrel_lying.obj",
                 tiles = {"cottages_barrel.png" },
-                groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2
+                groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory=1,
                 },
 		drop = "cottages:barrel",
                 on_rightclick = function(pos, node, puncher)
@@ -188,9 +188,9 @@ end
 minetest.register_craft({
 	output = "cottages:barrel",
 	recipe = {
-		{"group:wood",          "",              "group:wood" },
-		{"default:steel_ingot", "",              "default:steel_ingot"},
-		{"group:wood",          "group:wood",    "group:wood" },
+		{cottages.craftitem_wood,          "",              cottages.craftitem_wood },
+		{cottages.craftitem_steel, "",              cottages.craftitem_steel},
+		{cottages.craftitem_wood,          cottages.craftitem_wood,    cottages.craftitem_wood },
 	},
 })
 

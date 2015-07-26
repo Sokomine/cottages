@@ -77,12 +77,14 @@ if( stairs and stairs.register_stair_and_slab) then
 		S("Loam Slab"),
 		default.node_sound_dirt_defaults())
 
-   stairs.register_stair_and_slab("clay", "default:clay",
+   if( minetest.registered_nodes["default:clay"]) then
+      stairs.register_stair_and_slab("clay", "default:clay",
 	        {crumbly=3},
 		{"cottages_clay.png"},
 		S("Clay Stairs"),
 		S("Clay Slab"),
 		default.node_sound_dirt_defaults())
+   end
 end
 
 
@@ -181,7 +183,7 @@ minetest.register_node("cottages:wool_tent", {
 		description = S("wool for tents"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		tiles = {"wool_white.png"},
+		tiles = {"cottages_wool.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -201,6 +203,14 @@ minetest.register_node("cottages:wool_tent", {
 		on_place = minetest.rotate_node,
 })
 
+-- a fallback for cases in which there is no wool
+minetest.register_node("cottages:wool", {
+		description = "Wool",
+		tiles = {"cottages_wool.png"},
+		is_ground_content = false,
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=3,wool=1},
+})
+
 
 ---------------------------------------------------------------------------------------
 -- crafting receipes
@@ -208,9 +218,9 @@ minetest.register_node("cottages:wool_tent", {
 minetest.register_craft({
 	output = "cottages:wagon_wheel 3",
 	recipe = {
-		{"default:iron_lump", "default:stick",       "default:iron_lump" },
-		{"default:stick",     "default:steel_ingot", "default:stick" },
-		{"default:iron_lump", "default:stick",       "default:iron_lump" }
+		{cottages.craftitem_iron, cottages.craftitem_stick,       cottages.craftitem_iron },
+		{cottages.craftitem_stick,     cottages.craftitem_steel, cottages.craftitem_stick },
+		{cottages.craftitem_iron, cottages.craftitem_stick,       cottages.craftitem_iron }
 	}
 })
 
@@ -219,7 +229,7 @@ minetest.register_craft({
 	output = "cottages:feldweg 4",
 	recipe = {
 		{"",            "cottages:wagon_wheel", "" },
-		{"default:dirt","default:dirt","default:dirt" }
+		{cottages.craftitem_dirt,cottages.craftitem_dirt,cottages.craftitem_dirt }
 	},
         replacements = { {'cottages:wagon_wheel', 'cottages:wagon_wheel'}, }
 })
@@ -227,8 +237,8 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:loam 4",
 	recipe = {
-		{"default:sand" },
-		{"default:clay"}
+		{cottages.craftitem_sand},
+		{cottages.craftitem_clay}
 	}
 })
 
@@ -243,9 +253,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:glass_pane 4",
 	recipe = {
-		{"default:stick", "default:stick", "default:stick" },
-		{"default:stick", "default:glass", "default:stick" },
-		{"default:stick", "default:stick", "default:stick" }
+		{cottages.craftitem_stick, cottages.craftitem_stick, cottages.craftitem_stick },
+		{cottages.craftitem_stick, cottages.craftitem_glass, cottages.craftitem_stick },
+		{cottages.craftitem_stick, cottages.craftitem_stick, cottages.craftitem_stick }
 	}
 })
 
@@ -266,7 +276,22 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:wood_flat 16",
 	recipe = {
-		{"default:stick", "farming:string","default:stick" },
-		{"default:stick", "",              "default:stick" },
+		{cottages.craftitem_stick, "farming:string",cottages.craftitem_stick },
+		{cottages.craftitem_stick, "",              cottages.craftitem_stick },
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:wool_tent 2",
+	recipe = {
+		{"farming:string", "farming:string"},
+		{"",cottages.craftitem_stick}
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:wool",
+	recipe = {
+		{"cottages:wool_tent", "cottages:wool_tent"}
 	}
 })

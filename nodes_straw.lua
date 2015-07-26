@@ -190,7 +190,7 @@ minetest.register_node("cottages:threshing_floor", {
 		end
 		-- only punching with a normal stick is supposed to work
 		local wielded = puncher:get_wielded_item();
-		if( not( wielded ) or not( wielded:get_name() ) or wielded:get_name() ~= 'default:stick') then
+		if( not( wielded ) or not( wielded:get_name() ) or wielded:get_name() ~= cottages.craftitem_stick) then
  			return;
 		end
 		local name = puncher:get_player_name();
@@ -405,18 +405,18 @@ minetest.register_node("cottages:handmill", {
 minetest.register_craft({
 	output = "cottages:straw_mat 6",
 	recipe = {
-                {'default:cobble','',''},
-		{"farming:wheat_harvested", "farming:wheat_harvested", "farming:wheat_harvested", },
+                {cottages.craftitem_stone,'',''},
+		{"farming:wheat", "farming:wheat", "farming:wheat", },
 	},
-        replacements = {{ 'default:cobble', "farming:seed_wheat 3" }},  
+        replacements = {{ cottages.craftitem_stone, "farming:seed_wheat 3" }},  
 })
 
 -- this is a better way to get straw mats
 minetest.register_craft({
 	output = "cottages:threshing_floor",
 	recipe = {
-		{"default:junglewood", "default:chest_locked", "default:junglewood", },
-		{"default:junglewood", "default:stone",        "default:junglewood", },
+		{cottages.craftitem_junglewood, cottages.craftitem_chest_locked, cottages.craftitem_junglewood, },
+		{cottages.craftitem_junglewood, cottages.craftitem_stone,        cottages.craftitem_junglewood, },
 	},
 })
 
@@ -424,9 +424,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:handmill",
 	recipe = {
-		{"default:stick",     "default:stone",    "", },
-		{"",               "default:steel_ingot", "", },
-		{"",                  "default:stone",    "", },
+		{cottages.craftitem_stick,     cottages.craftitem_stone,    "", },
+		{"",               cottages.craftitem_steel, "", },
+		{"",                  cottages.craftitem_stone,    "", },
 	},
 })
 

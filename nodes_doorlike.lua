@@ -355,7 +355,7 @@ cottages.register_hatch = function( nodename, description, texture, receipe_item
 		output = nodename,
 		recipe = {
 			{ '',           '',              receipe_item },
-			{ receipe_item, 'default:stick', ''           },
+			{ receipe_item, cottages.craftitem_stick, ''           },
 			{ '',           '',              ''           },
 		}
 	})
@@ -363,8 +363,8 @@ end
 
 
 -- further alternate hatch materials: wood, tree, copper_block
-cottages.register_hatch( 'cottages:hatch_wood',  'wooden hatch', 'cottages_minimal_wood.png', 'stairs:slab_wood' );
-cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch',  'cottages_steel_block.png',   'default:steel_ingot' );
+cottages.register_hatch( 'cottages:hatch_wood',  'wooden hatch', 'cottages_minimal_wood.png',  cottages.craftitem_slab_wood );
+cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch',  'cottages_steel_block.png',   cottages.craftitem_steel );
 
 
 
@@ -391,7 +391,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:window_shutter_open",
 	recipe = {
-		{"default:wood", "", "default:wood" },
+		{cottages.craftitem_wood, "", cottages.craftitem_wood },
 	}
 })
 
@@ -413,8 +413,8 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:half_door 2",
 	recipe = {
-		{"", "default:wood", "" },
-		{"", "doors:door_wood", "" },
+		{"", cottages.craftitem_wood, "" },
+		{"", cottages.craftitem_door, "" },
 	}
 })
 
@@ -437,7 +437,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:gate_closed",
 	recipe = {
-		{"default:stick", "default:stick", "default:wood" },
+		{cottages.craftitem_stick, cottages.craftitem_stick, cottages.craftitem_wood },
 	}
 })
 

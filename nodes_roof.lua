@@ -124,7 +124,7 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 	output = "cottages:roof_connector_"..name,
 	recipe = {
 		{'cottages:roof_'..name },
-		{'default:wood' },
+		{cottages.craftitem_wood },
 	}
    })
 
@@ -160,32 +160,32 @@ cottages.register_roof( 'reet',
 		{"cottages_reet.png","cottages_reet.png",
 		"cottages_reet.png","cottages_reet.png",
 		"cottages_reet.png","cottages_reet.png"},
-		'default:papyrus', nil );
+		cottages.craftitem_papyrus, nil );
 cottages.register_roof( 'wood',
 		{cottages.textures_roof_wood, cottages.texture_roof_sides,
 		cottages.texture_roof_sides,  cottages.texture_roof_sides,
 		cottages.texture_roof_sides,  cottages.textures_roof_wood},
-		'default:wood', nil);
+		cottages.craftitem_wood, nil);
 cottages.register_roof( 'black',
 		{"cottages_homedecor_shingles_asphalt.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_asphalt.png"},
-		'homedecor:shingles_asphalt', 'default:coal_lump');
+		'homedecor:shingles_asphalt', cottages.craftitem_coal_lump);
 cottages.register_roof( 'red',
 		{"cottages_homedecor_shingles_terracotta.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_terracotta.png"},
-		'homedecor:shingles_terracotta', 'default:clay_brick');
+		'homedecor:shingles_terracotta', cottages.craftitem_clay_brick);
 cottages.register_roof( 'brown',
 		{"cottages_homedecor_shingles_wood.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_wood.png"},
-		'homedecor:shingles_wood', 'default:dirt');
+		'homedecor:shingles_wood', cottages.craftitem_dirt);
 cottages.register_roof( 'slate',
 		{"cottages_slate.png", cottages.texture_roof_sides,
 		"cottages_slate.png", "cottages_slate.png",
 		cottages.texture_roof_sides,"cottages_slate.png"},
-		'default:stone', nil);
+		cottages.craftitem_stone, nil);
 
 
 ---------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ minetest.register_node("cottages:slate_vertical", {
 
 minetest.register_craft({
 	output  = "cottages:slate_vertical",
-	recipe = { {'default:stone', 'default:wood',  '' }
+	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  '' }
 	}
 });
 
@@ -221,7 +221,7 @@ minetest.register_node("cottages:reet", {
 
 minetest.register_craft({
 	output  = "cottages:reet",
-	recipe = { {'default:papyrus','default:papyrus'},
-	           {'default:papyrus','default:papyrus'},
+	recipe = { {cottages.craftitem_papyrus,cottages.craftitem_papyrus},
+	           {cottages.craftitem_papyrus,cottages.craftitem_papyrus},
 	},
 })

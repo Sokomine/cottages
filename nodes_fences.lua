@@ -118,7 +118,7 @@ minetest.register_node("cottages:fence_end", {
 minetest.register_craft({
 	output = "cottages:fence_small 3",
 	recipe = {
-		{"default:fence_wood","default:fence_wood" },
+		{cottages.craftitem_fence, cottages.craftitem_fence},
 	}
 })
 

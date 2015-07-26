@@ -312,25 +312,25 @@ minetest.register_node("cottages:washing", {
 minetest.register_craft({
 	output = "cottages:bed_foot",
 	recipe = {
-		{"wool:white",    "", "", },
-		{"default:wood",  "", "", },
-		{"default:stick", "", "", }
+		{cottages.craftitem_wool,    "", "", },
+		{cottages.craftitem_wood,  "", "", },
+		{cottages.craftitem_stick, "", "", }
 	}
 })
 
 minetest.register_craft({
 	output = "cottages:bed_head",
 	recipe = {
-		{"", "",              "wool:white", },
-		{"", "default:stick", "default:wood", },
-		{"", "",              "default:stick", }
+		{"", "",              cottages.craftitem_wool, },
+		{"", cottages.craftitem_stick, cottages.craftitem_wood, },
+		{"", "",              cottages.craftitem_stick, }
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:sleeping_mat",
+	output = "cottages:sleeping_mat 3",
 	recipe = {
-		{"wool:white", "cottages:straw_mat","cottages:straw_mat" }
+		{"cottages:wool_tent", "cottages:straw_mat","cottages:straw_mat" }
 	}
 })
 
@@ -338,16 +338,16 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:table",
 	recipe = {
-		{"", "stairs:slab_wood", "", },
-		{"", "default:stick", "" }
+		{"", cottages.craftitem_slab_wood, "", },
+		{"", cottages.craftitem_stick, "" }
 	}
 })
 
 minetest.register_craft({
 	output = "cottages:bench",
 	recipe = {
-		{"",              "default:wood", "", },
-		{"default:stick", "",             "default:stick", }
+		{"",              cottages.craftitem_wood, "", },
+		{cottages.craftitem_stick, "",             cottages.craftitem_stick, }
 	}
 })
 
@@ -355,24 +355,24 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:shelf",
 	recipe = {
-		{"default:stick",  "default:wood", "default:stick", },
-		{"default:stick", "default:wood", "default:stick", },
-		{"default:stick", "",             "default:stick"}
+		{cottages.craftitem_stick,  cottages.craftitem_wood, cottages.craftitem_stick, },
+		{cottages.craftitem_stick, cottages.craftitem_wood, cottages.craftitem_stick, },
+		{cottages.craftitem_stick, "",             cottages.craftitem_stick}
 	}
 })
 
 minetest.register_craft({
 	output = "cottages:washing 2",
 	recipe = {
-		{"default:stick", },
-		{"default:clay",  },
+		{cottages.craftitem_stick, },
+		{cottages.craftitem_clay,  },
 	}
 })
 
 minetest.register_craft({
 	output = "cottages:stovepipe 2",
 	recipe = {
-		{'default:steel_ingot', '', 'default:steel_ingot'},
+		{cottages.craftitem_steel, '', cottages.craftitem_steel},
 	}
 })
 

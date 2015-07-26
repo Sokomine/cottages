@@ -32,6 +32,7 @@ and renamed (default_NAME.png -> cottages_NAME.png)
 
 Cisoun's WTFPL texture pack:
    cottages_stone.png (for anvil and handmill)
+   cottages_wool.png
 
 Zeg9 (CC BY-SA 3.0):
    cottages_steel_block.png (for steel hatch and stovepipie)

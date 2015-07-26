@@ -208,9 +208,9 @@ minetest.register_node("cottages:anvil", {
 minetest.register_craft({
 	output = "cottages:anvil",
 	recipe = {
-                {'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
-                {'',                   'default:steel_ingot',''                   },
-                {'default:steel_ingot','default:steel_ingot','default:steel_ingot'} },
+                {cottages.craftitem_steel,cottages.craftitem_steel,cottages.craftitem_steel},
+                {'',                   cottages.craftitem_steel,''                   },
+                {cottages.craftitem_steel,cottages.craftitem_steel,cottages.craftitem_steel} },
 })
 
 
@@ -237,8 +237,8 @@ end
 minetest.register_craft({
 	output = "cottages:hammer",
 	recipe = {
-                {'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
-                {'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
-                {'',                   'default:stick',      ''                   } }
+                {cottages.craftitem_steel,cottages.craftitem_steel,cottages.craftitem_steel},
+                {cottages.craftitem_steel,cottages.craftitem_steel,cottages.craftitem_steel},
+                {'',                   cottages.craftitem_stick,      ''                   } }
 })
 
