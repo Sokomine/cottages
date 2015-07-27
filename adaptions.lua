@@ -51,6 +51,9 @@ if( not( minetest.registered_nodes['default:wood'])) then
 	cottages.texture_furniture  = "cottages_minimal_wood.png";
 end
 
+cottages.texture_chest = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
+                "default_chest_side.png", "default_chest_side.png", "default_chest_front.png"};
+
 -- texture for roofs where the tree bark is the main roof texture
 cottages.textures_roof_wood = "default_tree.png";
 if( not( minetest.registered_nodes["default:tree"])) then
@@ -71,6 +74,10 @@ if( not( minetest.registered_nodes["default:tree"])) then
 		cottages.craftitem_coal_lump  = "minerals:charcoal";
 		cottages.craftitem_junglewood = "trees:chestnut_planks";
 		cottages.craftitem_slab_wood  = "group:plank";
+
+		cottages.texture_chest = { "spruce_chest_top.png", "spruce_chest_top.png", "spruce_chest_side.png",
+			"spruce_chest_side.png", "spruce_chest_side.png", "spruce_chest_front.png"};
+
 	else
 		-- does not look so well in this case as it's no bark; but what else shall we do?
 		cottages.textures_roof_wood = "cottages_minimal_wood.png";
