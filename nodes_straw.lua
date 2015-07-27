@@ -4,13 +4,7 @@
 --  * straw mat - for animals and very poor NPC; also basis for other straw things
 --  * straw bale - well, just a good source for building and decoration
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+local S = cottages.S
 
 -- an even simpler from of bed - usually for animals 
 -- it is a nodebox and not wallmounted because that makes it easier to replace beds with straw mats

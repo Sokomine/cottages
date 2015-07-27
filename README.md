@@ -19,9 +19,11 @@ VanessaE (CC-by-SA 3.0):
    cottages_homedecor_shingles_asphalt.png
    cottages_homedecor_shingles_terracotta.png
    cottages_homedecor_shingles_wood.png
-   glooptest_tool_steelhammer.png
    cottages_sleepingmat.png
    cottages_barrel.png 
+
+CC-by-SA; done by GloopMaster (CC-by-SA):
+   glooptest_tool_steelhammer.png
 
 badger436 (created for this mod; CC BY-SA 3.0):
    cottages_feldweg.png

@@ -7,13 +7,7 @@
 -- License of the hammer picture: CC-by-SA; done by GloopMaster; source:
 --   https://github.com/GloopMaster/glooptest/blob/master/glooptest/textures/glooptest_tool_steelhammer.png
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+local S = cottages.S
 
 -- the hammer for the anvil
 minetest.register_tool("cottages:hammer", {

@@ -21,13 +21,7 @@
 
 -- TODO: option so that it works without nodeboxes
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-  S = intllib.Getter()
-else
-  S = function(s) return s end
-end
+local S = cottages.S
 
 barrel = {};
 

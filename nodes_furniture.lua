@@ -13,13 +13,7 @@
 ---------------------------------------------------------------------------------------
 -- TODO: change the textures of the bed (make the clothing white, foot path not entirely covered with cloth)
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+local S = cottages.S
 
 -- a bed without functionality - just decoration
 minetest.register_node("cottages:bed_foot", {

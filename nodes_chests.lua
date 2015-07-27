@@ -3,12 +3,7 @@
 -- TODO: add bags (not for carrying around but for decoration)
 
 -- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-        S = intllib.Getter()
-else
-        S = function(s) return s end
-end
+local S = cottages.S
 
 cottages_chests = {}
 -- uses default.chest_formspec for now

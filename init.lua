@@ -4,6 +4,9 @@
 -- License: GPLv3
 --
 -- Modified:
+-- 27.07.15 Moved into its own repository.
+--          Made sure textures and craft receipe indigrents are available or can be replaced.
+--          Took care of "unregistered globals" warnings.
 -- 23.01.14 Added conversion receipes in case of installed castle-mod (has its own anvil)
 -- 23.01.14 Added hammer and anvil as decoration and for repairing tools.
 --          Added hatches (wood and steel).
@@ -18,6 +21,13 @@
 --          Added hand-driven mill.
 
 cottages = {}
+
+-- Boilerplate to support localized strings if intllib mod is installed.
+if minetest.get_modpath( "intllib" ) and intllib then
+	cottages.S = intllib.Getter()
+else
+	cottages.S = function(s) return s end
+end
 
 --cottages.config_use_mesh_barrel   = false;
 --cottages.config_use_mesh_handmill = true;
@@ -39,3 +49,6 @@ dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
 
 -- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod
 dofile(minetest.get_modpath("cottages").."/alias.lua");
+
+-- variable no longer needed
+cottages.S = nil;

@@ -10,13 +10,7 @@
 --                   abm that opens/closes the window shutters is called. Anything less than 10 minutes
 --                   (600 seconds) ought to be ok.
 -----------------------------------------------------------------------------------------------------------
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-  S = intllib.Getter()
-else
-  S = function(s) return s end
-end
+local S = cottages.S
 
 -----------------------------------------------------------------------------------------------------------
 -- small window shutters for single-node-windows; they open at day and close at night if the abm is working

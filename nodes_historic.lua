@@ -8,13 +8,7 @@
 -- * glass pane - an improvement compared to fence posts as windows :-)
 ---------------------------------------------------------------------------------------
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if intllib then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+local S = cottages.S
 
 -- can be used to buid real stationary wagons or attached to walls as decoration
 minetest.register_node("cottages:wagon_wheel", {
@@ -62,7 +56,7 @@ minetest.register_node("cottages:loam", {
 })
 
 -- create stairs if possible
-if( stairs and stairs.register_stair_and_slab) then
+if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
    stairs.register_stair_and_slab("feldweg", "cottages:feldweg",
 		{snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
