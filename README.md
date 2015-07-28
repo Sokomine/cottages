@@ -7,9 +7,21 @@ superseded by newer versions.
 
 For more information about this mod, please refer to
 	https://forum.minetest.net/viewtopic.php?id=5120
+The thread introduces the nodes, shows crafting receipes and provides a place
+to discuss about the mod.
 
+Special functions:
+* Window shutters use an abm to automaticly close at night and open at day.
+* The treshing place can be used to seperate harvested wheat into wheat seeds
+  and straw. The straw is useful for roofing purposes, straw bales etc.
+* The handmill turns wheat seeds into flour.
+* With anvil and hammer, tools can be repaired.
+* The barrels do not yet have any further functionality. They may be used for
+  brewing in the future. Until then, punching makes them rotate and switch from
+  standing to lying on the ground. 
 
 Liscence of this mod: GPLv3
+Autor: Sokomine
 
 ---
 --- Textures and media:
