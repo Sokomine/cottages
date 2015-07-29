@@ -184,7 +184,11 @@ minetest.register_node("cottages:threshing_floor", {
 		end
 		-- only punching with a normal stick is supposed to work
 		local wielded = puncher:get_wielded_item();
-		if( not( wielded ) or not( wielded:get_name() ) or wielded:get_name() ~= cottages.craftitem_stick) then
+		if(    not( wielded )
+		    or not( wielded:get_name() )
+		    or not( minetest.registered_items[ wielded:get_name() ])
+		    or not( minetest.registered_items[ wielded:get_name() ].groups )
+		    or not( minetest.registered_items[ wielded:get_name() ].groups.stick )) then
  			return;
 		end
 		local name = puncher:get_player_name();
@@ -215,6 +219,10 @@ minetest.register_node("cottages:threshing_floor", {
 			anz_wheat = found_wheat;
 		end
 
+		local overlay1 = "^farming_wheat.png";
+		local overlay2 = "^cottages_darkage_straw.png";
+		local overlay3 = "^farming_wheat_seed.png";
+
 		-- this can be enlarged by a multiplicator if desired
 		local anz_straw = anz_wheat;
 		local anz_seeds = anz_wheat;
@@ -230,11 +238,87 @@ minetest.register_node("cottages:threshing_floor", {
 
 			local anz_left = found_wheat - anz_wheat;
 			if( anz_left > 0 ) then
-				minetest.chat_send_player( name, S('You have threshed %s wheat (%s are left).'):format(anz_wheat,anz_left));
+--				minetest.chat_send_player( name, S('You have threshed %s wheat (%s are left).'):format(anz_wheat,anz_left));
 			else
-				minetest.chat_send_player( name, S('You have threshed the last %s wheat.'):format(anz_wheat));
+--				minetest.chat_send_player( name, S('You have threshed the last %s wheat.'):format(anz_wheat));
+				overlay1 = "";
 			end
 		end	
+
+		local hud0 = puncher:hud_add({
+			hud_elem_type = "image",
+			scale = {x = 38, y = 38},
+			text = "cottages_junglewood.png^[colorize:#888888:128",
+			position = {x = 0.5, y = 0.5},
+			alignment = {x = 0, y = 0}
+		});
+
+		local hud1 = puncher:hud_add({
+			hud_elem_type = "image",
+			scale = {x = 15, y = 15},
+			text = "cottages_junglewood.png"..overlay1,
+			position = {x = 0.4, y = 0.5},
+			alignment = {x = 0, y = 0}
+		});
+		local hud2 = puncher:hud_add({
+			hud_elem_type = "image",
+			scale = {x = 15, y = 15},
+			text = "cottages_junglewood.png"..overlay2,
+			position = {x = 0.6, y = 0.35},
+			alignment = {x = 0, y = 0}
+		});
+		local hud3 = puncher:hud_add({
+			hud_elem_type = "image",
+			scale = {x = 15, y = 15},
+			text = "cottages_junglewood.png"..overlay3,
+			position = {x = 0.6, y = 0.65},
+			alignment = {x = 0, y = 0}
+		});
+
+		local hud4 = puncher:hud_add({
+			hud_elem_type = "text",
+			text = tostring( found_wheat-anz_wheat ),
+			number = 0x00CC00,
+			alignment = {x = 0, y = 0},
+			scale = {x = 100, y = 100}, -- bounding rectangle of the text
+			position = {x = 0.4, y = 0.5},
+		});
+		if( not( anz_straw )) then
+			anz_straw = "0";
+		end
+		if( not( anz_seed )) then
+			anz_seed = "0";
+		end
+		local hud5 = puncher:hud_add({
+			hud_elem_type = "text",
+			text = '+ '..tostring( anz_straw )..' straw',
+			number = 0x00CC00,
+			alignment = {x = 0, y = 0},
+			scale = {x = 100, y = 100}, -- bounding rectangle of the text
+			position = {x = 0.6, y = 0.35},
+		});
+		local hud6 = puncher:hud_add({
+			hud_elem_type = "text",
+			text = '+ '..tostring( anz_seed )..' seeds',
+			number = 0x00CC00,
+			alignment = {x = 0, y = 0},
+			scale = {x = 100, y = 100}, -- bounding rectangle of the text
+			position = {x = 0.6, y = 0.65},
+		});
+
+
+
+		minetest.after(2, function()
+			if( puncher ) then
+				puncher:hud_remove(hud1);
+				puncher:hud_remove(hud2);
+				puncher:hud_remove(hud3);
+				puncher:hud_remove(hud4);
+				puncher:hud_remove(hud5);
+				puncher:hud_remove(hud6);
+				puncher:hud_remove(hud0);
+			end
+		end)
 	end,
 })
 

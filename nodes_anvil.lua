@@ -170,10 +170,67 @@ minetest.register_node("cottages:anvil", {
 			return;
 		end
 
+		-- 65535 is max damage
+		local damage_state = 40-math.floor(input:get_wear()/1638);
+
+		local tool_name = input:get_name();
+		local hud_image = "";
+		if( tool_name
+		   and minetest.registered_items[ tool_name ] ) then
+			if(     minetest.registered_items[ tool_name ].inventory_image ) then
+				hud_image = minetest.registered_items[ tool_name ].inventory_image;
+			elseif( minetest.registered_items[ tool_name ].textures 
+			    and type(minetest.registered_items[ tool_name ].textures)=='table') then
+				hud_image = minetest.registered_items[ tool_name ].textures[1];
+			elseif( minetest.registered_items[ tool_name ].textures 
+			    and type(minetest.registered_items[ tool_name ].textures)=='string') then
+				hud_image = minetest.registered_items[ tool_name ].textures;
+			end
+		end
+			
+		local hud1 = puncher:hud_add({
+			hud_elem_type = "image",
+			scale = {x = 15, y = 15},
+			text = hud_image,
+			position = {x = 0.5, y = 0.5},
+			alignment = {x = 0, y = 0}
+		});
+		local hud2 = nil;
+		local hud3 = nil;
+		if( input:get_wear()>0 ) then
+			hud2 = puncher:hud_add({
+				hud_elem_type = "statbar",
+				text = "default_cloud.png^[colorize:#ff0000:256",
+				number = 40,
+				direction = 0, -- left to right
+				position = {x=0.5, y=0.65},
+				alignment = {x = 0, y = 0},
+				offset = {x = -320, y = 0},
+				size = {x=32, y=32},
+			})
+			hud3 = puncher:hud_add({
+				hud_elem_type = "statbar",
+				text = "default_cloud.png^[colorize:#00ff00:256",
+				number = damage_state,
+				direction = 0, -- left to right
+				position = {x=0.5, y=0.65},
+				alignment = {x = 0, y = 0},
+				offset = {x = -320, y = 0},
+				size = {x=32, y=32},
+			});
+		end
+		minetest.after(2, function()
+			if( puncher ) then
+				puncher:hud_remove(hud1);
+				puncher:hud_remove(hud2);
+				puncher:hud_remove(hud3);
+			end
+		end)
+
 		-- tell the player when the job is done
 		if(   input:get_wear() == 0 ) then
-			minetest.chat_send_player( puncher:get_player_name(),
-				S('Your tool has been repaired successfully.'));
+--			minetest.chat_send_player( puncher:get_player_name(),
+--				S('Your tool has been repaired successfully.'));
 			return;
 		end
 
