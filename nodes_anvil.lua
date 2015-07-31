@@ -27,6 +27,26 @@ minetest.register_tool("cottages:hammer", {
 })
 
 
+local cottages_anvil_formspec =
+                               "size[8,8]"..
+				"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
+--                                "list[current_name;sample;0,0.5;1,1;]"..
+                                "list[current_name;input;2.5,1.5;1,1;]"..
+--                                "list[current_name;material;5,0;3,3;]"..
+                                "list[current_name;hammer;5,3;1,1;]"..
+--					"label[0.0,0.0;Sample:]"..
+--					"label[0.0,1.0;(Receipe)]"..
+					"label[2.5,1.0;"..S("Workpiece:").."]"..
+--					"label[6.0,-0.5;Materials:]"..
+					"label[6.0,2.7;"..S("Optional").."]"..
+					"label[6.0,3.0;"..S("storage for").."]"..
+					"label[6.0,3.3;"..S("your hammer").."]"..
+
+					"label[0,-0.5;"..S("Anvil").."]"..
+					"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
+					"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
+                                "list[current_player;main;0,4;8,4;]";
+
 
 minetest.register_node("cottages:anvil", {
 	drawtype = "nodebox",
@@ -63,6 +83,7 @@ minetest.register_node("cottages:anvil", {
 --               	inv:set_size("material", 9);
 --               	inv:set_size("sample",   1);
                	inv:set_size("hammer",   1);
+                meta:set_string("formspec", cottages_anvil_formspec );
        	end,
 
 	after_place_node = function(pos, placer)
@@ -70,25 +91,8 @@ minetest.register_node("cottages:anvil", {
 		meta:set_string("owner", placer:get_player_name() or "");
 		meta:set_string("infotext", S("Anvil (owned by %s)"):format((meta:get_string("owner") or "")));
                 meta:set_string("formspec",
-                               "size[8,8]"..
-				"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
---                                "list[current_name;sample;0,0.5;1,1;]"..
-                                "list[current_name;input;2.5,1.5;1,1;]"..
---                                "list[current_name;material;5,0;3,3;]"..
-                                "list[current_name;hammer;5,3;1,1;]"..
---					"label[0.0,0.0;Sample:]"..
---					"label[0.0,1.0;(Receipe)]"..
-					"label[2.5,1.0;"..S("Workpiece:").."]"..
---					"label[6.0,-0.5;Materials:]"..
-					"label[6.0,2.7;"..S("Optional").."]"..
-					"label[6.0,3.0;"..S("storage for").."]"..
-					"label[6.0,3.3;"..S("your hammer").."]"..
-
-					"label[0,-0.5;"..S("Anvil").."]"..
-					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]"..
-					"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
-					"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
-                                "list[current_player;main;0,4;8,4;]");
+					cottages_anvil_formspec,
+					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
         end,
 
         can_dig = function(pos,player)
@@ -111,7 +115,7 @@ minetest.register_node("cottages:anvil", {
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-                if( player and player:get_player_name() ~= meta:get_string('owner' )) then
+                if( player and player:get_player_name() ~= meta:get_string('owner' ) and from_list~="input") then
                         return 0
 		end
 		return count;
@@ -119,7 +123,7 @@ minetest.register_node("cottages:anvil", {
 
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-                if( player and player:get_player_name() ~= meta:get_string('owner' )) then
+                if( player and player:get_player_name() ~= meta:get_string('owner' ) and listname~="input") then
                         return 0;
 		end
 		if( listname=='hammer' and stack and stack:get_name() ~= 'cottages:hammer') then
@@ -139,7 +143,7 @@ minetest.register_node("cottages:anvil", {
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-                if( player and player:get_player_name() ~= meta:get_string('owner' )) then
+                if( player and player:get_player_name() ~= meta:get_string('owner' ) and listname~="input") then
                         return 0
 		end
 		return stack:get_count()
@@ -167,6 +171,10 @@ minetest.register_node("cottages:anvil", {
 		   or input:is_empty()
                    or input:get_name() == "technic:water_can" 
                    or input:get_name() == "technic:lava_can" ) then
+
+			meta:set_string("formspec",
+					cottages_anvil_formspec,
+					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
 			return;
 		end
 
@@ -243,10 +251,10 @@ minetest.register_node("cottages:anvil", {
 		puncher:set_wielded_item( wielded );
 
 		-- do not spam too much
-		if( math.random( 1,5 )==1 ) then
-			minetest.chat_send_player( puncher:get_player_name(),
-				S('Your workpiece improves.'));
-		end
+--		if( math.random( 1,5 )==1 ) then
+--			minetest.chat_send_player( puncher:get_player_name(),
+--				S('Your workpiece improves.'));
+--		end
 	end,
 	is_ground_content = false,
 })

@@ -54,6 +54,11 @@ end
 cottages.texture_chest = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
                 "default_chest_side.png", "default_chest_side.png", "default_chest_front.png"};
 
+-- the treshing floor produces wheat seeds
+cottages.craftitem_seed_wheat   = "farming:seed_wheat";
+cottages.texture_wheat_seed = "farming_wheat_seed.png";
+cottages.texture_stick      = "default_stick.png";
+
 -- texture for roofs where the tree bark is the main roof texture
 cottages.textures_roof_wood = "default_tree.png";
 if( not( minetest.registered_nodes["default:tree"])) then
@@ -78,6 +83,10 @@ if( not( minetest.registered_nodes["default:tree"])) then
 		cottages.texture_chest = { "spruce_chest_top.png", "spruce_chest_top.png", "spruce_chest_side.png",
 			"spruce_chest_side.png", "spruce_chest_side.png", "spruce_chest_front.png"};
 
+		-- wheat is called spelt in RealTest
+		cottages.craftitem_seed_wheat = 'farming:seed_spelt';
+		cottages.texture_wheat_seed   = 'farming_spelt_seed.png';
+		cottages.texture_stick        = 'trees_maple_stick.png';
 	else
 		-- does not look so well in this case as it's no bark; but what else shall we do?
 		cottages.textures_roof_wood = "cottages_minimal_wood.png";
