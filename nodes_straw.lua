@@ -46,6 +46,9 @@ minetest.register_node("cottages:straw_mat", {
 			}
 	},
 	is_ground_content = false,
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		return cottages.sleep_in_bed( pos, node, clicker, itemstack, pointed_thing );
+	end
 })
 
 -- straw bales are a must for farming environments; if you for some reason do not have the darkage mod installed, this here gets you a straw bale
