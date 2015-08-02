@@ -335,6 +335,10 @@ minetest.register_node("cottages:washing", {
 ---------------------------------------------------------------------------------------
 
 cottages.allow_sit = function( player )
+	-- no check possible
+	if( not( player.get_player_velocity )) then
+		return true;
+	end
 	local velo = player:get_player_velocity();
 	if( not( velo )) then
 		return false;
