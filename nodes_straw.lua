@@ -360,10 +360,10 @@ local cottages_handmill_formspec = "size[8,8]"..
 minetest.register_node("cottages:handmill", {
 	description = S("mill, powered by punching"),
 	drawtype = "mesh",
-    mesh = "cottages_handmill.obj",
+	mesh = "cottages_handmill.obj",
 	tiles = {"cottages_stone.png"},
 	paramtype  = "light",
-    paramtype2 = "facedir",
+	paramtype2 = "facedir",
 	groups = {cracky=2},
 	is_ground_content = false,
 	selection_box = {
@@ -424,7 +424,7 @@ minetest.register_node("cottages:handmill", {
 		local meta = minetest.get_meta(pos)
 		-- only accept input the threshing floor can use/process
 		if(    listname=='flour'
-		    or (listname=='seeds' and stack and stack:get_name() ~= cottages.craftitem_seed_wheat)) then
+		    or (listname=='seeds' and stack and not( cottages.handmill_product[ stack:get_name()] ))) then
 			return 0;
 		end
 
@@ -457,8 +457,12 @@ minetest.register_node("cottages:handmill", {
 		local stack1 = inv:get_stack( 'seeds', 1);
 
 		if(       (      stack1:is_empty())
-			or( not( stack1:is_empty()) and stack1:get_name() ~= cottages.craftitem_seed_wheat)) then
+			or( not( stack1:is_empty())
+			     and not( cottages.handmill_product[ stack1:get_name() ] ))) then
 
+			if not( stack1:is_empty() ) then
+				minetest.chat_send_player(name,"Nothing happens...")
+			end
 			-- update the formspec
 			meta:set_string("formspec",
 				cottages_handmill_formspec..
@@ -467,7 +471,7 @@ minetest.register_node("cottages:handmill", {
 		end
 
 		-- turning the mill is a slow process; 1-21 flour are generated per turn
-		local anz = 1 + math.random( 0, 20 );
+		local anz = 1 + math.random( cottages.handmill_min_per_turn, cottages.handmill_max_per_turn );
 		-- we already made sure there is only wheat inside
 		local found = stack1:get_count();
 		
@@ -476,17 +480,23 @@ minetest.register_node("cottages:handmill", {
 			anz = found;
 		end
 
+		local product_stack = ItemStack( cottages.handmill_product[ stack1:get_name() ]);
+		local anz_result = anz;
+		-- items that produce more
+		if( product_stack:get_count()> 1 ) then
+			anz_result = anz * product_stack:get_count();
+		end
 
-		if(    inv:room_for_item('flour','farming:flour '..tostring( anz ))) then
+		if(    inv:room_for_item('flour', product_stack:get_name()..' '..tostring( anz_result ))) then
 
-			inv:add_item("flour",'farming:flour '..tostring( anz ));
-			inv:remove_item("seeds", cottages.craftitem_seed_wheat..' '..tostring( anz ));
+			inv:add_item(    'flour', product_stack:get_name()..' '..tostring( anz_result ));
+			inv:remove_item( 'seeds', stack1:get_name()..' '..tostring( anz ));
 
 			local anz_left = found - anz;
 			if( anz_left > 0 ) then
-				minetest.chat_send_player( name, S('You have grinded %s wheat seeds (%s are left).'):format(anz,anz_left));
+				minetest.chat_send_player( name, S('You have ground a %s (%s are left).'):format(stack1:get_definition().description,(anz_left)));
 			else
-				minetest.chat_send_player( name, S('You have grinded the last %s wheat seeds.'):format(anz));
+				minetest.chat_send_player( name, S('You have ground the last %s.'):format(stack1:get_definition().description));
 			end
 
 			-- if the version of MT is recent enough, rotate the mill a bit
