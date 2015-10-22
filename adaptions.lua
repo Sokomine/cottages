@@ -93,6 +93,10 @@ if( not( minetest.registered_nodes["default:tree"])) then
 	end
 end
 
+if( minetest.get_modpath("moreblocks")) then
+	and minetest.registered_nodes( "moreblocks:slab_wood" );
+end
+
 if( not( minetest.registered_nodes["wool:white"])) then
 	cottages.craftitem_wool = "cottages:wool";
 end
