@@ -56,6 +56,7 @@ cottages.handmill_min_per_turn = 0;
 -- uncomment parts you do not want
 dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
+dofile(minetest.get_modpath("cottages").."/nodes_feldweg.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_anvil.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_doorlike.lua");
