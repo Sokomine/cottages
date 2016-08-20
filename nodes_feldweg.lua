@@ -315,6 +315,23 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		drawtype = "mesh",
 		mesh = "feldweg-curve.obj",
 	})
+
+	minetest.register_node("cottages:feldweg_end", {
+		description = S("dirt road end"),
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		legacy_facedir_simple = true,
+		groups = {crumbly=3},
+		sounds = default.node_sound_dirt_defaults,
+		is_ground_content = false,
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
+			"default_dirt.png", "default_grass.png",
+			"cottages_feldweg_surface.png^cottages_feldweg_edges.png",
+			"cottages_feldweg_surface.png"},
+		paramtype = "light",
+		drawtype = "mesh",
+		mesh = "feldweg_end.obj",
+	})
 end
 
 
@@ -326,4 +343,64 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		S("Dirt Road Stairs"),
 		S("Dirt Road, half height"),
 		default.node_sound_dirt_defaults())
+end
+
+if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
+        local box_slope = {
+			type = "fixed",
+			fixed = {
+				{-0.5,  -0.5,  -0.5, 0.5, -0.25, 0.5},
+				{-0.5, -0.25, -0.25, 0.5,     0, 0.5},
+				{-0.5,     0,     0, 0.5,  0.25, 0.5},
+				{-0.5,  0.25,  0.25, 0.5,   0.5, 0.5}
+			}};
+
+	local box_slope_long = {
+			type = "fixed",
+			fixed = {
+				{-0.5,  -0.5,  -1.5, 0.5, -0.10, 0.5},
+				{-0.5, -0.25,  -1.3, 0.5, -0.25, 0.5},
+				{-0.5, -0.25,  -1.0, 0.5,     0, 0.5},
+				{-0.5,     0,  -0.5, 0.5,  0.25, 0.5},
+				{-0.5,  0.25,     0, 0.5,   0.5, 0.5}
+			}};
+
+	minetest.register_node("cottages:feldweg_slope", {
+		description = S("dirt road slope"),
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		legacy_facedir_simple = true,
+		groups = {crumbly=3},
+		sounds = default.node_sound_dirt_defaults,
+		is_ground_content = false,
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
+			"default_dirt.png", "default_grass.png",
+			"cottages_feldweg_surface.png",
+			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
+		paramtype = "light",
+		drawtype = "mesh",
+		mesh = "feldweg_slope.obj",
+
+                collision_box = box_slope,
+		selection_box = box_slope,
+	})
+
+	minetest.register_node("cottages:feldweg_slope_long", {
+		description = S("dirt road slope long"),
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		legacy_facedir_simple = true,
+		groups = {crumbly=3},
+		sounds = default.node_sound_dirt_defaults,
+		is_ground_content = false,
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
+			"default_dirt.png", "default_grass.png",
+			"cottages_feldweg_surface.png",
+			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
+		paramtype = "light",
+		drawtype = "mesh",
+		mesh = "feldweg_slope_long.obj",
+                collision_box = box_slope_long,
+		selection_box = box_slope_long,
+	})
 end
