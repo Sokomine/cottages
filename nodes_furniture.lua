@@ -106,13 +106,13 @@ minetest.register_node("cottages:sleeping_mat", {
         node_box = {
                 type = "fixed",
                 fixed = {
-                                        {-0.48, -0.5,-0.48,  0.48, -0.45, 0.48},
+                                        {-0.48, -0.5,-0.48,  0.48, -0.5+1/16, 0.48},
                         }
         },
         selection_box = {
                 type = "fixed",
                 fixed = {
-                                        {-0.48, -0.5,-0.48,  0.48, -0.25, 0.48},
+                                        {-0.48, -0.5,-0.48,  0.48, -0.5+2/16, 0.48},
                         }
         },
 	is_ground_content = false,
