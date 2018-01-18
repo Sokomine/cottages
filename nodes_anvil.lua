@@ -296,8 +296,8 @@ end
 minetest.register_craft({
 	output = "cottages:hammer",
 	recipe = {
-                {cottages.craftitem_steel,cottages.craftitem_steel,cottages.craftitem_steel},
-                {cottages.craftitem_steel,cottages.craftitem_steel,cottages.craftitem_steel},
-                {'',                   cottages.craftitem_stick,      ''                   } }
+                {cottages.craftitem_steel},
+                {'cottages:anvil'},
+                {cottages.craftitem_stick} }
 })
 
