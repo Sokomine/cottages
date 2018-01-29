@@ -147,9 +147,9 @@ end -- of cottages.register_roof( name, tiles, basic_material )
 -- add the diffrent roof types
 ---------------------------------------------------------------------------------------
 cottages.register_roof( 'straw',
-		{"cottages_darkage_straw.png","cottages_darkage_straw.png",
-		"cottages_darkage_straw.png","cottages_darkage_straw.png",
-		"cottages_darkage_straw.png","cottages_darkage_straw.png"},
+		{"farming_straw.png","farming_straw.png",
+		"farming_straw.png","farming_straw.png",
+		"farming_straw.png","farming_straw.png"},
 		'cottages:straw_mat', nil );
 cottages.register_roof( 'reet',
 		{"cottages_reet.png","cottages_reet.png",

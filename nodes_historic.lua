@@ -179,13 +179,8 @@ minetest.register_node("cottages:wool_tent", {
 })
 
 -- a fallback for cases in which there is no wool
-minetest.register_node("cottages:wool", {
-		description = "Wool",
-		tiles = {"cottages_wool.png"},
-		is_ground_content = false,
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=3,wool=1},
-})
 
+minetest.register_alias("cottages:wool", "wool:white")
 
 ---------------------------------------------------------------------------------------
 -- crafting receipes
@@ -261,12 +256,5 @@ minetest.register_craft({
 	recipe = {
 		{"farming:string", "farming:string"},
 		{"",cottages.craftitem_stick}
-	}
-})
-
-minetest.register_craft({
-	output = "cottages:wool",
-	recipe = {
-		{"cottages:wool_tent", "cottages:wool_tent"}
 	}
 })

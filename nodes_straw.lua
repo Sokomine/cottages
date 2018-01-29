@@ -24,9 +24,9 @@ end
 minetest.register_node("cottages:straw_mat", {
         description = S("layer of straw"),
         drawtype = 'nodebox',
-        tiles = { 'cottages_darkage_straw.png' }, -- done by VanessaE
-        wield_image = 'cottages_darkage_straw.png',
-        inventory_image = 'cottages_darkage_straw.png',
+        tiles = { 'farming_straw.png' }, -- done by VanessaE
+        wield_image = 'farming_straw.png',
+        inventory_image = 'farming_straw.png',
         sunlight_propagates = true,
         paramtype = 'light',
         paramtype2 = "facedir",
@@ -76,16 +76,8 @@ minetest.register_node("cottages:straw_bale", {
 })
 
 -- just straw
-minetest.register_node("cottages:straw", {
-	drawtype = "normal",
-	description = S("straw"),
-	tiles = {"cottages_darkage_straw.png"},
-	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
-	sounds = default.node_sound_wood_defaults(),
-        -- the bale is slightly smaller than a full node
-	is_ground_content = false,
-})
 
+minetest.register_alias("cottages:straw", "farming:straw")
 
 local cottages_formspec_treshing_floor = 
                                "size[8,8]"..
@@ -243,7 +235,7 @@ minetest.register_node("cottages:threshing_floor", {
 		end
 
 		local overlay1 = "^farming_wheat.png";
-		local overlay2 = "^cottages_darkage_straw.png";
+		local overlay2 = "^farming_straw.png";
 		local overlay3 = "^"..cottages.texture_wheat_seed;
 
 		-- this can be enlarged by a multiplicator if desired

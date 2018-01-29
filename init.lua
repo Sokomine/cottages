@@ -61,7 +61,15 @@ dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_anvil.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_doorlike.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_fences.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
+
+if not minetest.get_modpath("moreblocks") then
+	dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
+else
+	minetest.register_alias("cottages:roof_straw", "moreblocks:stair_straw_alt")
+	minetest.register_alias("cottages:roof_connector_straw", "moreblocks:stair_straw")
+	minetest.register_alias("cottages:roof_flat_straw", "moreblocks:slab_straw")
+end
+
 dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
 --dofile(minetest.get_modpath("cottages").."/nodes_chests.lua");
