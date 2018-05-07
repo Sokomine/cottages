@@ -56,7 +56,9 @@ cottages.texture_chest = {"default_chest_top.png", "default_chest_top.png", "def
 
 -- the treshing floor produces wheat seeds
 cottages.craftitem_seed_wheat   = "farming:seed_wheat";
+cottages.craftitem_seed_barley  = "farming:seed_barley";
 cottages.texture_wheat_seed = "farming_wheat_seed.png";
+cottages.texture_barley_seed = "farming_barley_seed.png";
 cottages.texture_stick      = "default_stick.png";
 
 -- texture for roofs where the tree bark is the main roof texture
