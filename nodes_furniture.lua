@@ -23,7 +23,7 @@ minetest.register_node("cottages:bed_foot", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = default.node_sound_wood_defaults,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -58,7 +58,7 @@ minetest.register_node("cottages:bed_head", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = default.node_sound_wood_defaults,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -99,7 +99,7 @@ minetest.register_node("cottages:sleeping_mat", {
         paramtype2 = "facedir",
         walkable = false,
         groups = { snappy = 3 },
-        sounds = default.node_sound_leaves_defaults(),
+        sounds = default.node_sound_leaves_defaults,
         selection_box = {
                         type = "wallmounted",
                         },
@@ -133,7 +133,7 @@ minetest.register_node("cottages:sleeping_mat_head", {
         paramtype = 'light',
         paramtype2 = "facedir",
         groups = { snappy = 3 },
-        sounds = default.node_sound_leaves_defaults(),
+        sounds = default.node_sound_leaves_defaults,
         node_box = {
                 type = "fixed",
                 fixed = {
@@ -162,7 +162,7 @@ minetest.register_node("cottages:bench", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = default.node_sound_wood_defaults,
 	node_box = {
 		type = "fixed",
 		fixed = {
