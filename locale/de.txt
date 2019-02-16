@@ -136,7 +136,15 @@ You have grinded the last %s wheat seeds. = Du hast die letzten %s Weizenkoerner
 Your threshing floor can now be used by other players as well. = Dein Dreschboden kann jetzt auch von anderen Spielern benutzt werden.
 Your mill, powered by punching can now be used by other players as well. = Deine Mühle kann jetzt auch von anderen Spielern benutzt werden.
 
-Your threshing floor can only be used by yourself. = Dein Dreschboden kann nur noch von dir benutzt werden.
-Your mill, powered by punching can only be used by yourself. = Deine Mühle kann nur noch von dir benutzt werden.
+Your threshing floor can only be used by yourself. = Dein Dreschboden kann jetzt nur noch von dir selbst benutzt werden.
+Your mill, powered by punching can only be used by yourself. = Deine Mühle kann jetzt nur noch von dir selbst benutzt werden.
 
-Public? = Öffentlich?
+Public? = Oeffentlich?
+
+Public tree trunk well = Oeffentlicher Baumstammbrunnen
+Public tree trunk well (owned by %s) = Oeffentlicher Baumstammbrunnen (gehoert %s)
+Private tree trunk well (owned by %s) = Privater Baumstammbrunnen (gehoert %s)
+This tree trunk well is owned by %s. You can't use it. = Dieser Baumstammbrunnen gehoert %s. Du kannst ihn leider nicht benutzen.
+Sorry. You have no room for the bucket. Please free some space in your inventory first! = Du hast leider keinen Platz mehr fuer den Eimer. Bitte schaffe erst ein wenig Platz!
+Your tree trunk well can now be used by other players as well. = Dein Baumstammbrunnen kann jetzt auch von anderen Spielern benutzt werdn.
+Your tree trunk well can only be used by yourself. = Dein Baumstammbrunnen kann jetzt nur noch von dir selbst benutzt werdn.
