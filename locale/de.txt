@@ -109,6 +109,8 @@ straw = Stroh
 threshing floor = Dreschboden
 Threshing floor = Dreschboden
 Threshing floor (owned by %s) = Dreschboden (gehoert %s)
+Public threshing floor (owned by %s) = Öffentlicher Dreschboden (gehoert %s)
+Private threshing floor (owned by %s) = Privater Dreschboden (gehoert %s)
 Harvested wheat: = Geernteter Weizen
 Straw: = Stroh
 Seeds: = Koerner
@@ -120,6 +122,8 @@ You have threshed the last %s wheat. =  Du hast die letzten %s Weizenaehren gedr
 mill, powered by punching = Muehle, durch Schlagen antreiben
 Mill, powered by punching = Muehle, durch Schlagen antreiben
 Mill, powered by punching (owned by %s) = Muehle, durch Schlagen antreiben (gehoert %s)
+Public mill, powered by punching (owned by %s) = Öffentliche Muehle, durch Schlagen antreiben (gehoert %s)
+Private mill, powered by punching (owned by %s) = Private Muehle, durch Schlagen antreiben (gehoert %s)
 Wheat seeds: = Weizenkoerner
 Flour: = Mehl
 Mill = Muehle
@@ -128,3 +132,11 @@ Punch this hand-driven mill = Schlage auf diese handbetriebene Muehle
 to convert wheat seeds into flour. = um Weizenkoerner in Mehl umzuwandeln.
 You have grinded %s wheat seeds (%s are left). = Du hast %s Weizenkoerner gemahlen (%s bleiben uebrig).
 You have grinded the last %s wheat seeds. = Du hast die letzten %s Weizenkoerner gemahlen.
+
+Your threshing floor can now be used by other players as well. = Dein Dreschboden kann jetzt auch von anderen Spielern benutzt werden.
+Your mill, powered by punching can now be used by other players as well. = Deine Mühle kann jetzt auch von anderen Spielern benutzt werden.
+
+Your threshing floor can only be used by yourself. = Dein Dreschboden kann nur noch von dir benutzt werden.
+Your mill, powered by punching can only be used by yourself. = Deine Mühle kann nur noch von dir benutzt werden.
+
+Public? = Öffentlich?

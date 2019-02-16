@@ -57,6 +57,7 @@ cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
 cottages.handmill_max_per_turn = 20;
 cottages.handmill_min_per_turn = 0;
 
+dofile(minetest.get_modpath("cottages").."/functions.lua");
 
 -- uncomment parts you do not want
 dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
