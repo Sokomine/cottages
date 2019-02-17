@@ -20,9 +20,9 @@ end
 minetest.register_tool("cottages:pitchfork", {
 	description = S("pitchfork (dig dirt with grass to get hay, place with right-click)"),
 	groups = {},
-	inventory_image = "default_wood.png", -- TODO
-	wield_image = "",
-	wield_scale = {x=1,y=1,z=1},
+	inventory_image = "cottages_pitchfork.png",
+	wield_image = "cottages_pitchfork.png^[transformFYR180",
+	wield_scale = {x=1.5,y=1.5,z=0.5},
 	stack_max = 1,
 	liquids_pointable = false,
 	-- very useful for digging hay, straw and bales of those materials
