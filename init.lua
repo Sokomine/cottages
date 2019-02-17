@@ -29,10 +29,20 @@ else
 	cottages.S = function(s) return s end
 end
 
+cottages.sounds = {}
 -- MineClone2 needs special treatment; default is only needed for
 -- crafting materials and sounds (less important)
 if( not( minetest.get_modpath("default"))) then
 	default = {};
+	cottages.sounds.wood   = nil
+	cottages.sounds.dirt   = nil
+	cottages.sounds.leaves = nil
+	cottages.sounds.stone  = nil
+else
+	cottages.sounds.wood   = default.node_sound_wood_defaults()
+	cottages.sounds.dirt   = default.node_sound_dirt_defaults()
+	cottages.sounds.stone  = default.node_sound_stone_defaults()
+	cottages.sounds.leaves = default.node_sound_leaves_defaults()
 end
 --cottages.config_use_mesh_barrel   = false;
 --cottages.config_use_mesh_handmill = true;

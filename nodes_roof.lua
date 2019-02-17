@@ -191,7 +191,7 @@ minetest.register_node("cottages:slate_vertical", {
         tiles = {"cottages_slate.png",cottages.texture_roof_sides,"cottages_slate.png","cottages_slate.png",cottages.texture_roof_sides,"cottages_slate.png"},
         paramtype2 = "facedir",
         groups = {cracky=2, stone=1},
-        sounds = default.node_sound_stone_defaults,
+        sounds = cottages.sounds.stone,
 	is_ground_content = false,
 })
 
@@ -208,8 +208,8 @@ minetest.register_craft({
 minetest.register_node("cottages:reet", {
         description = S("Reet for thatching"),
         tiles = {"cottages_reet.png"},
-	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	groups = {hay = 3, snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
+        sounds = cottages.sounds.leaves,
 	is_ground_content = false,
 })
 

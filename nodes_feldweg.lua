@@ -28,7 +28,7 @@ if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 end
@@ -47,7 +47,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 
@@ -58,7 +58,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 
@@ -69,7 +69,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 
@@ -84,7 +84,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		roups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -116,7 +116,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 
 		drawtype = "nodebox",
@@ -162,7 +162,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 
 		drawtype = "nodebox",
@@ -206,7 +206,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 
 		drawtype = "nodebox",
@@ -256,7 +256,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -274,7 +274,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png",
 			"default_grass.png","cottages_feldweg_surface.png",
@@ -290,7 +290,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png", "default_dirt.png",
 			"default_grass.png","cottages_feldweg_surface.png",
@@ -306,7 +306,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"default_dirt.png^default_grass_side.png","default_grass.png",
 			"default_dirt.png^default_grass_side.png","cottages_feldweg_surface.png",
@@ -322,7 +322,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -342,7 +342,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
 		S("Dirt Road Stairs"),
 		S("Dirt Road, half height"),
-		default.node_sound_dirt_defaults)
+		cottages.sounds.dirt)
 end
 
 if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
@@ -371,7 +371,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -391,7 +391,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",

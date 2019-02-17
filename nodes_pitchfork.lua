@@ -72,7 +72,7 @@ minetest.register_node("cottages:pitchfork_placed", {
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",
 		fixed = {

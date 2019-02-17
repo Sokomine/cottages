@@ -46,7 +46,7 @@ minetest.register_node("cottages:hay_mat", {
 	description = S("Some hay"),
 	tiles = {"cottages_darkage_straw.png^[multiply:#88BB88"},
 	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	is_ground_content = false,
 	node_box = {
@@ -73,7 +73,7 @@ minetest.register_node("cottages:hay", {
 	description = S("Hay"),
 	tiles = {"cottages_darkage_straw.png^[multiply:#88BB88"},
 	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	sounds = cottages.sounds.leaves,
 	is_ground_content = false,
 })
 
@@ -85,7 +85,7 @@ minetest.register_node("cottages:hay_bale", {
 	tiles = {"cottages_darkage_straw_bale.png^[multiply:#88BB88"},
 	paramtype = "light",
 	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	node_box = {
 		type = "fixed",
