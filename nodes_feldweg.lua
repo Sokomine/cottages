@@ -19,6 +19,47 @@ if( not( cottages_feldweg_mode )) then
 	cottages_feldweg_mode = "mesh";
 end
 
+local function register_recipes(include_end)
+	
+	minetest.register_craft({
+		output = "cottages:feldweg_crossing 5",
+		recipe = {
+			{"", "cottages:feldweg", "" },
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"},
+			{"", "cottages:feldweg", "" },
+		},
+	})
+	                                          
+	minetest.register_craft({
+		output = "cottages:feldweg_t_junction 5",
+		recipe = {
+			{"", "cottages:feldweg", "" },
+			{"", "cottages:feldweg", "" },
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			
+		},
+	})										
+	             
+	minetest.register_craft({
+		output = "cottages:feldweg_curve 5",
+		recipe = {
+			{"cottages:feldweg", "", "" },
+			{"cottages:feldweg", "", ""},
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+		},
+	})									                                       
+	               
+	if include_end then
+		minetest.register_craft({
+			output = "cottages:feldweg_end 5",
+			recipe = {
+				{"cottages:feldweg", "", "cottages:feldweg" },
+				{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			},
+		})	
+	end
+end
+
 --- a nice dirt road for small villages or paths to fields
 if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
 	minetest.register_node("cottages:feldweg", {
@@ -72,7 +113,8 @@ if( cottages_feldweg_mode == "flat" ) then
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
-
+	                                          
+	register_recipes(false)
 --
 -- cube-style nodebox version
 --
@@ -243,6 +285,8 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
+	register_recipes(false)                               
+	                                          
 
 --
 -- the mesh version (rounded); provided and created by VanessaE
@@ -284,6 +328,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		mesh = "feldweg-crossing.obj",
 	})
 
+
+	                                          
 	minetest.register_node("cottages:feldweg_t_junction", {
 		description = S("dirt road t junction"),
 		paramtype2 = "facedir",
@@ -299,6 +345,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		drawtype = "mesh",
 		mesh = "feldweg-T-junction.obj",
 	})
+	                                          
+
 
 	minetest.register_node("cottages:feldweg_curve", {
 		description = S("dirt road curve"),
@@ -316,6 +364,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		mesh = "feldweg-curve.obj",
 	})
 
+
+							
 	minetest.register_node("cottages:feldweg_end", {
 		description = S("dirt road end"),
 		paramtype2 = "facedir",
@@ -332,6 +382,11 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		drawtype = "mesh",
 		mesh = "feldweg_end.obj",
 	})
+	   
+	                                          
+	register_recipes(true)
+ 
+	                                          
 end
 
 
@@ -385,6 +440,8 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		selection_box = box_slope,
 	})
 
+                                 
+	                                          
 	minetest.register_node("cottages:feldweg_slope_long", {
 		description = S("dirt road slope long"),
 		paramtype2 = "facedir",
@@ -402,5 +459,22 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		mesh = "feldweg_slope_long.obj",
                 collision_box = box_slope_long,
 		selection_box = box_slope_long,
+	})
+	        
+	                                          
+	minetest.register_craft({
+		output = "cottages:feldweg_slope 3",
+		recipe = {
+			{"cottages:feldweg", "", "" },
+			{"cottages:feldweg", "cottages:feldweg", ""}
+		},
+	})	     
+	                                          
+	minetest.register_craft({
+		output = "cottages:feldweg_slope_long 4",
+		recipe = {
+			{"cottages:feldweg", "", "" },
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+		},
 	})
 end
