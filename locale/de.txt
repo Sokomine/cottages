@@ -148,3 +148,10 @@ This tree trunk well is owned by %s. You can't use it. = Dieser Baumstammbrunnen
 Sorry. You have no room for the bucket. Please free some space in your inventory first! = Du hast leider keinen Platz mehr fuer den Eimer. Bitte schaffe erst ein wenig Platz!
 Your tree trunk well can now be used by other players as well. = Dein Baumstammbrunnen kann jetzt auch von anderen Spielern benutzt werdn.
 Your tree trunk well can only be used by yourself. = Dein Baumstammbrunnen kann jetzt nur noch von dir selbst benutzt werdn.
+
+pitchfork (dig dirt with grass to get hay, place with right-click) = Heugabel (grabe Erde mit Grass um Heu zu bekommen; Rechts-Klick zum Platzieren)
+pitchfork (for hay and straw) = Heugabel (fuer Heu und Stroh)
+
+Some hay = Etwas Heu
+Hay = Heu
+Hay bale = Heuballen

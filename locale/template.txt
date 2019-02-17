@@ -146,3 +146,10 @@ This tree trunk well is owned by %s. You can't use it. =
 Sorry. You have no room for the bucket. Please free some space in your inventory first! =
 Your tree trunk well can now be used by other players as well. =
 Your tree trunk well can only be used by yourself. =
+
+pitchfork (dig dirt with grass to get hay, place with right-click) =
+pitchfork (for hay and straw) =
+
+Some hay =
+Hay =
+Hay bale =
