@@ -1,4 +1,6 @@
 
+local S = cottages.S
+
 -- fast tool for digging nodes with the group "hay";
 -- can also be placed as a node
 
