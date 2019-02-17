@@ -187,7 +187,7 @@ minetest.register_node("cottages:water_gen", {
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not(stack) or not cottages.player_can_use(meta, player:get_player_name()) then
+		if not(stack) or not cottages.player_can_use(meta, player) then
 			return 0
 		end
 		local inv = meta:get_inventory()
@@ -201,7 +201,7 @@ minetest.register_node("cottages:water_gen", {
 		return stack:get_count()
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		if not(cottages.player_can_use(meta:get_string(pos), player:get_player_name())) then
+		if not(cottages.player_can_use(meta:get_string(pos), player)) then
 			return 0
 		end
 		return stack:get_count()
