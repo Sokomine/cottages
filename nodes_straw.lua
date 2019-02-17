@@ -12,9 +12,9 @@ local S = cottages.S
 minetest.register_node("cottages:straw_mat", {
         description = S("layer of straw"),
         drawtype = 'nodebox',
-        tiles = { 'cottages_darkage_straw.png' }, -- done by VanessaE
-        wield_image = 'cottages_darkage_straw.png',
-        inventory_image = 'cottages_darkage_straw.png',
+        tiles = { cottages.straw_texture }, -- done by VanessaE
+        wield_image = cottages.straw_texture,
+        inventory_image = cottages.straw_texture,
         sunlight_propagates = true,
         paramtype = 'light',
         paramtype2 = "facedir",
@@ -64,15 +64,19 @@ minetest.register_node("cottages:straw_bale", {
 })
 
 -- just straw
-minetest.register_node("cottages:straw", {
+if( not(minetest.registered_nodes["farming:straw"])) then
+   minetest.register_node("cottages:straw", {
 	drawtype = "normal",
 	description = S("straw"),
-	tiles = {"cottages_darkage_straw.png"},
+	tiles = {cottages.straw_texture},
 	groups = { hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable=3 },
 	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	is_ground_content = false,
-})
+   })
+else
+	minetest.register_alias("cottages:straw", "farming:straw")
+end
 
 
 local cottages_formspec_treshing_floor = 
@@ -239,7 +243,7 @@ minetest.register_node("cottages:threshing_floor", {
 		end
 
 		local overlay1 = "^farming_wheat.png";
-		local overlay2 = "^cottages_darkage_straw.png";
+		local overlay2 = "^"..cottages.straw_texture;
 		local overlay3 = "^"..cottages.texture_wheat_seed;
 
 		-- this can be enlarged by a multiplicator if desired

@@ -46,7 +46,7 @@ minetest.register_node("cottages:hay_mat", {
 	drawtype = "nodebox",
 	paramtype2 = "leveled",
 	description = S("Some hay"),
-	tiles = {"cottages_darkage_straw.png^[multiply:#88BB88"},
+	tiles = {cottages.straw_texture.."^[multiply:#88BB88"},
 	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
 	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
@@ -73,7 +73,7 @@ minetest.register_node("cottages:hay_mat", {
 -- hay block, similar to straw block
 minetest.register_node("cottages:hay", {
 	description = S("Hay"),
-	tiles = {"cottages_darkage_straw.png^[multiply:#88BB88"},
+	tiles = {cottages.straw_texture.."^[multiply:#88BB88"},
 	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
 	sounds = cottages.sounds.leaves,
 	is_ground_content = false,

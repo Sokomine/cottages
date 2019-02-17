@@ -66,7 +66,7 @@ end
 -- right now, this block mostly serves as a placeholder
 minetest.register_node("cottages:straw_ground", {
         description = S("straw ground for animals"),
-        tiles = {"cottages_darkage_straw.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
+        tiles = {cottages.straw_texture,"cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
         groups = {crumbly=3},
         sounds = cottages.sounds.leaves,
@@ -178,12 +178,16 @@ minetest.register_node("cottages:wool_tent", {
 })
 
 -- a fallback for cases in which there is no wool
-minetest.register_node("cottages:wool", {
+if( not( minetest.registered_nodes["wool:white"])) then
+	minetest.register_node("cottages:wool", {
 		description = "Wool",
 		tiles = {"cottages_wool.png"},
 		is_ground_content = false,
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=3,wool=1},
-})
+	})
+else
+	minetest.register_alias("cottages:wool", "wool:white")
+end
 
 
 ---------------------------------------------------------------------------------------

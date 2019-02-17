@@ -44,6 +44,16 @@ else
 	cottages.sounds.stone  = default.node_sound_stone_defaults()
 	cottages.sounds.leaves = default.node_sound_leaves_defaults()
 end
+
+-- the straw from default comes with stairs as well and might replace
+-- cottages:roof_connector_straw and cottages:roof_flat_straw
+-- however, that does not look very good
+if( false and minetest.registered_nodes["farming:straw"]) then
+	cottages.straw_texture = "farming_straw.png"
+	cottages.use_farming_straw_stairs = true
+else
+	cottages.straw_texture = "cottages_darkage_straw.png"
+end
 --cottages.config_use_mesh_barrel   = false;
 --cottages.config_use_mesh_handmill = true;
 
