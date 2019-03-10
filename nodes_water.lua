@@ -16,6 +16,7 @@
 -- how many seconds does it take to fill a bucket?
 cottages.water_fill_time = 10
 
+local S = cottages.S
 
 -- code taken from the itemframes mod in homedecor
 -- (the relevant functions are sadly private there and thus cannot be reused)
