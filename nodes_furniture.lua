@@ -441,7 +441,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 	-- let players get back up
 	if( animation and animation.animation=="lay" ) then
 		default.player_attached[pname] = false
-		clicker:setpos({x=pos.x,y=pos.y-0.5,z=pos.z})
+		clicker:set_pos({x=pos.x,y=pos.y-0.5,z=pos.z})
 		clicker:set_eye_offset({x=0,y=0,z=0}, {x=0,y=0,z=0})
 		clicker:set_physics_override(1, 1, 1)
 		default.player_set_animation(clicker, "stand", 30)
@@ -542,7 +542,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		-- no sleeping on this place
 		else
 			default.player_attached[pname] = false
-			clicker:setpos({x=pos.x,y=pos.y-0.5,z=pos.z})
+			clicker:set_pos({x=pos.x,y=pos.y-0.5,z=pos.z})
 			clicker:set_eye_offset({x=0,y=0,z=0}, {x=0,y=0,z=0})
 			clicker:set_physics_override(1, 1, 1)
 			default.player_set_animation(clicker, "stand", 30)
