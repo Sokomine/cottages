@@ -393,7 +393,7 @@ cottages.sit_on_bench = function( pos, node, clicker, itemstack, pointed_thing )
 
 	if( animation and animation.animation=="sit") then
 		default.player_attached[pname] = false
-		clicker:setpos({x=pos.x,y=pos.y-0.5,z=pos.z})
+		clicker:set_pos({x=pos.x,y=pos.y-0.5,z=pos.z})
 		clicker:set_eye_offset({x=0,y=0,z=0}, {x=0,y=0,z=0})
 		clicker:set_physics_override(1, 1, 1)
 		default.player_set_animation(clicker, "stand", 30)
@@ -411,7 +411,7 @@ cottages.sit_on_bench = function( pos, node, clicker, itemstack, pointed_thing )
 		end
 
 		clicker:set_eye_offset({x=0,y=-7,z=2}, {x=0,y=0,z=0})
-		clicker:setpos( p2 )
+		clicker:set_pos( p2 )
 		default.player_set_animation(clicker, "sit", 30)
 		clicker:set_physics_override(0, 0, 0)
 		default.player_attached[pname] = true
@@ -553,7 +553,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 
 
 	clicker:set_eye_offset({x=0,y=-7,z=2}, {x=0,y=0,z=0})
-	clicker:setpos( p );
+	clicker:set_pos( p );
 	default.player_set_animation(clicker, new_animation, 30)
 	clicker:set_physics_override(0, 0, 0)
 	default.player_attached[pname] = true
