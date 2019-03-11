@@ -30,9 +30,9 @@ minetest.register_tool("cottages:pitchfork", {
 		full_punch_interval = 1.0,
 		max_drop_level=1,
 		groupcaps={
-			fleshy={times={[2]=0.80, [3]=0.40}, maxwear=0.05, maxlevel=1, uses=40},
-			snappy={times={[2]=0.80, [3]=0.40}, maxwear=0.05, maxlevel=1, uses=40},
-			hay   ={times={[2]=0.10, [3]=0.10}, maxwear=0.05, maxlevel=1, uses=40},
+			fleshy={times={[2]=0.80, [3]=0.40}, maxlevel=1, uses=1/0.002 },
+			snappy={times={[2]=0.80, [3]=0.40}, maxlevel=1, uses=1/0.002 },
+			hay   ={times={[2]=0.10, [3]=0.10}, maxlevel=1, uses=1/0.002 },
 		},
                 damage_groups = {fleshy=5}, -- slightly stronger than a stone sword
 	},
@@ -73,7 +73,7 @@ minetest.register_node("cottages:pitchfork_placed", {
 	paramtype  = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1},
+	groups = {snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1, not_in_creative_inventory=1},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",
