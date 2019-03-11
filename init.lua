@@ -4,6 +4,8 @@
 -- License: GPLv3
 --
 -- Modified:
+-- 11.03.19 Adjustments for MT 5.x
+--          cottages_feldweg_mode is now a setting in minetest.conf
 -- 27.07.15 Moved into its own repository.
 --          Made sure textures and craft receipe indigrents are available or can be replaced.
 --          Took care of "unregistered globals" warnings.
