@@ -15,8 +15,14 @@ local S = cottages.S
 -- * flat: each node is a full node; junction, t-junction and corner are included
 -- * nodebox: like flat - except that each node has a nodebox that fits to that road node
 -- * mesh: like nodebox - except that it uses a nice roundish model
-if( not( cottages_feldweg_mode )) then
+local cottages_feldweg_mode = minetest.settings:get("cottages_feldweg_mode")
+if(     cottages_feldweg_mode ~= "mesh"
+    and cottages_feldweg_mode ~= "flat"
+    and cottages_feldweg_mode ~= "nodebox"
+    and cottages_feldweg_mode ~= "flat") then
 	cottages_feldweg_mode = "mesh";
+    -- add the setting to the minetest.conf so that the player can set it there
+    minetest.settings:set("cottages_feldweg_mode", "mesh")
 end
 
 local function register_recipes(include_end)
