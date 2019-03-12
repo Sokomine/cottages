@@ -202,7 +202,8 @@ minetest.register_node("cottages:water_gen", {
 		return stack:get_count()
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		if not(cottages.player_can_use(meta:get_string(pos), player)) then
+		local meta = minetest.get_meta(pos)
+		if not(cottages.player_can_use(meta, player)) then
 			return 0
 		end
 		return stack:get_count()
