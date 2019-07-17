@@ -42,7 +42,7 @@ if(     minetest.registered_items["default:dirt_with_grass"]
 		if not timer:is_started() then
 			timer:start(math.random(60, 300))
 		end
-	    end,
+	end,
   })
 end
 
