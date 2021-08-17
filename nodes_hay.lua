@@ -17,10 +17,10 @@ if(     minetest.registered_items["default:dirt_with_grass"]
 
   minetest.override_item("default:dirt_with_grass", {
 	  on_dig = function(pos, node, digger)
-		  local diggername = digger:get_player_name()
 		if( not( pos ) or not( digger )) then
 			return old_on_dig(pos, node, digger)
 		end
+		  local diggername = digger:get_player_name()
 		local wielded = digger:get_wielded_item()
 		if(    not( wielded )
 		    or not( wielded:get_name() )
