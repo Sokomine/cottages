@@ -230,8 +230,12 @@ minetest.register_node("cottages:anvil", {
 		minetest.after(2, function()
 			if( puncher ) then
 				puncher:hud_remove(hud1);
-				puncher:hud_remove(hud2);
-				puncher:hud_remove(hud3);
+				if hud2 then
+					puncher:hud_remove(hud2);
+				end
+				if hud3 then
+					puncher:hud_remove(hud3);
+				end
 			end
 		end)
 
@@ -300,4 +304,3 @@ minetest.register_craft({
                 {'cottages:anvil'},
                 {cottages.craftitem_stick} }
 })
-
