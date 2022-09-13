@@ -26,6 +26,19 @@ if(     cottages_feldweg_mode ~= "mesh"
 end
 
 
+-- make sure groups etc. are always the same
+cottages.register_feldweg_node = function(node_name, def)
+	def.paramtype = "light",
+	def.paramtype2 = "facedir",
+	def.legacy_facedir_simple = true,
+	def.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=2},
+	def.sounds = cottages.sounds.dirt,
+	def.is_ground_content = false,
+
+	minetest.register_node(node_name, def)
+end
+
+
 local function register_recipes(include_end, postfix, base_craftitem)
 	
 	if(not(postfix)) then
@@ -138,19 +151,12 @@ cottages.register_nodes_slope = function(postfix, texture_top, texture_bottom, t
 				{-0.5,  0.25,     0, 0.5,   0.5, 0.5}
 			}};
 
-	minetest.register_node("cottages:feldweg_slope"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_slope"..postfix, {
 		description = S("dirt road slope"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {texture_side_with_dent,
 			texture_side, texture_bottom, texture_top,
 			"cottages_feldweg_surface.png",
 			texture_edges},
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg_slope.obj",
 
@@ -159,19 +165,12 @@ cottages.register_nodes_slope = function(postfix, texture_top, texture_bottom, t
 	})
 
 
-	minetest.register_node("cottages:feldweg_slope_long"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_slope_long"..postfix, {
 		description = S("dirt road slope long"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {texture_side_with_dent,
 			texture_side, texture_bottom, texture_top,
 			"cottages_feldweg_surface.png",
 			texture_edges},
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg_slope_long.obj",
                 collision_box = box_slope_long,
@@ -200,69 +199,42 @@ end
 -- those can be offered in diffrent variants...
 cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, texture_side, cottages_feldweg_mode, name_postfix, texture_side_with_dent, texture_edges)
 	-- a nice dirt road for small villages or paths to fields
-	minetest.register_node("cottages:feldweg"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg"..postfix, {
 		description = S("dirt road"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {texture_side_with_dent,
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
 			texture_side, texture_bottom, texture_top,
 			"cottages_feldweg_surface.png",
 			texture_edges},
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg.obj",
 	})
 
 
-	minetest.register_node("cottages:feldweg_crossing"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_crossing"..postfix, {
 		description = S("dirt road crossing"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {texture_side_with_dent,
 			--"default_dirt.png", "default_grass.png",
 			texture_bottom, texture_top,
 			"cottages_feldweg_surface.png",
 			texture_edges},
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg-crossing.obj",
 	})
 
-	minetest.register_node("cottages:feldweg_t_junction"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_t_junction"..postfix, {
 		description = S("dirt road t junction"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {texture_side_with_dent,
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
 			texture_side, texture_bottom, texture_top,
 			"cottages_feldweg_surface.png",
 			texture_edges},
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg-T-junction.obj",
 	})
 
-	minetest.register_node("cottages:feldweg_curve"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_curve"..postfix, {
 		description = S("dirt road curve"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {
 			-- "default_dirt.png^default_grass_side.png","default_grass.png",
 			texture_side, texture_top,
@@ -274,25 +246,17 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 			texture_edges},
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
 			texture_side, texture_bottom, texture_top,
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg-curve.obj",
 	})
 
-	minetest.register_node("cottages:feldweg_end"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_end"..postfix, {
 		description = S("dirt road end"..name_postfix),
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		tiles = {texture_side_with_dent,
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
 			texture_side, texture_bottom, texture_top,
 			texture_edges,
 			"cottages_feldweg_surface.png"},
-		paramtype = "light",
 		drawtype = "mesh",
 		mesh = "feldweg_end.obj",
 	})
@@ -302,7 +266,7 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 	end
 
 	-- new feldweg
-	minetest.register_node("cottages:feldweg_45"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_45"..postfix, {
 		description = S("dirt road 45º"..name_postfix),
 		tiles = {
 			"cottages_feldweg_surface.png",
@@ -310,17 +274,11 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
 			texture_side, texture_bottom, texture_top,
 		},
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=3},
 		drawtype = "mesh",
 		mesh = "feldweg_45.b3d",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		is_ground_content = true,
 	})
 
-	minetest.register_node("cottages:feldweg_s_45"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_s_45"..postfix, {
 		description = S("dirt road 45º edge"..name_postfix),
 		tiles = {
 			-- "default_grass.png", "default_dirt.png^default_grass_side.png", "default_dirt.png",
@@ -328,17 +286,11 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 			"cottages_feldweg_surface.png",
 			texture_edges,
 		},
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=3},
 		drawtype = "mesh",
 		mesh = "feldweg_s_45.b3d",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		is_ground_content = true,
 	})
 
-	minetest.register_node("cottages:feldweg_d_45"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_d_45"..postfix, {
 		description = S("dirt road 45º double edge"..name_postfix),
 		tiles = {
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
@@ -346,17 +298,11 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 			texture_edges,
 			"cottages_feldweg_surface.png",
 		},
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=3},
 		drawtype = "mesh",
 		mesh = "feldweg_d_45.b3d",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		is_ground_content = true,
 	})
 
-	minetest.register_node("cottages:feldweg_l_curve"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_l_curve"..postfix, {
 		description = S("dirt road left curve"..name_postfix),
 		tiles = {
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
@@ -364,17 +310,11 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 			texture_edges,
 			"cottages_feldweg_surface.png",
 		},
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=3},
 		drawtype = "mesh",
 		mesh = "feldweg_l_45_curve.b3d",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		is_ground_content = true,
 	})
 
-	minetest.register_node("cottages:feldweg_r_curve"..postfix, {
+	cottages.register_feldweg_node("cottages:feldweg_r_curve"..postfix, {
 		description = S("dirt road right curve"..name_postfix),
 		tiles = {
 			-- "default_dirt.png^default_grass_side.png", "default_dirt.png", "default_grass.png",
@@ -382,14 +322,8 @@ cottages.register_nodes_mesh = function(postfix, texture_top, texture_bottom, te
 			texture_edges,
 			"cottages_feldweg_surface.png",
 		},
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=3},
 		drawtype = "mesh",
 		mesh = "feldweg_r_45_curve.b3d",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		is_ground_content = true,
 	})
 end
 
@@ -398,15 +332,9 @@ end
 
 --- a nice dirt road for small villages or paths to fields
 if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
-	minetest.register_node("cottages:feldweg", {
+	cottages.register_feldweg_node("cottages:feldweg", {
 		description = S("dirt road"),
 		tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 	})
 end
 
@@ -417,37 +345,20 @@ end
 --
 if( cottages_feldweg_mode == "flat" ) then
 
-	minetest.register_node("cottages:feldweg_crossing", {
+	cottages.register_feldweg_node("cottages:feldweg_crossing", {
 		description = S("dirt road crossing"),
 		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 	})
 
-	minetest.register_node("cottages:feldweg_t_junction", {
+	cottages.register_feldweg_node("cottages:feldweg_t_junction", {
 		description = S("dirt road t junction"),
 		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 	})
 
-	minetest.register_node("cottages:feldweg_curve", {
+	cottages.register_feldweg_node("cottages:feldweg_curve", {
 		description = S("dirt road curve"),
 		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 	})
 	                                          
 	register_recipes(false)
@@ -455,15 +366,10 @@ if( cottages_feldweg_mode == "flat" ) then
 -- cube-style nodebox version
 --
 elseif( cottages_feldweg_mode == "nodebox" ) then
-	minetest.register_node("cottages:feldweg", {
+	cottages.register_feldweg_node("cottages:feldweg", {
 	        description = S("dirt road"),
 		tiles = {"cottages_feldweg_orig.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
-		roups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		paramtype = "light",
@@ -487,19 +393,11 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
-	minetest.register_node("cottages:feldweg_crossing", {
+	cottages.register_feldweg_node("cottages:feldweg_crossing", {
 		description = S("dirt road crossing"),
 		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
-
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		paramtype = "light",
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -533,19 +431,11 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
-	minetest.register_node("cottages:feldweg_t_junction", {
+	cottages.register_feldweg_node("cottages:feldweg_t_junction", {
 		description = S("dirt road t junction"),
 		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
-
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		paramtype = "light",
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -577,19 +467,10 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
-	minetest.register_node("cottages:feldweg_curve", {
+	cottages.register_feldweg_node("cottages:feldweg_curve", {
 		description = S("dirt road curve"),
 		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		legacy_facedir_simple = true,
-		groups = {crumbly=3},
-		sounds = cottages.sounds.dirt,
-		is_ground_content = false,
-
 		drawtype = "nodebox",
-                -- top, bottom, side1, side2, inner, outer
-		paramtype = "light",
 		node_box = {
 			type = "fixed",
 			fixed = {
