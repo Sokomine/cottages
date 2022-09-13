@@ -28,12 +28,12 @@ end
 
 -- make sure groups etc. are always the same
 cottages.register_feldweg_node = function(node_name, def)
-	def.paramtype = "light",
-	def.paramtype2 = "facedir",
-	def.legacy_facedir_simple = true,
-	def.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=2},
-	def.sounds = cottages.sounds.dirt,
-	def.is_ground_content = false,
+	def.paramtype = "light"
+	def.paramtype2 = "facedir"
+	def.legacy_facedir_simple = true
+	def.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,crumbly=2}
+	def.sounds = cottages.sounds.dirt
+	def.is_ground_content = false
 
 	minetest.register_node(node_name, def)
 end
