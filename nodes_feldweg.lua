@@ -606,5 +606,7 @@ if( cottages_feldweg_mode == "nodebox") then
 		"cottages_feldweg_end.png",
 		"cottages_feldweg_surface.png^cottages_feldweg_edges.png",
 	}
-	cottages.register_nodes_slope(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
+	for k, v in pairs(variants) do
+		cottages.register_nodes_slope(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
+	end
 end
