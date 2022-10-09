@@ -163,12 +163,17 @@ cottages.api.register_machine("cottages:water_gen", {
 	use = water.use_well,
 })
 
-minetest.register_lbm({
-	name = "cottages:add_well_entity",
-	label = "Initialize entity to cottages well",
-	nodenames = {"cottages:water_gen"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		water.initialize_entity(pos)
-	end
-})
+if cottages.has.node_entity_queue then
+	node_entity_queue.api.register_node_entity_loader("cottages:water_gen", water.initialize_entity)
+
+else
+	minetest.register_lbm({
+		name = "cottages:add_well_entity",
+		label = "Initialize entity to cottages well",
+		nodenames = {"cottages:water_gen"},
+		run_at_every_load = true,
+		action = function(pos, node)
+			water.initialize_entity(pos)
+		end
+	})
+end
