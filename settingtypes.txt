@@ -1,0 +1,122 @@
+# provides an anivil and hammer which can be used to repair tools
+cottages.anvil.enabled (enable the anvil module) bool true
+
+# disallow repairing the hammer itself in the anvil
+cottages.anvil.disable_hammer_repair (disable hammer repair) bool false
+
+# wear added to the hammer per strike
+cottages.anvil.hammer_wear (hammer wear) int 100 0 65536
+
+# amount to repair the tool per strike. default is 65535/15.
+cottages.anvil.repair_amount (anvil repair amount) int 4369 0 65535
+
+# amount of stamina to consume per hammer strike
+cottages.anvil.stamina (anvil stamina usage) int 40 0
+
+# if false, right-click the anvil to place a tool on it
+cottages.anvil.formspec_enabled (enable anvil formspec) bool true
+
+# whether to show an image of the tool being repaired in the HUD
+cottages.anvil.tool_hud_enabled (enable tool HUD) bool true
+
+# length of time the hud will stay on the screen, in seconds
+cottages.anvil.hud_timeout (hud timeout) float 2 0
+
+# if true, an entity representing the tool to be repaired will appear on top of the anvil
+cottages.anvil.tool_entity_enabled (tool entity enabled) bool false
+
+# how far above the anvil to put the entity
+cottages.anvil.tool_entity_displacement (tool entity displacement) float .125
+
+###############################################################################
+
+# provides a barrel which can be used to store liquids, and a couple decorative variants.
+cottages.barrel.enabled (enable the barrel module) bool true
+
+#
+cottages.barrel.max_liquid_amount (barrel max liquid amount) int 99 0
+
+###############################################################################
+
+# provides shutters, half-doors, gates, and hatches
+cottages.doorlike.enabled (enable the doorlike module) bool true
+
+#
+cottages.doorlike.stamina (doorlike stamina usage) int 1 0
+
+###############################################################################
+
+# provides variants of some nodes with a path worn into them
+cottages.feldweg.enabled (enable the feldweg module) bool true
+
+###############################################################################
+
+# provides fences
+cottages.fences.enabled (enable the fences module) bool true
+
+###############################################################################
+
+# provides benches, tables, shelves, beds, a sleeping mat, a wash basin, etc.
+cottages.furniture.enabled (enable the furniture module) bool true
+
+###############################################################################
+
+# provides some hay nodes
+cottages.hay.enabled (enable the hay module) bool true
+
+###############################################################################
+
+# a tent, glass panes, straw, loam, a wagon wheel
+cottages.historic.enabled (enable the historic module) bool true
+
+###############################################################################
+
+# rope and some variants
+cottages.mining.enabled (enable the mining module) bool true
+
+###############################################################################
+
+# provides a tool to gather hay from grassy dirt.
+cottages.pitchfork.enabled (enable the pitchfork module) bool true
+
+# stamina used when using the pitchfork
+cottages.pitchfork.stamina (pitchfork stamina usage) bool true
+
+###############################################################################
+
+# provides some decorative roof variants
+cottages.roof.enabled (enable the roof module) bool true
+
+# if true, we do not register our own straw roof variants
+cottages.roof.use_farming_straw_stairs (roof uses farming straw stairs) bool false
+
+###############################################################################
+
+# provides a threshing floor and quern, which can be used to process e.g. wheat into seeds into flour
+cottages.straw.enabled (enable the straw module) bool true
+
+# minimum # of items processed when punching the quern
+cottages.straw.quern_min_per_turn (quern min output) int 2 0 65535
+
+# maximum # of items processed when punching the quern
+cottages.straw.quern_max_per_turn (quern max output) int 5 0 65535
+
+#
+cottages.straw.quern_stamina (quern stamina usage) int 20 0
+
+#
+cottages.straw.threshing_min_per_punch (threshing min output) int 5 0 65535
+
+#
+cottages.straw.threshing_max_per_punch (threshing max output) int 10 0 65535
+
+#
+cottages.straw.threshing_stamina (threshing stamina used) int 20 0
+
+###############################################################################
+
+# provides a well which can be used to fill buckets with river water
+cottages.water.enabled (enable the water module) bool true
+
+# how long it takes to fill a bucket
+cottages.water.well_fill_time (well fill time) int 10 0
