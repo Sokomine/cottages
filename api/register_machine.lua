@@ -15,6 +15,11 @@ local api = {
 function api.update(pos, node)
 	local node_name = (node or minetest.get_node(pos)).name
 	local meta = minetest.get_meta(pos)
+
+	if meta:get_string("public") == "public" then
+		meta:set_int("public", 2)
+	end
+
 	local public = meta:get_int("public")
 
 	local get_fs_parts = api.get_fs_parts_by_node_name[node_name]
