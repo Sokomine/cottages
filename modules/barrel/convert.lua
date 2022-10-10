@@ -1,5 +1,3 @@
-local api = cottages.barrel
-
 local rotations = {
 	3 * 4,
 	2 * 4,
@@ -16,8 +14,5 @@ minetest.register_lbm({
 		node.name = string.gsub(node.name, "_lying", "")
 		node.param2 = rotations[node.param2 + 1] or 0
 		minetest.swap_node(pos, node)
-
-		api.update_infotext(pos)
-		api.update_formspec(pos)
 	end
 })
