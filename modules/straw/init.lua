@@ -5,3 +5,5 @@ cottages.dofile("modules", "straw", "nodes")
 cottages.dofile("modules", "straw", "quern")
 cottages.dofile("modules", "straw", "threshing")
 cottages.dofile("modules", "straw", "crafts")
+
+cottages.dofile("modules", "straw", "compat")
