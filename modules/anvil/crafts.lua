@@ -49,7 +49,7 @@ if ci.paper then
 	})
 
 	minetest.register_craft({
-		output = "anvil:anvil",
+		output = "cottages:anvil",
 		type = "shapeless",
 		recipe = {build_public_string(), ci.paper}
 	})
