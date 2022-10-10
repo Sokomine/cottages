@@ -1,5 +1,7 @@
 local s = minetest.settings
 
+local has_anvil_mod = not not cottages.has.anvil
+
 cottages.settings = {
 	anvil = {
 		enabled = s:get_bool("cottages.anvil.enabled", true),
@@ -9,9 +11,9 @@ cottages.settings = {
 		hud_timeout = tonumber(s:get("cottages.anvil.hud_timeout")) or 2, -- seconds
 		repair_amount = tonumber(s:get("cottages.anvil.repair_amount")) or 4369,
 		stamina = tonumber(s:get("cottages.anvil.stamina")) or 40,
-		formspec_enabled = s:get_bool("cottages.anvil.formspec_enabled", true),
-		tool_hud_enabled = s:get_bool("cottages.anvil.tool_hud_enabled", true),
-		tool_entity_enabled = s:get_bool("cottages.anvil.tool_entity_enabled", false),
+		formspec_enabled = s:get_bool("cottages.anvil.formspec_enabled", not has_anvil_mod),
+		tool_hud_enabled = s:get_bool("cottages.anvil.tool_hud_enabled", not has_anvil_mod),
+		tool_entity_enabled = s:get_bool("cottages.anvil.tool_entity_enabled", has_anvil_mod),
 		tool_entity_displacement = tonumber(s:get("cottages.anvil.tool_entity_displacement")) or 2 / 16,
 	},
 

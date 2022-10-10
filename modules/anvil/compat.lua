@@ -25,3 +25,11 @@ if cottages.has.technic then
 	cottages.anvil.make_unrepairable("technic:mining_drill_mk3_4")
 	cottages.anvil.make_unrepairable("technic:mining_drill_mk3_5")
 end
+
+if cottages.has.anvil then
+	minetest.clear_craft({output = "anvil:anvil"})
+	minetest.register_alias_force("anvil:anvil", "cottages:anvil")
+
+	minetest.clear_craft({output = "anvil:hammer"})
+	minetest.register_alias_force("anvil:hammer", "cottages:hammer")
+end
