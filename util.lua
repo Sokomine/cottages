@@ -32,8 +32,8 @@ function util.toggle_public(pos, sender)
 	local owner = meta:get_string("owner")
 
 	if (owner == "" or owner == " ") and not minetest.is_protected(pos, sender_name) then
-		meta:set_string("owner", sender_name)
 		owner = sender_name
+		meta:set_string("owner", sender_name)
 	end
 
 	if meta:get_string("public") == "public" then
