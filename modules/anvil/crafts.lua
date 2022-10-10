@@ -39,7 +39,7 @@ if ci.paper then
 	minetest.register_craft({
 		output = build_protected_string(),
 		type = "shapeless",
-		recipe = {"anvil:anvil", ci.paper}
+		recipe = {"cottages:anvil", ci.paper}
 	})
 
 	minetest.register_craft({
