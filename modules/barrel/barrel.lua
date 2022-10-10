@@ -9,14 +9,14 @@ local barrel = cottages.barrel
 function barrel.get_barrel_info(pos)
 	local liquid = barrel.get_barrel_liquid(pos)
 	if liquid then
-		return ("%s (%i/%i)"):format(
+		return ("%s Barrel (%i/%i)"):format(
 			barrel.name_by_liquid[liquid],
 			barrel.get_liquid_amount(pos),
 			max_liquid_amount
 		)
 
 	else
-		return S("Empty")
+		return S("Empty Barrel")
 	end
 end
 
