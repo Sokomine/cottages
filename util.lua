@@ -25,10 +25,19 @@ function util.toggle_public(pos, sender)
 	local sender_name = sender:get_player_name()
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
-	local public = meta:get_int("public")
+	local public = meta:get_string("public")
 
-	if owner == "" or owner == " " and not minetest.is_protected(pos, sender_name) then
+	if public == "public" then
+		public = 2
+		meta:set_int("public", 2)
+
+	else
+		public = meta:get_int("public")
+	end
+
+	if (owner == "" or owner == " ") and not minetest.is_protected(pos, sender_name) then
 		meta:set_string("owner", sender_name)
+		owner = sender_name
 	end
 
 	if public == 0 and owner == sender_name then
