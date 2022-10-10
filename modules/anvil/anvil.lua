@@ -56,7 +56,7 @@ end
 function anvil.get_anvil_fs_parts()
 	return {
 		("size[8,8]"),
-		("image[7,3;1,1;cottages_tool_steelhammer.png]"),
+		("image[4,3;1,1;cottages_tool_steelhammer.png]"),
 		("label[2.5,1.0;%s]"):format(FS("Workpiece:")),
 		("label[6.0,2.7;%s]"):format(FS("Optional")),
 		("label[6.0,3.0;%s]"):format(FS("storage for")),
