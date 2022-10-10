@@ -14,5 +14,7 @@ minetest.register_lbm({
 		node.name = string.gsub(node.name, "_lying", "")
 		node.param2 = rotations[node.param2 + 1] or 0
 		minetest.swap_node(pos, node)
+
+		cottages.api.update(pos, node)
 	end
 })

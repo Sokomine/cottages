@@ -7,60 +7,65 @@ local toggle_public = cottages.util.toggle_public
 
 local items_equals = futil.items_equals
 
-function cottages.api.update_formspec(pos)
+local api = {
+	get_fs_parts_by_node_name = {},
+	get_info_by_node_name = {},
+}
 
+function api.update(pos, node)
+	local node_name = (node or minetest.get_node(pos)).name
+	local meta = minetest.get_meta(pos)
+	local public = meta:get_int("public")
+
+	local get_fs_parts = api.get_fs_parts_by_node_name[node_name]
+	if get_fs_parts then
+		-- TODO instead create "public button formspec" api call, to generate this. works better w/ fs_layout
+		local fs_parts = get_fs_parts(pos)
+
+		table.insert(fs_parts, ("button[6.0,1.5;1.5,0.5;public;%s]"):format(FS("public?")))
+
+		if public == 0 then
+			local owner = meta:get_string("owner")
+			table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("owner: @1", owner)))
+
+		elseif public == 1 then
+			table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("(protected)")))
+
+		elseif public == 2 then
+			table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("(public)")))
+		end
+
+		meta:set_string("formspec", table.concat(fs_parts, ""))
+
+	else
+		meta:set_string("formspec", "")
+	end
+
+	local get_info = api.get_info_by_node_name[node_name]
+	if get_info then
+		local info = get_info(pos)
+		if public == 0 then
+			local owner = meta:get("owner")
+			meta:set_string("infotext", S("@1 (owned by @2)", info, owner))
+
+		elseif public == 1 then
+			meta:set_string("infotext", S("protected @1", info))
+
+		elseif public == 2 then
+			meta:set_string("infotext", S("public @1", info))
+
+		else
+			meta:set_string("infotext", "ERROR IN INFOTEXT")
+		end
+
+	else
+		meta:set_string("infotext", "")
+	end
 end
 
-function cottages.api.register_machine(name, def)
-	local update_formspec
-
-	if def.get_fs_parts then
-		function update_formspec(pos)
-			-- TODO instead create "public button formspec" api call, to generate this. works better w/ fs_layout
-			local fs_parts = def.get_fs_parts(pos)
-
-			table.insert(fs_parts, ("button[6.0,1.5;1.5,0.5;public;%s]"):format(FS("public?")))
-
-			local meta = minetest.get_meta(pos)
-			local public = meta:get_int("public")
-
-			if public == 0 then
-				local owner = meta:get_string("owner")
-				table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("owner: @1", owner)))
-
-			elseif public == 1 then
-				table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("(protected)")))
-
-			elseif public == 2 then
-				table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("(public)")))
-			end
-
-			meta:set_string("formspec", table.concat(fs_parts, ""))
-		end
-	end
-
-	local update_infotext
-	if def.get_info then
-		function update_infotext(pos)
-			local info = def.get_info(pos)
-
-			local meta = minetest.get_meta(pos)
-			local public = meta:get_int("public")
-			if public == 0 then
-				local owner = meta:get("owner")
-				meta:set_string("infotext", S("@1 (owned by @2)", info, owner))
-
-			elseif public == 1 then
-				meta:set_string("infotext", S("protected @1", info))
-
-			elseif public == 2 then
-				meta:set_string("infotext", S("public @1", info))
-
-			else
-				meta:set_string("infotext", "ERROR IN INFOTEXT")
-			end
-		end
-	end
+function api.register_machine(name, def)
+	api.get_fs_parts_by_node_name[name] = def.get_fs_parts
+	api.get_info_by_node_name[name] = def.get_info
 
 	minetest.register_node(name, {
 		description = def.description,
@@ -89,14 +94,12 @@ function cottages.api.register_machine(name, def)
 
 			local owner = placer:get_player_name()
 			meta:set_string("owner", owner or "")
-			if update_infotext then update_infotext(pos) end
-			if update_formspec then update_formspec(pos) end
+			api.update(pos)
 		end,
 
 		on_receive_fields = function(pos, formname, fields, sender)
 			if fields.public and toggle_public(pos, sender) then
-				if update_infotext then update_infotext(pos) end
-				if update_formspec then update_formspec(pos) end
+				api.update(pos)
 			end
 		end,
 
@@ -173,8 +176,7 @@ function cottages.api.register_machine(name, def)
 				def.on_metadata_inventory_put(pos, listname, index, stack, player)
 			end
 
-			if update_infotext then update_infotext(pos) end
-			if update_formspec then update_formspec(pos) end
+			api.update(pos)
 		end,
 
 		on_metadata_inventory_take = function(pos, listname, index, stack, player)
@@ -185,8 +187,7 @@ function cottages.api.register_machine(name, def)
 				def.on_metadata_inventory_take(pos, listname, index, stack, player)
 			end
 
-			if update_infotext then update_infotext(pos) end
-			if update_formspec then update_formspec(pos) end
+			api.update(pos)
 		end,
 
 		on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
@@ -197,8 +198,7 @@ function cottages.api.register_machine(name, def)
 				def.on_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
 			end
 
-			if update_infotext then update_infotext(pos) end
-			if update_formspec then update_formspec(pos) end
+			api.update(pos)
 		end,
 
 		on_punch = function(pos, node, puncher, pointed_thing)
@@ -209,8 +209,7 @@ function cottages.api.register_machine(name, def)
 			if def.use(pos, puncher) then
 				local meta = minetest.get_meta(pos)
 				meta:set_int("used", 1)
-				if update_infotext then update_infotext(pos) end
-				if update_formspec then update_formspec(pos) end
+				api.update(pos)
 			end
 		end,
 
@@ -224,8 +223,7 @@ function cottages.api.register_machine(name, def)
 			if rv and not items_equals(rv, itemstack) then
 				local meta = minetest.get_meta(pos)
 				meta:set_int("used", 1)
-				if update_infotext then update_infotext(pos) end
-				if update_formspec then update_formspec(pos) end
+				api.update(pos)
 			end
 
 			return rv
@@ -237,25 +235,15 @@ function cottages.api.register_machine(name, def)
 		end,
 	})
 
-	if update_formspec then
-		minetest.register_lbm({
-			name = ("cottages:update_formspec_%s"):format(name:gsub(":", "_")),
-			label = ("update %s formspec"):format(name),
-			nodenames = {name},
-			run_at_every_load = true,
-			action = update_formspec,
-		})
-
-	else
-		minetest.register_lbm({
-			name = ("cottages:update_formspec_%s"):format(name:gsub(":", "_")),
-			label = ("remove %s formspec"):format(name),
-			nodenames = {name},
-			run_at_every_load = true,
-			action = function(pos)
-				local meta = minetest.get_meta(pos)
-				meta:set_string("formspec", "")
-			end,
-		})
-	end
+	minetest.register_lbm({
+		name = ("cottages:update_formspec_%s"):format(name:gsub(":", "_")),
+		label = ("update %s formspec & infotext"):format(name),
+		nodenames = {name},
+		run_at_every_load = true,
+		action = function(pos, node)
+			api.update(pos, node)
+		end,
+	})
 end
+
+cottages.api = api
