@@ -45,17 +45,14 @@ function api.update(pos, node)
 	if get_info then
 		local info = get_info(pos)
 		if public == 0 then
-			local owner = meta:get("owner")
-			meta:set_string("infotext", S("@1 (owned by @2)", info, owner))
+			local owner = meta:get("owner") or "???"
+			meta:set_string("infotext", S("@1's private @2", owner, info))
 
 		elseif public == 1 then
 			meta:set_string("infotext", S("protected @1", info))
 
 		elseif public == 2 then
 			meta:set_string("infotext", S("public @1", info))
-
-		else
-			meta:set_string("infotext", "ERROR IN INFOTEXT")
 		end
 
 	else
