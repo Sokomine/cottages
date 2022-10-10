@@ -15,30 +15,32 @@ function util.player_can_use(pos, player)
 	local owner = meta:get_string("owner")
 	local public = meta:get_int("public")
 
-	return (
-		(owner == player_name or owner == "" or owner == " ") or
-		public > 0
-	)
+	if owner == player_name then
+		return true
+
+	elseif owner == "" or owner == " " or public == 1 then
+		return not minetest.is_protected(pos, player_name)
+
+	else
+		return true
+	end
 end
 
 function util.toggle_public(pos, sender)
 	local sender_name = sender:get_player_name()
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
-	local public = meta:get_string("public")
-
-	if public == "public" then
-		public = 2
-		meta:set_int("public", 2)
-
-	else
-		public = meta:get_int("public")
-	end
 
 	if (owner == "" or owner == " ") and not minetest.is_protected(pos, sender_name) then
 		meta:set_string("owner", sender_name)
 		owner = sender_name
 	end
+
+	if meta:get_string("public") == "public" then
+		meta:set_int("public", 2)
+	end
+
+	local public = meta:get_int("public")
 
 	if public == 0 and owner == sender_name then
 		-- owner can switch private to protected
