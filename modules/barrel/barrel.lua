@@ -40,10 +40,12 @@ function barrel.get_barrel_fs_parts(pos)
 
 	if liquid then
 		local liquid_texture = barrel.texture_by_liquid[liquid]
-		table.insert(parts, ("image[2.6,2;2,3;%s^[resize:99x99^[lowpart:%s:%s]"):format(
+		table.insert(parts, ("image[2.6,2;2,3;%s^[resize:%ix%i^[lowpart:%s:%s]"):format(
 			F(cottages.textures.furniture),
-			math.floor(99 * liquid_amount / max_liquid_amount),
-			F(liquid_texture .. futil.escape_texture("^[resize:99x99"))
+			max_liquid_amount, max_liquid_amount,
+			math.floor(max_liquid_amount * liquid_amount / max_liquid_amount),
+			F(liquid_texture
+				.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount)))
 		))
 		table.insert(parts, ("tooltip[2.6,2;2,3;%s]"):format(
 			F(("%s (%i/%i)"):format(
@@ -54,10 +56,12 @@ function barrel.get_barrel_fs_parts(pos)
 		)
 
 	else
-		table.insert(parts, ("image[2.6,2;2,3;%s^[resize:99x99^[lowpart:%s:%s]"):format(
+		table.insert(parts, ("image[2.6,2;2,3;%s^[resize:%ix%i^[lowpart:%s:%s]"):format(
 			F(cottages.textures.furniture),
+			max_liquid_amount, max_liquid_amount,
 			0,
-			F(cottages.textures.furniture .. futil.escape_texture("^[resize:99x99"))
+			F(cottages.textures.furniture
+				.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount)))
 		))
 	end
 
