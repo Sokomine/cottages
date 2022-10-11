@@ -32,4 +32,8 @@ if cottages.has.anvil then
 
 	minetest.clear_craft({output = "anvil:hammer"})
 	minetest.register_alias_force("anvil:hammer", "cottages:hammer")
+
+else
+	minetest.register_alias("anvil:anvil", "cottages:anvil")
+	minetest.register_alias("anvil:hammer", "cottages:hammer")
 end
