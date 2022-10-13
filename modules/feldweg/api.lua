@@ -81,14 +81,15 @@ local function register_feldweg(name, base_def, def)
 
     minetest.register_craft({
         output = name .. " " .. def.output_amount,
-        recipe = def.recipe
+        recipe = def.recipe,
+        replacements = def.replacements,
     })
 
     minetest.register_craft({
         output = def.reverts_to,
         recipe = {
             {name},
-        }
+        },
     })
 end
 
@@ -114,6 +115,7 @@ function api.register_feldweg(node, suffix, special)
             {"", "cottages:wagon_wheel", ""},
             {node, node, node},
         },
+        replacements = {{"cottages:wagon_wheel", "cottages:wagon_wheel"},},
         output_amount = 3,
         reverts_to = node,
     })
@@ -126,7 +128,7 @@ function api.register_feldweg(node, suffix, special)
 			texture_bottom,
             texture_top,
 			"cottages_feldweg_surface.png",
-			texture_edges
+			texture_edges,
         },
         recipe = {
             {"", feldweg_name, ""},
@@ -146,7 +148,7 @@ function api.register_feldweg(node, suffix, special)
             texture_bottom,
             texture_top,
 			"cottages_feldweg_surface.png",
-			texture_edges
+			texture_edges,
         },
         recipe = {
             {"", feldweg_name, ""},
@@ -166,7 +168,7 @@ function api.register_feldweg(node, suffix, special)
 			texture_side,
 			"cottages_feldweg_surface.png",
 			texture_bottom,
-			texture_edges
+			texture_edges,
         },
         recipe = {
             {feldweg_name, "", ""},
@@ -186,7 +188,7 @@ function api.register_feldweg(node, suffix, special)
             texture_bottom,
             texture_top,
 			texture_edges,
-			"cottages_feldweg_surface.png"
+			"cottages_feldweg_surface.png",
         },
         recipe = {
             {feldweg_name, "", feldweg_name},
@@ -296,7 +298,7 @@ function api.register_feldweg(node, suffix, special)
             texture_bottom,
             texture_top,
 			"cottages_feldweg_surface.png",
-			texture_edges
+			texture_edges,
         },
         collision_box = box_slope,
 		selection_box = box_slope,
@@ -317,7 +319,7 @@ function api.register_feldweg(node, suffix, special)
             texture_bottom,
             texture_top,
 			"cottages_feldweg_surface.png",
-			texture_edges
+			texture_edges,
         },
         collision_box = box_slope_long,
 		selection_box = box_slope_long,
