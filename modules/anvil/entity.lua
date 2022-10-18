@@ -66,7 +66,7 @@ end
 
 if minetest.registered_entities["anvil:item"] then
 	-- luacheck: globals minetest
-	minetest.registered_entities["anvil:item"].on_activate = function(self)
+	minetest.registered_entities["anvil:item"].on_step = function(self)
 		if self.object then
 			self.object:remove()
 		end
