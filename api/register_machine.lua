@@ -99,6 +99,26 @@ function api.register_machine(name, def)
 			api.update(pos)
 		end,
 
+		on_destruct = function(pos)
+			if def.inv_info then
+				local meta = minetest.get_meta(pos)
+				local inv = meta:get_inventory()
+				for inv_name, size in pairs(def.inv_info) do
+					for i = 1, size do
+						local item = inv:get_stack(inv_name, i)
+						if not item:is_empty() then
+							minetest.add_item(pos, item)
+							inv:set_stack(inv_name, i, "")
+						end
+					end
+				end
+			end
+
+			if def.on_destruct then
+				def.on_destruct(pos)
+			end
+		end,
+
 		on_receive_fields = function(pos, formname, fields, sender)
 			if fields.public and toggle_public(pos, sender) then
 				api.update(pos)
@@ -233,7 +253,30 @@ function api.register_machine(name, def)
 
 		on_timer = def.on_timer,
 
-		on_blast = function()
+		on_blast = function(pos, intensity)
+			if minetest.is_protected(pos, "tnt:blast") then
+				return
+			end
+
+			local drops = {name}
+
+			if def.inv_info then
+				local meta = minetest.get_meta(pos)
+				local inv = meta:get_inventory()
+				for inv_name, size in pairs(def.inv_info) do
+					for i = 1, size do
+						local item = inv:get_stack(inv_name, i)
+						if not item:is_empty() then
+							table.insert(drops, item)
+							inv:set_stack(inv_name, i, "")
+						end
+					end
+				end
+			end
+
+			minetest.remove_node(pos)
+
+			return drops
 		end,
 	})
 

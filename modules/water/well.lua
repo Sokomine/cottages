@@ -7,6 +7,11 @@ local t = cottages.textures
 local water = cottages.water
 local ci = cottages.craftitems
 
+local settings = cottages.settings.water
+
+local sound_handles_by_pos = {}
+local particlespawner_ids_by_pos = {}
+
 local well_fill_time = cottages.settings.water.well_fill_time
 
 function water.get_well_fs_parts(pos)
@@ -45,7 +50,7 @@ function water.use_well(pos, puncher)
 		if wielded_name == ci.bucket then
 			meta:set_string("bucket", wielded_name)
 
-			minetest.add_entity(entity_pos, "cottages:bucket_entity")
+			water.initialize_entity(pos)
 
 			pinv:remove_item("main", "bucket:bucket_empty")
 
@@ -88,6 +93,83 @@ function water.use_well(pos, puncher)
 	end
 end
 
+function water.add_filling_effects(pos)
+	local entity_pos = vector.add(pos, vector.new(0, 1/4, 0))
+
+	local spos = minetest.hash_node_position(pos)
+
+	local previous_handle = sound_handles_by_pos[spos]
+	if previous_handle then
+		minetest.sound_stop(previous_handle)
+	end
+	sound_handles_by_pos[spos] = minetest.sound_play(
+		{name = s.water_fill},
+		{pos = entity_pos, loop = true, gain = 0.5, pitch = 2.0}
+	)
+
+	local previous_id = particlespawner_ids_by_pos[spos]
+	if previous_id then
+		minetest.delete_particlespawner(previous_id)
+	end
+	local particle_pos = vector.add(pos, vector.new(0, 1/2 + 1/16, 0))
+	particlespawner_ids_by_pos[spos] = minetest.add_particlespawner({
+		amount = 10,
+		time = 0,
+		collisiondetection = false,
+		texture = "bubble.png",
+		minsize = 1,
+		maxsize = 1,
+		minexptime = 0.4,
+		maxexptime = 0.4,
+		minpos = particle_pos,
+		maxpos = particle_pos,
+		minvel = vector.new(-0.1, -0.2, -0.01),
+		maxvel = vector.new(0.1, -0.2, 0.1),
+		minacc = vector.new(0, -2, 0),
+		maxacc = vector.new(0, -2, 0),
+	})
+end
+
+function water.fill_bucket(pos)
+	local entity_pos = vector.add(pos, vector.new(0, 1/4, 0))
+
+	for _, obj in ipairs(minetest.get_objects_inside_radius(entity_pos, .1)) do
+		local ent = obj:get_luaentity()
+		if ent and ent.name == "cottages:bucket_entity" then
+			obj:set_properties({wield_item = ci.bucket_filled})
+		end
+	end
+
+	local meta = minetest.get_meta(pos)
+	meta:set_string("bucket", ci.bucket_filled)
+
+	local spos = minetest.hash_node_position(pos)
+	local handle = sound_handles_by_pos[spos]
+	if handle then
+		minetest.sound_stop(handle)
+	end
+	local id = particlespawner_ids_by_pos[spos]
+	if id then
+		minetest.delete_particlespawner(id)
+	end
+end
+
+function water.initialize_entity(pos)
+	local meta = minetest.get_meta(pos)
+	local bucket = meta:get("bucket")
+	if bucket then
+		local entity_pos = vector.add(pos, vector.new(0, 1/4, 0))
+		minetest.add_entity(entity_pos, "cottages:bucket_entity", bucket)
+
+		if bucket == ci.bucket then
+			local timer = minetest.get_node_timer(pos)
+			if not timer:is_started() then
+				timer:start(settings.well_fill_time)
+			end
+			water.add_filling_effects(pos)
+		end
+	end
+end
 
 cottages.api.register_machine("cottages:water_gen", {
 	description = S("Tree Trunk Well"),
@@ -161,6 +243,30 @@ cottages.api.register_machine("cottages:water_gen", {
 	end,
 
 	use = water.use_well,
+
+	on_destruct = function(pos)
+		local entity_pos = vector.add(pos, vector.new(0, 1/4, 0))
+
+		for _, obj in ipairs(minetest.get_objects_inside_radius(entity_pos, .1)) do
+			local ent = obj:get_luaentity()
+			if ent and ent.name == "cottages:bucket_entity" then
+				minetest.add_item(pos, obj:get_properties().wield_item)
+				obj:remove()
+			end
+		end
+
+		local spos = minetest.hash_node_position(pos)
+
+		local handle = sound_handles_by_pos[spos]
+		if handle then
+			minetest.sound_stop(handle)
+		end
+
+		local id = particlespawner_ids_by_pos[spos]
+		if id then
+			minetest.delete_particlespawner(id)
+		end
+	end,
 })
 
 if cottages.has.node_entity_queue then

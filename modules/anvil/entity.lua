@@ -4,11 +4,15 @@ local deserialize = minetest.deserialize
 local serialize = minetest.serialize
 
 minetest.register_entity("cottages:anvil_item", {
-	hp_max = 1,
-	visual = "wielditem",
-	visual_size = {x = .33, y = .33},
-	collisionbox = {0, 0, 0, 0, 0, 0},
-	physical = false,
+	initial_properties = {
+		hp_max = 1,
+		visual = "wielditem",
+		visual_size = {x = .33, y = .33},
+		collisionbox = {0, 0, 0, 0, 0, 0},
+		physical = false,
+		collide_with_objects = false,
+		pointable = false,
+	},
 
 	get_staticdata = function(self)
 		return serialize({self.pos, self.item})
@@ -34,6 +38,11 @@ minetest.register_entity("cottages:anvil_item", {
 		self.item = item
 
 		obj:set_properties({wield_item = item})
+		obj:set_armor_groups({immortal = 1})
+	end,
+
+	on_blast = function(self, damage)
+		return false, false, {}
 	end,
 })
 

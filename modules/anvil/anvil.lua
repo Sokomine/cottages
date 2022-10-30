@@ -434,6 +434,10 @@ function anvil.preserve_metadata(pos, oldnode, oldmeta, drops)
 	return drops
 end
 
+function anvil.on_destruct(pos)
+	anvil.clear_entity(pos)
+end
+
 cottages.api.register_machine("cottages:anvil", {
 	description = S("anvil"),
 	drawtype = "nodebox",
@@ -468,6 +472,8 @@ cottages.api.register_machine("cottages:anvil", {
 	allow_metadata_inventory_move = anvil.allow_metadata_inventory_move,
 	allow_metadata_inventory_put = anvil.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = anvil.allow_metadata_inventory_take,
+
+	on_destruct = anvil.on_destruct,
 })
 
 -- clear hud info

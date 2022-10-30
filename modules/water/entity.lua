@@ -11,4 +11,26 @@ minetest.register_entity("cottages:bucket_entity", {
 		physical = false,
 		static_save = false,
 	},
+
+	get_staticdata = function(self)
+		-- note: static_save is false, so this won't get called, but i may revise that decision
+		return self.object:get_properties().wield_item
+	end,
+
+	on_activate = function(self, staticdata, dtime_s)
+		if not staticdata or staticdata == "" then
+			minetest.chat_send_all("invalid cottages:bucket_entity initialization")
+			self.object:remove()
+			return
+		end
+
+		local obj = self.object
+
+		obj:set_properties({wield_item = staticdata})
+		obj:set_armor_groups({immortal = 1})
+	end,
+
+	on_blast = function(self, damage)
+		return false, false, {}
+	end,
 })
