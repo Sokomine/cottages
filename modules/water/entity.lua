@@ -19,7 +19,6 @@ minetest.register_entity("cottages:bucket_entity", {
 
 	on_activate = function(self, staticdata, dtime_s)
 		if not staticdata or staticdata == "" then
-			minetest.chat_send_all("invalid cottages:bucket_entity initialization")
 			self.object:remove()
 			return
 		end
