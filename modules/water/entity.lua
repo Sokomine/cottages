@@ -29,6 +29,10 @@ minetest.register_entity("cottages:bucket_entity", {
 		obj:set_armor_groups({immortal = 1})
 	end,
 
+	on_punch = function()
+		return true
+	end,
+
 	on_blast = function(self, damage)
 		return false, false, {}
 	end,
