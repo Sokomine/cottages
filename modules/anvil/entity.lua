@@ -87,7 +87,7 @@ if minetest.registered_entities["anvil:item"] then
 
 else
 	minetest.register_entity(":anvil:item", {
-		on_activate = function(self)
+		on_step = function(self)
 			if self.object then
 				self.object:remove()
 			end
