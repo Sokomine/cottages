@@ -29,6 +29,8 @@ minetest.register_node("cottages:rope", {
 })
 
 if cottages.has.carts then
+	local groups = table.copy(carts:get_rail_groups())
+	groups.attached_node = 1
 	carts:register_rail("cottages:ladder_with_rope_and_rail", {
 		description = S("Ladder with \"rail support\""),
 		tiles = {
@@ -36,7 +38,7 @@ if cottages.has.carts then
 		},
 		inventory_image = "default_ladder_wood.png",
 		wield_image = "default_ladder_wood.png",
-		groups = carts:get_rail_groups(),
+		groups = groups,
 		sounds = cottages.sounds.wood,
 		paramtype2 = "wallmounted",
 		legacy_wallmounted = true,
@@ -63,6 +65,7 @@ else
 		groups = {
 			choppy = 2, oddly_breakable_by_hand = 3, rail = 1,
 			connect_to_raillike = minetest.raillike_group("rail"),
+			attached_node = 1,
 		},
 		legacy_wallmounted = true,
 		sounds = cottages.sounds.wood,
