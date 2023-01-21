@@ -1,6 +1,8 @@
 local S = cottages.S
 local F = minetest.formspec_escape
-local FS = function(...) return F(S(...)) end
+local FS = function(...)
+	return F(S(...))
+end
 
 local player_can_use = cottages.util.player_can_use
 local toggle_public = cottages.util.toggle_public
@@ -16,7 +18,10 @@ function api.update(pos, node)
 	local node_name = (node or minetest.get_node(pos)).name
 	local meta = minetest.get_meta(pos)
 
-	if meta:get_string("public") == "public" then
+	if meta:get_int("shared") == 1 then
+		meta:set_int("public", 2)
+		meta:set_int("shared", 0)
+	elseif meta:get_string("public") == "public" then
 		meta:set_int("public", 2)
 	end
 
@@ -32,16 +37,13 @@ function api.update(pos, node)
 		if public == 0 then
 			local owner = meta:get_string("owner")
 			table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("owner: @1", owner)))
-
 		elseif public == 1 then
 			table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("(protected)")))
-
 		elseif public == 2 then
 			table.insert(fs_parts, ("label[6.1,2.1;%s]"):format(FS("(public)")))
 		end
 
 		meta:set_string("formspec", table.concat(fs_parts, ""))
-
 	else
 		meta:set_string("formspec", "")
 	end
@@ -52,14 +54,11 @@ function api.update(pos, node)
 		if public == 0 then
 			local owner = meta:get("owner") or "???"
 			meta:set_string("infotext", S("@1's private @2", owner, info))
-
 		elseif public == 1 then
 			meta:set_string("infotext", S("protected @1", info))
-
 		elseif public == 2 then
 			meta:set_string("infotext", S("public @1", info))
 		end
-
 	else
 		meta:set_string("infotext", "")
 	end
@@ -84,7 +83,7 @@ function api.register_machine(name, def)
 		groups = def.groups,
 		sounds = def.sounds,
 
-		after_place_node = function(pos, placer)
+		after_place_node = function(pos, placer, itemstack)
 			local meta = minetest.get_meta(pos)
 
 			if def.inv_info then
@@ -96,6 +95,12 @@ function api.register_machine(name, def)
 
 			local owner = placer:get_player_name()
 			meta:set_string("owner", owner or "")
+
+			local stackmeta = itemstack:get_meta()
+			if stackmeta:get_int("shared") == 1 then
+				meta:set_int("public", 2)
+			end
+
 			api.update(pos)
 		end,
 
@@ -116,6 +121,12 @@ function api.register_machine(name, def)
 
 			if def.on_destruct then
 				def.on_destruct(pos)
+			end
+		end,
+
+		preserve_metadata = function(pos, oldnode, oldmeta, drops)
+			if def.preserve_metadata then
+				def.preserve_metadata(pos, oldnode, oldmeta, drops)
 			end
 		end,
 
@@ -149,9 +160,8 @@ function api.register_machine(name, def)
 			local owner = meta:get("owner")
 			local public = meta:get_int("public")
 
-			return owner == player_name or (
-				(public > 0 or owner == "" or owner == " ") and not minetest.is_protected(pos, player_name)
-			)
+			return owner == player_name
+				or ((public > 0 or owner == "" or owner == " ") and not minetest.is_protected(pos, player_name))
 		end,
 
 		allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
@@ -258,7 +268,7 @@ function api.register_machine(name, def)
 				return
 			end
 
-			local drops = {name}
+			local drops = { name }
 
 			if def.inv_info then
 				local meta = minetest.get_meta(pos)
@@ -283,7 +293,7 @@ function api.register_machine(name, def)
 	minetest.register_lbm({
 		name = ("cottages:update_formspec_%s"):format(name:gsub(":", "_")),
 		label = ("update %s formspec & infotext"):format(name),
-		nodenames = {name},
+		nodenames = { name },
 		run_at_every_load = true,
 		action = function(pos, node)
 			api.update(pos, node)
