@@ -404,7 +404,7 @@ cottages.sit_on_bench = function( pos, node, clicker, itemstack, pointed_thing )
 		-- the bench is not centered; prevent the player from sitting on air
 		local p2 = {x=pos.x, y=pos.y, z=pos.z};
 		if not( node ) or node.param2 == 0 then
-			p2.z = p2.z+0.3;
+			p2.z = p2.z+0.2;
 		elseif node.param2 == 1 then
 			p2.x = p2.x+0.3;
 		elseif node.param2 == 2 then
