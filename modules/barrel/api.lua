@@ -42,7 +42,7 @@ function api.decrease_liquid_amount(pos)
 end
 
 local function empty_and_liquid(bucket_empty, liquid)
-	return table.concat({bucket_empty, liquid}, "::")
+	return table.concat({ bucket_empty, liquid }, "::")
 end
 
 function api.register_barrel_liquid(def)
@@ -100,8 +100,8 @@ function api.add_barrel_liquid(pos, bucket_full)
 	api.increase_liquid_amount(pos)
 
 	minetest.sound_play(
-		{name = api.input_sound_by_liquid[liquid]},
-		{pos = pos, loop = false, gain = 0.5, pitch = 2.0}
+		{ name = api.input_sound_by_liquid[liquid] },
+		{ pos = pos, loop = false, gain = 0.5, pitch = 2.0 }
 	)
 
 	return api.get_bucket_empty(bucket_full)
@@ -113,8 +113,8 @@ function api.drain_barrel_liquid(pos, bucket_empty)
 	api.decrease_liquid_amount(pos)
 
 	minetest.sound_play(
-		{name = api.output_sound_by_liquid[liquid]},
-		{pos = pos, loop = false, gain = 0.5, pitch = 2.0}
+		{ name = api.output_sound_by_liquid[liquid] },
+		{ pos = pos, loop = false, gain = 0.5, pitch = 2.0 }
 	)
 
 	return api.get_bucket_full(bucket_empty, liquid)

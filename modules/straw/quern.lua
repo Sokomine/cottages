@@ -2,7 +2,9 @@ local straw = cottages.straw
 
 local S = cottages.S
 local F = minetest.formspec_escape
-local FS = function(...) return F(S(...)) end
+local FS = function(...)
+	return F(S(...))
+end
 
 local get_safe_short_description = futil.get_safe_short_description
 
@@ -11,23 +13,22 @@ local stamina_use = cottages.settings.straw.quern_stamina
 local quern_min_per_turn = cottages.settings.straw.quern_min_per_turn
 local quern_max_per_turn = cottages.settings.straw.quern_max_per_turn
 
-
 function straw.get_quern_fs_parts()
 	return {
-		("size[8,8]"),
+		"size[8,8]",
 		("image[0,1;1,1;%s]"):format(F(cottages.textures.wheat_seed)),
 		("label[0,0.5;%s]"):format(FS("Input:")),
 		("label[3,0.5;%s]"):format(FS("Output:")),
 		("label[0,-0.3;%s]"):format(FS("Quern")),
 		("label[0,2.5;%s]"):format(FS("Punch this hand-driven quern")),
 		("label[0,3.0;%s]"):format(FS("to grind suitable items.")),
-		("list[context;seeds;1,1;1,1;]"),
-		("list[context;flour;4,1;2,2;]"),
-		("list[current_player;main;0,4;8,4;]"),
-		("listring[current_player;main]"),
-		("listring[context;seeds]"),
-		("listring[current_player;main]"),
-		("listring[context;flour]"),
+		"list[context;seeds;1,1;1,1;]",
+		"list[context;flour;4,1;2,2;]",
+		"list[current_player;main;0,4;8,4;]",
+		"listring[current_player;main]",
+		"listring[context;seeds]",
+		"listring[current_player;main]",
+		"listring[context;flour]",
 	}
 end
 
@@ -36,7 +37,6 @@ function straw.get_quern_info(pos)
 
 	if meta:get_int("used") == 0 then
 		return S("quern, powered by punching")
-
 	else
 		local inv = meta:get_inventory()
 		local input = inv:get_stack("seeds", 1)
@@ -45,7 +45,6 @@ function straw.get_quern_info(pos)
 		if count > 0 then
 			local input_description = get_safe_short_description(input)
 			return S("quern, @1 @2 remaining", count, input_description)
-
 		else
 			return S("quern, none remaining")
 		end
@@ -56,14 +55,12 @@ local function get_quern_results(input)
 	local item = input:get_name()
 	local output_def = straw.registered_quern_crafts[item]
 	if type(output_def) == "string" then
-		return {ItemStack(output_def)}
-
+		return { ItemStack(output_def) }
 	elseif type(output_def) == "table" and #output_def > 0 then
 		local outputs = {}
 		for _, output_item in ipairs(output_def) do
 			if type(output_item) == "string" then
 				table.insert(outputs, ItemStack(output_item))
-
 			elseif type(output_item) == "table" then
 				local chance
 				output_item, chance = unpack(output_item)
@@ -74,7 +71,6 @@ local function get_quern_results(input)
 		end
 
 		return outputs
-
 	elseif type(output_def) == "function" then
 		return output_def()
 	end
@@ -127,11 +123,7 @@ function straw.use_quern(pos, player)
 		maxacc = vector.new(0, -3, 0),
 	})
 
-	minetest.sound_play(
-		{name = cottages.sounds.use_quern},
-		{pos = pos, gain = 1, pitch = 0.25},
-		true
-	)
+	minetest.sound_play({ name = cottages.sounds.use_quern }, { pos = pos, gain = 1, pitch = 0.25 }, true)
 
 	if has_stamina then
 		stamina.exhaust_player(player, stamina_use, "cottages:quern")
@@ -145,9 +137,9 @@ cottages.api.register_machine("cottages:quern", {
 	short_description = S("quern-stone"),
 	drawtype = "mesh",
 	mesh = "cottages_quern.obj",
-	tiles = {"cottages_stone.png"},
-	selection_box = {type = "fixed", fixed = {{-0.50, -0.5, -0.50, 0.50, 0.25, 0.50}}},
-	groups = {cracky = 2},
+	tiles = { "cottages_stone.png" },
+	selection_box = { type = "fixed", fixed = { { -0.50, -0.5, -0.50, 0.50, 0.25, 0.50 } } },
+	groups = { cracky = 2 },
 	sounds = cottages.sounds.stone,
 
 	inv_info = {

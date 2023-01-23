@@ -17,10 +17,8 @@ function util.player_can_use(pos, player)
 
 	if owner == player_name then
 		return true
-
 	elseif owner == "" or owner == " " or public == 1 then
 		return not minetest.is_protected(pos, player_name)
-
 	else
 		return true
 	end
@@ -46,18 +44,15 @@ function util.toggle_public(pos, sender)
 		-- owner can switch private to protected
 		meta:set_int("public", 1)
 		return true
-
 	elseif public == 1 and not minetest.is_protected(pos, sender_name) then
 		-- player of area can switch protected to public
 		meta:set_int("public", 2)
 		return true
-
 	elseif public == 2 then
 		if owner == sender_name then
 			-- owner can switch public to private
 			meta:set_int("public", 0)
 			return true
-
 		elseif not minetest.is_protected(pos, sender_name) then
 			-- player of area can switch public to protected
 			meta:set_int("public", 1)

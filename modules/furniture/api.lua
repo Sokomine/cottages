@@ -38,7 +38,6 @@ function api.get_up(player)
 		player_monoids.speed:del_change(player, "cottages:furniture")
 		player_monoids.jump:del_change(player, "cottages:furniture")
 		player_monoids.gravity:del_change(player, "cottages:furniture")
-
 	else
 		player:set_physics_override(1, 1, 1)
 	end
@@ -53,7 +52,7 @@ function api.get_up(player)
 		attached_to[player] = nil
 	end
 
-	player:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
+	player:set_eye_offset({ x = 0, y = 0, z = 0 }, { x = 0, y = 0, z = 0 })
 end
 
 function api.stop_moving(player)
@@ -61,7 +60,6 @@ function api.stop_moving(player)
 		player_monoids.speed:add_change(player, 0, "cottages:furniture")
 		player_monoids.jump:add_change(player, 0, "cottages:furniture")
 		player_monoids.gravity:add_change(player, 0, "cottages:furniture")
-
 	else
 		player:set_physics_override(0, 0, 0)
 	end
@@ -79,10 +77,9 @@ function api.sit_on_bench(pos, node, player)
 		return
 	elseif animation.animation == "sit" then
 		api.get_up(player)
-
 	else
 		-- the bench is not centered; prevent the player from sitting on air
-		local player_pos = {x = pos.x, y = pos.y, z = pos.z}
+		local player_pos = { x = pos.x, y = pos.y, z = pos.z }
 		local player_name = player:get_player_name()
 
 		if node.param2 == 0 then
@@ -100,10 +97,10 @@ function api.sit_on_bench(pos, node, player)
 		player_api.set_animation(player, "sit")
 		player_api.player_attached[player_name] = true
 
-		player:set_eye_offset({x = 0, y = -7, z = 2}, {x = 0, y = 0, z = 0})
+		player:set_eye_offset({ x = 0, y = -7, z = 2 }, { x = 0, y = 0, z = 0 })
 		player:set_pos(player_pos)
 
-		attached_to[player] = {pos}
+		attached_to[player] = { pos }
 		attached_at[pts(pos)] = player
 	end
 end
@@ -156,7 +153,6 @@ function api.is_valid_bed(pos, node)
 		if api.is_foot_of(node.name, foot_node.name) and node.param2 == foot_node.param2 then
 			return head_pos, foot_pos
 		end
-
 	else
 		if node.param2 == 2 then
 			head_pos.z = pos.z - 1
@@ -184,10 +180,10 @@ function api.sleep_in_bed(pos, node, player)
 	local player_name = player:get_player_name()
 	local head_pos, foot_pos = api.is_valid_bed(pos, node)
 
-	for _, p in ipairs({head_pos, foot_pos}) do
+	for _, p in ipairs({ head_pos, foot_pos }) do
 		if p then
 			for y = 1, 2 do
-				local node_above = minetest.get_node(vector.add(p, {x = 0, y = y, z = 0}))
+				local node_above = minetest.get_node(vector.add(p, { x = 0, y = y, z = 0 }))
 
 				if node_above.name ~= "air" then
 					minetest.chat_send_player(
@@ -211,19 +207,19 @@ function api.sleep_in_bed(pos, node, player)
 		if animation.animation == "lay" then
 			api.get_up(player)
 			minetest.chat_send_player(player_name, "That was enough sleep for now. You stand up again.")
-
 		elseif animation.animation == "sit" then
 			if head_pos and foot_pos then
 				player_api.set_animation(player, "lay")
-				player:set_eye_offset({x = 0, y = -14, z = 2}, {x = 0, y = 0, z = 0})
-				minetest.chat_send_player(player_name, S("You lie down and take a nap. A right-click will wake you up."))
-
+				player:set_eye_offset({ x = 0, y = -14, z = 2 }, { x = 0, y = 0, z = 0 })
+				minetest.chat_send_player(
+					player_name,
+					S("You lie down and take a nap. A right-click will wake you up.")
+				)
 			else
 				api.get_up(player)
 				minetest.chat_send_player(player_name, S("That was enough sitting around for now. You stand up again."))
 			end
 		end
-
 	else
 		-- sit on the bed before lying down
 		api.stop_moving(player)
@@ -237,7 +233,6 @@ function api.sleep_in_bed(pos, node, player)
 		if bed_type == "bed" then
 			-- set the right height for the bed
 			sleep_pos.y = sleep_pos.y + 0.4
-
 		elseif bed_type == "mat" then
 			sleep_pos.y = sleep_pos.y - 0.4
 		end
@@ -247,11 +242,11 @@ function api.sleep_in_bed(pos, node, player)
 			sleep_pos.z = (head_pos.z + foot_pos.z) / 2
 		end
 
-		player:set_eye_offset({x = 0, y = -7, z = 2}, {x = 0, y = 0, z = 0})
+		player:set_eye_offset({ x = 0, y = -7, z = 2 }, { x = 0, y = 0, z = 0 })
 		player:set_pos(sleep_pos)
 
 		if head_pos and foot_pos then
-			attached_to[player] = {head_pos, foot_pos}
+			attached_to[player] = { head_pos, foot_pos }
 			attached_at[pts(head_pos)] = player
 			attached_at[pts(foot_pos)] = player
 
@@ -260,7 +255,7 @@ function api.sleep_in_bed(pos, node, player)
 				S("Aaah! What a comfortable @1. A second right-click will let you sleep.", bed_type)
 			)
 		else
-			attached_to[player] = {pos}
+			attached_to[player] = { pos }
 			attached_at[pts(pos)] = player
 
 			minetest.chat_send_player(

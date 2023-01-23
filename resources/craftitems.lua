@@ -58,10 +58,8 @@ end
 
 if has.stairsplus and has.default then
 	ci.slab_wood = resolve_item("default:slab_wood_8")
-
 elseif has.moreblocks and resolve_item("moreblocks:slab_wood") then
 	ci.slab_wood = resolve_item("moreblocks:slab_wood")
-
 elseif has.stairs then
 	ci.slab_wood = resolve_item("stairs:slab_wood")
 end

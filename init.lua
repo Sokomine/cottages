@@ -3,7 +3,7 @@ local modpath = minetest.get_modpath(modname)
 local S = minetest.get_translator(modname)
 
 cottages = {
-	version = os.time({year = 2022, month = 9, day = 29}),
+	version = os.time({ year = 2022, month = 9, day = 29 }),
 	fork = "fluxionary",
 
 	modname = modname,
@@ -36,7 +36,7 @@ cottages = {
 	end,
 
 	dofile = function(...)
-		return dofile(table.concat({modpath, ...}, DIR_DELIM) .. ".lua")
+		return dofile(table.concat({ modpath, ... }, DIR_DELIM) .. ".lua")
 	end,
 }
 

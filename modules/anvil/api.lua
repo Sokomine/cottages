@@ -4,7 +4,7 @@ function api.make_unrepairable(itemstring)
 	local def = minetest.registered_items[itemstring]
 	local groups = table.copy(def.groups or {})
 	groups.not_repaired_by_anvil = 1
-	minetest.override_item(itemstring, {groups = groups})
+	minetest.override_item(itemstring, { groups = groups })
 end
 
 function api.can_repair(tool_stack)

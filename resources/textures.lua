@@ -12,7 +12,6 @@ if has.default then
 	textures.tree = "default_tree.png"
 	textures.tree_top = "default_tree_top.png"
 	textures.dust = "default_item_smoke.png"
-
 else
 	textures.furniture = "cottages_minimal_wood.png"
 	textures.roof_sides = "cottages_minimal_wood.png"

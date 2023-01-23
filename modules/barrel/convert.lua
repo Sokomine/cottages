@@ -8,7 +8,7 @@ local rotations = {
 minetest.register_lbm({
 	label = "Convert lying barrels",
 	name = "cottages:convert_lying_barrels",
-	nodenames = {"cottages:barrel_lying", "cottages:barrel_lying_open"},
+	nodenames = { "cottages:barrel_lying", "cottages:barrel_lying_open" },
 	run_at_every_load = false,
 	action = function(pos, node)
 		node.name = string.gsub(node.name, "_lying", "")
@@ -16,5 +16,5 @@ minetest.register_lbm({
 		minetest.swap_node(pos, node)
 
 		cottages.api.update(pos, node)
-	end
+	end,
 })

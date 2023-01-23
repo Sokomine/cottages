@@ -31,7 +31,7 @@ function api.register_quern_craft(recipe)
 		unified_inventory.register_craft({
 			output = recipe.output,
 			type = "cottages:quern",
-			items = {recipe.input},
+			items = { recipe.input },
 			width = 1,
 		})
 	end
@@ -47,7 +47,7 @@ function api.register_threshing_craft(recipe)
 			unified_inventory.register_craft({
 				output = output,
 				type = "cottages:threshing",
-				items = {recipe.input},
+				items = { recipe.input },
 				width = 1,
 			})
 		end

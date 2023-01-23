@@ -8,7 +8,7 @@ minetest.register_node("cottages:pitchfork", {
 	short_description = S("Pitchfork"),
 	inventory_image = "cottages_pitchfork.png",
 	wield_image = "cottages_pitchfork.png^[transformFYR180",
-	wield_scale = {x = 1.5, y = 1.5, z = 0.5},
+	wield_scale = { x = 1.5, y = 1.5, z = 0.5 },
 	stack_max = 1,
 	liquids_pointable = false,
 
@@ -16,11 +16,11 @@ minetest.register_node("cottages:pitchfork", {
 		full_punch_interval = 1.0,
 		max_drop_level = 1,
 		groupcaps = {
-			crumbly = {times={[2]=3.00, [3]=0.70}, maxlevel = 1, uses = 0, punch_attack_uses = 0, },
-			snappy = {times = {[2] = 0.40, [3] = 0.20}, maxlevel = 1, uses = 0, punch_attack_uses = 0, },
-			hay = {times = {[2] = 0.10, [3] = 0.10}, maxlevel = 1, uses = 0, punch_attack_uses = 0, },
+			crumbly = { times = { [2] = 3.00, [3] = 0.70 }, maxlevel = 1, uses = 0, punch_attack_uses = 0 },
+			snappy = { times = { [2] = 0.40, [3] = 0.20 }, maxlevel = 1, uses = 0, punch_attack_uses = 0 },
+			hay = { times = { [2] = 0.10, [3] = 0.10 }, maxlevel = 1, uses = 0, punch_attack_uses = 0 },
 		},
-		damage_groups = {fleshy = 5}, -- slightly stronger than a stone sword
+		damage_groups = { fleshy = 5 }, -- slightly stronger than a stone sword
 	},
 
 	drawtype = "nodebox",
@@ -29,29 +29,29 @@ minetest.register_node("cottages:pitchfork", {
 	is_ground_content = false,
 	drop = "cottages:pitchfork",
 
-	groups = {snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1},
+	groups = { snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1 },
 
 	sounds = cottages.sounds.wood,
 
 	visual_scale = 1.0,
-	tiles = {"default_wood.png^[transformR90"},
+	tiles = { "default_wood.png^[transformR90" },
 	special_tiles = {},
-	post_effect_color = {a=0, r=0, g=0, b=0},
+	post_effect_color = { a = 0, r = 0, g = 0, b = 0 },
 	node_box = {
 		type = "fixed",
 		fixed = {
 			-- handle (goes a bit into the ground)
-			{-(1 / 32), -(11 / 16), -(1 / 32), (1 / 32), 16 / 16, (1 / 32)},
+			{ -(1 / 32), -(11 / 16), -(1 / 32), (1 / 32), 16 / 16, (1 / 32) },
 			-- middle connection
-			{-(7 / 32), -(4 / 16), -(1 / 32), (7 / 32), -(2 / 16), (1 / 32)},
+			{ -(7 / 32), -(4 / 16), -(1 / 32), (7 / 32), -(2 / 16), (1 / 32) },
 			-- thongs
-			{-(7 / 32), -(11 / 16), -(1 / 32), -(5 / 32), -(4 / 16), (1 / 32)},
-			{(5 / 32), -(11 / 16), -(1 / 32), (7 / 32), -(4 / 16), (1 / 32)},
+			{ -(7 / 32), -(11 / 16), -(1 / 32), -(5 / 32), -(4 / 16), (1 / 32) },
+			{ (5 / 32), -(11 / 16), -(1 / 32), (7 / 32), -(4 / 16), (1 / 32) },
 		},
 	},
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.3, -0.5, -0.1, 0.3, 1.0, 0.1}
+		fixed = { -0.3, -0.5, -0.1, 0.3, 1.0, 0.1 },
 	},
 })
 
@@ -81,15 +81,15 @@ local function override_on_dig(node_name, replacement)
 				return old_on_dig(pos, node, digger)
 			end
 
-			local pos_above = vector.add(pos, {x=0, y=1, z=0})
+			local pos_above = vector.add(pos, { x = 0, y = 1, z = 0 })
 			local node_above = minetest.get_node(pos_above)
 
 			if minetest.is_protected(pos_above, digger_name) or node_above.name ~= "air" then
 				return old_on_dig(pos, node, digger)
 			end
 
-			minetest.swap_node(pos, {name = replacement})
-			minetest.swap_node(pos_above, {name = "cottages:hay_mat", param2 = math.random(2, 25)})
+			minetest.swap_node(pos, { name = replacement })
+			minetest.swap_node(pos_above, { name = "cottages:hay_mat", param2 = math.random(2, 25) })
 
 			if has_stamina then
 				stamina.exhaust_player(digger, stamina_use, "cottages:pitchfork")

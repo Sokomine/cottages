@@ -12,10 +12,10 @@ local offsets = {
 }
 
 function api.shutter_operate(pos, old_node_state_name, new_node_state_name)
-	local new_node = {name = new_node_state_name}
+	local new_node = { name = new_node_state_name }
 	local old_node = minetest.get_node(pos)
 	new_node.param2 = old_node.param2
-	minetest.swap_node(pos, {name = new_node_state_name, param2 = old_node.param2})
+	minetest.swap_node(pos, { name = new_node_state_name, param2 = old_node.param2 })
 
 	local stop_up = false
 	local stop_down = false
@@ -66,24 +66,24 @@ end
 
 -- hatches rotate around their axis
 --  old facedir:  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
-local new_facedirs = {10, 19, 4, 13, 2, 18, 22, 14, 20, 16, 0, 12, 11, 3, 7, 21, 9, 23, 5, 1, 8, 15, 6, 17}
+local new_facedirs = { 10, 19, 4, 13, 2, 18, 22, 14, 20, 16, 0, 12, 11, 3, 7, 21, 9, 23, 5, 1, 8, 15, 6, 17 }
 
 local node_box = {
-	{-0.49, -0.55, -0.49, -0.3, -0.45, 0.45},
-	{0.3, -0.55, -0.3, 0.49, -0.45, 0.45},
-	{0.49, -0.55, -0.49, -0.3, -0.45, -0.3},
-	{-0.075, -0.55, -0.3, 0.075, -0.45, 0.3},
-	{-0.3, -0.55, -0.075, -0.075, -0.45, 0.075},
-	{0.075, -0.55, -0.075, 0.3, -0.45, 0.075},
+	{ -0.49, -0.55, -0.49, -0.3, -0.45, 0.45 },
+	{ 0.3, -0.55, -0.3, 0.49, -0.45, 0.45 },
+	{ 0.49, -0.55, -0.49, -0.3, -0.45, -0.3 },
+	{ -0.075, -0.55, -0.3, 0.075, -0.45, 0.3 },
+	{ -0.3, -0.55, -0.075, -0.075, -0.45, 0.075 },
+	{ 0.075, -0.55, -0.075, 0.3, -0.45, 0.075 },
 
-	{-0.3, -0.55, 0.3, 0.3, -0.45, 0.45},
+	{ -0.3, -0.55, 0.3, 0.3, -0.45, 0.45 },
 
 	-- hinges
-	{-0.45, -0.530, 0.45, -0.15, -0.470, 0.525},
-	{0.15, -0.530, 0.45, 0.45, -0.470, 0.525},
+	{ -0.45, -0.530, 0.45, -0.15, -0.470, 0.525 },
+	{ 0.15, -0.530, 0.45, 0.45, -0.470, 0.525 },
 
 	-- handle
-	{-0.05, -0.60, -0.35, 0.05, -0.40, -0.45},
+	{ -0.05, -0.60, -0.35, 0.05, -0.40, -0.45 },
 }
 
 local function rotate(unrotated)
@@ -100,7 +100,7 @@ local function rotate(unrotated)
 		y2 = -z1
 		z1 = -tmp
 
-		table.insert(rotated, {x1, y1, z1, x2, y2, z2})
+		table.insert(rotated, { x1, y1, z1, x2, y2, z2 })
 	end
 	return rotated
 end
@@ -111,7 +111,7 @@ function api.register_hatch(nodename, description, texture, receipe_item, def)
 		def.description = S(description)
 		def.tile_front = texture
 		def.tile_side = texture
-		def.groups = def.groups or {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2}
+		def.groups = def.groups or { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 }
 		def.nodebox_closed = {
 			type = "fixed",
 			fixed = node_box,
@@ -122,16 +122,15 @@ function api.register_hatch(nodename, description, texture, receipe_item, def)
 		}
 
 		doors.register_trapdoor(nodename, def)
-
 	else
 		minetest.register_node(nodename, {
 			description = S(description), -- not that there are any other...
 			drawtype = "nodebox",
 			-- top, bottom, side1, side2, inner, outer
-			tiles = {texture},
+			tiles = { texture },
 			paramtype = "light",
 			paramtype2 = "facedir",
-			groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+			groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 },
 
 			node_box = {
 				type = "fixed",
@@ -139,14 +138,14 @@ function api.register_hatch(nodename, description, texture, receipe_item, def)
 			},
 			selection_box = {
 				type = "fixed",
-				fixed = {-0.5, -0.55, -0.5, 0.5, -0.45, 0.5},
+				fixed = { -0.5, -0.55, -0.5, 0.5, -0.45, 0.5 },
 			},
 			on_rightclick = function(pos, node, puncher)
 				if has_stamina then
 					stamina.exhaust_player(puncher, stamina_use, nodename)
 				end
 
-				minetest.swap_node(pos, {name = node.name, param2 = new_facedirs[node.param2 + 1]})
+				minetest.swap_node(pos, { name = node.name, param2 = new_facedirs[node.param2 + 1] })
 			end,
 			is_ground_content = false,
 			on_place = minetest.rotate_node,
@@ -156,8 +155,8 @@ function api.register_hatch(nodename, description, texture, receipe_item, def)
 	minetest.register_craft({
 		output = nodename,
 		recipe = {
-			{"", "", receipe_item},
-			{receipe_item, cottages.craftitems.stick, ""},
-		}
+			{ "", "", receipe_item },
+			{ receipe_item, cottages.craftitems.stick, "" },
+		},
 	})
 end

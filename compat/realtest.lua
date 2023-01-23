@@ -5,7 +5,7 @@ if workbench then
 	local cottages_table_def = minetest.registered_nodes["cottages:table"]
 
 	minetest.override_item("cottages:table", {
-		tiles = {workbench.tiles[1], cottages_table_def.tiles[1]},
+		tiles = { workbench.tiles[1], cottages_table_def.tiles[1] },
 		on_construct = workbench.on_construct,
 		can_dig = workbench.can_dig,
 		on_metadata_inventory_take = workbench.on_metadata_inventory_take,

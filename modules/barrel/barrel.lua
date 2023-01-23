@@ -1,6 +1,8 @@
 local S = cottages.S
 local F = minetest.formspec_escape
-local FS = function(...) return F(S(...)) end
+local FS = function(...)
+	return F(S(...))
+end
 
 local max_liquid_amount = cottages.settings.barrel.max_liquid_amount
 
@@ -14,7 +16,6 @@ function barrel.get_barrel_info(pos)
 			barrel.get_liquid_amount(pos),
 			max_liquid_amount
 		)
-
 	else
 		return S("Empty Barrel")
 	end
@@ -22,17 +23,17 @@ end
 
 function barrel.get_barrel_fs_parts(pos)
 	local parts = {
-		("size[8,9]"),
+		"size[8,9]",
 		("label[0,0.0;%s]"):format(FS("barrel (liquid storage)")),
 		("label[3,0;%s]"):format(FS("fill:")),
-		("list[context;input;3,0.5;1,1;]"),
+		"list[context;input;3,0.5;1,1;]",
 		("label[5,3.3;%s]"):format(FS("drain:")),
-		("list[context;output;5,3.8;1,1;]"),
-		("list[current_player;main;0,5;8,4;]"),
-		("listring[context;output]"),
-		("listring[current_player;main]"),
-		("listring[context;input]"),
-		("listring[current_player;main]"),
+		"list[context;output;5,3.8;1,1;]",
+		"list[current_player;main;0,5;8,4;]",
+		"listring[context;output]",
+		"listring[current_player;main]",
+		"listring[context;input]",
+		"listring[current_player;main]",
 	}
 
 	local liquid = barrel.get_barrel_liquid(pos)
@@ -40,34 +41,49 @@ function barrel.get_barrel_fs_parts(pos)
 
 	if liquid then
 		local liquid_texture = barrel.texture_by_liquid[liquid]
-		table.insert(parts, ("image[2.6,2;2,3;%s^[resize:%ix%i^[lowpart:%s:%s]"):format(
-			F(cottages.textures.furniture),
-			max_liquid_amount, max_liquid_amount,
-			math.floor(max_liquid_amount * liquid_amount / max_liquid_amount),
-			F(liquid_texture
-				.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount)))
-		))
-		table.insert(parts, ("tooltip[2.6,2;2,3;%s]"):format(
-			F(("%s (%i/%i)"):format(
-				barrel.name_by_liquid[liquid],
-				barrel.get_liquid_amount(pos),
-				max_liquid_amount
-			)))
+		table.insert(
+			parts,
+			("image[2.6,2;2,3;%s^[resize:%ix%i^[lowpart:%s:%s]"):format(
+				F(cottages.textures.furniture),
+				max_liquid_amount,
+				max_liquid_amount,
+				math.floor(max_liquid_amount * liquid_amount / max_liquid_amount),
+				F(
+					liquid_texture
+						.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount))
+				)
+			)
 		)
-
+		table.insert(
+			parts,
+			("tooltip[2.6,2;2,3;%s]"):format(
+				F(
+					("%s (%i/%i)"):format(
+						barrel.name_by_liquid[liquid],
+						barrel.get_liquid_amount(pos),
+						max_liquid_amount
+					)
+				)
+			)
+		)
 	else
-		table.insert(parts, ("image[2.6,2;2,3;%s^[resize:%ix%i^[lowpart:%s:%s]"):format(
-			F(cottages.textures.furniture),
-			max_liquid_amount, max_liquid_amount,
-			0,
-			F(cottages.textures.furniture
-				.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount)))
-		))
+		table.insert(
+			parts,
+			("image[2.6,2;2,3;%s^[resize:%ix%i^[lowpart:%s:%s]"):format(
+				F(cottages.textures.furniture),
+				max_liquid_amount,
+				max_liquid_amount,
+				0,
+				F(
+					cottages.textures.furniture
+						.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount))
+				)
+			)
+		)
 	end
 
 	return parts
 end
-
 
 function barrel.can_dig(pos, player)
 	return barrel.get_liquid_amount(pos) == 0
@@ -89,7 +105,6 @@ function barrel.allow_metadata_inventory_move(pos, from_list, from_index, to_lis
 		if barrel.can_drain(pos, item) then
 			return 1
 		end
-
 	elseif to_list == "output" then
 		if barrel.can_fill(pos, item) then
 			return 1
@@ -106,7 +121,6 @@ function barrel.allow_metadata_inventory_put(pos, listname, index, stack, player
 		if barrel.can_drain(pos, item) then
 			return 1
 		end
-
 	elseif listname == "output" then
 		if barrel.can_fill(pos, item) then
 			return 1
@@ -124,7 +138,6 @@ function barrel.on_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "input" then
 		local empty = barrel.add_barrel_liquid(pos, name)
 		inv:set_stack(listname, index, empty)
-
 	elseif listname == "output" then
 		local full = barrel.drain_barrel_liquid(pos, name)
 		inv:set_stack(listname, index, full)
@@ -144,13 +157,13 @@ cottages.api.register_machine("cottages:barrel", {
 	paramtype2 = "facedir",
 	drawtype = "mesh",
 	mesh = "cottages_barrel_closed.obj",
-	tiles = {"cottages_barrel.png"},
+	tiles = { "cottages_barrel.png" },
 	is_ground_content = false,
 	groups = {
 		snappy = 1,
 		choppy = 2,
 		oddly_breakable_by_hand = 1,
-		flammable = 2
+		flammable = 2,
 	},
 	sounds = cottages.sounds.wood,
 

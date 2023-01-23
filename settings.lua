@@ -63,8 +63,8 @@ cottages.settings = {
 		enabled = s:get_bool("cottages.roof.enabled", true),
 
 		use_farming_straw_stairs = (
-			s:get_bool("cottages.roof.use_farming_straw_stairs", false) and
-			minetest.registered_nodes["stairs:stair_straw"]
+			s:get_bool("cottages.roof.use_farming_straw_stairs", false)
+			and minetest.registered_nodes["stairs:stair_straw"]
 		),
 	},
 
@@ -83,6 +83,6 @@ cottages.settings = {
 	water = {
 		enabled = s:get_bool("cottages.water.enabled", true),
 
-		well_fill_time = tonumber(s:get("cottages.water.well_fill_time")) or 10
+		well_fill_time = tonumber(s:get("cottages.water.well_fill_time")) or 10,
 	},
 }

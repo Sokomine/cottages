@@ -5,8 +5,8 @@ minetest.register_entity("cottages:bucket_entity", {
 		visual = "wielditem",
 		automatic_rotate = 1,
 		wield_item = ci.bucket,
-		visual_size = {x = 0.33, y = 0.33},
-		collisionbox = {0, 0, 0, 0, 0, 0},
+		visual_size = { x = 0.33, y = 0.33 },
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
 		pointable = false,
 		physical = false,
 		static_save = false,
@@ -25,8 +25,8 @@ minetest.register_entity("cottages:bucket_entity", {
 
 		local obj = self.object
 
-		obj:set_properties({wield_item = staticdata})
-		obj:set_armor_groups({immortal = 1})
+		obj:set_properties({ wield_item = staticdata })
+		obj:set_armor_groups({ immortal = 1 })
 	end,
 
 	on_punch = function()
