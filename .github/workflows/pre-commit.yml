@@ -12,11 +12,17 @@ jobs:
       - name: install luarocks
         run: sudo apt-get install -y luarocks
 
+      - name: add luacheck path
+        run: echo "$HOME/.luarocks/bin" >> $GITHUB_PATH
+
       - name: luacheck install
         run: luarocks install --local luacheck
 
-      - name: add luacheck path
-        run: echo "$HOME/.luarocks/bin" >> $GITHUB_PATH
+      - name: install cargo
+        run: sudo apt-get install -y cargo
+
+      - name: install stylua
+        run: cargo install stylua
 
       - name: Install pre-commit
         run: pip3 install pre-commit
