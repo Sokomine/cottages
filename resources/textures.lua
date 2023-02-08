@@ -1,6 +1,6 @@
 local has = cottages.has
 
-local check_exists = futil.check_exists
+local item_exists = cottages.util.resolve_item
 
 local textures = {}
 
@@ -27,7 +27,7 @@ if has.farming then
 	textures.wheat_seed = "farming_wheat_seed.png"
 	textures.wheat = "farming_wheat.png"
 
-	if cottages.settings.roof.use_farming_straw_stairs and check_exists("farming:straw") then
+	if cottages.settings.roof.use_farming_straw_stairs and item_exists("farming:straw") then
 		textures.straw = "farming_straw.png"
 	end
 end

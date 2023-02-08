@@ -7,7 +7,7 @@ end
 local player_can_use = cottages.util.player_can_use
 local toggle_public = cottages.util.toggle_public
 
-local items_equals = futil.items_equals
+local items_equals = cottages.util.items_equals
 
 local api = {
 	get_fs_parts_by_node_name = {},

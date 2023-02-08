@@ -15,8 +15,8 @@ local v_eq = vector.equals
 local v_new = vector.new
 local v_sub = vector.subtract
 
-local get_safe_short_description = futil.get_safe_short_description
-local resolve_item = futil.resolve_item
+local get_safe_short_description = cottages.util.get_safe_short_description
+local resolve_item = cottages.util.resolve_item
 
 local has_stamina = cottages.has.stamina
 

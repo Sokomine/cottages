@@ -50,7 +50,7 @@ function barrel.get_barrel_fs_parts(pos)
 				math.floor(max_liquid_amount * liquid_amount / max_liquid_amount),
 				F(
 					liquid_texture
-						.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount))
+						.. cottages.util.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount))
 				)
 			)
 		)
@@ -76,7 +76,7 @@ function barrel.get_barrel_fs_parts(pos)
 				0,
 				F(
 					cottages.textures.furniture
-						.. futil.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount))
+						.. cottages.util.escape_texture(("^[resize:%ix%i"):format(max_liquid_amount, max_liquid_amount))
 				)
 			)
 		)

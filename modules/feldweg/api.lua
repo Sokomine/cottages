@@ -91,7 +91,7 @@ function api.register_feldweg(node, suffix, special)
 	local def = minetest.registered_nodes[node]
 	local texture_top, texture_bottom, texture_side, texture_side_with_dent, texture_edges =
 		get_textures(def.tiles, special)
-	local desc = futil.get_safe_short_description(node)
+	local desc = cottages.util.get_safe_short_description(node)
 	local feldweg_name = "cottages:feldweg" .. suffix
 
 	register_feldweg(feldweg_name, def, {

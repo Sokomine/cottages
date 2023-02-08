@@ -1,6 +1,6 @@
 local has = cottages.has
 
-local resolve_item = futil.resolve_item
+local resolve_item = cottages.util.resolve_item
 
 local ci = {}
 

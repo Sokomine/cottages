@@ -6,7 +6,7 @@ local FS = function(...)
 	return F(S(...))
 end
 
-local get_safe_short_description = futil.get_safe_short_description
+local get_safe_short_description = cottages.util.get_safe_short_description
 
 local has_stamina = cottages.has.stamina
 local stamina_use = cottages.settings.straw.threshing_stamina
