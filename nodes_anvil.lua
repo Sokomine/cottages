@@ -9,6 +9,138 @@
 
 local S = cottages.S
 
+local hud_timeout = 2  -- seconds
+local hud_info_by_puncher_name = {}
+
+local function get_hud_image(tool)
+	local tool_definition = tool:get_definition() or {}
+	local hud_image = tool_definition.inventory_image or tool_definition.wield_image
+	if not hud_image and tool_definition.textures then
+		if type(tool_definition.textures) == "string" then
+			hud_image = tool_definition.textures
+		elseif type(tool_definition.textures) == "table" then
+			hud_image = tool_definition.textues[1]
+		end
+	end
+	return hud_image or "blank.png"
+end
+
+local function update_hud(puncher, tool)
+	local tool_wear = tool:get_wear()
+	local damage_state = 40 - math.floor(40 * tool_wear / 65535)
+	local hud_image = get_hud_image(tool)
+	local puncher_name = puncher:get_player_name()
+
+	local hud_ids = hud_info_by_puncher_name[puncher_name] or {}
+	local hud1, hud2, hud3 = unpack(hud_ids)
+
+	if hud1 then
+		local hud1_def = puncher:hud_get(hud1)
+		if hud1_def and hud1_def.name == "cottages:anvil_tool" then
+			puncher:hud_change(hud1, "text", hud_image)
+		else
+			hud1 = nil
+		end
+	end
+
+	if not hud1 then
+		hud1 = puncher:hud_add({
+			hud_elem_type = "image",
+			name = "cottages:anvil_tool",
+			scale = {x = 15, y = 15},
+			text = hud_image,
+			position = {x = 0.5, y = 0.5},
+			alignment = {x = 0, y = 0}
+		})
+	end
+
+	if hud2 then
+		local hud2_def = puncher:hud_get(hud2)
+		if hud2_def and hud2_def.name == "cottages:anvil_background" then
+			if tool_wear == 0 then
+				puncher:hud_remove(hud2)
+				hud2 = nil
+			end
+		end
+	end
+
+	if not hud2 and tool_wear > 0 then
+		hud2 = puncher:hud_add({
+			hud_elem_type = "statbar",
+			name = "cottages:anvil_background",
+			text = "default_cloud.png^[colorize:#ff0000:256",
+			number = 40,
+			direction = 0, -- left to right
+			position = {x=0.5, y=0.65},
+			alignment = {x = 0, y = 0},
+			offset = {x = -320, y = 0},
+			size = {x=32, y=32},
+		})
+	end
+
+	if hud3 then
+		local hud3_def = puncher:hud_get(hud3)
+		if hud3_def and hud3_def.name == "cottages:anvil_foreground" then
+			if tool_wear == 0 then
+				puncher:hud_remove(hud3)
+				hud3 = nil
+			else
+				puncher:hud_change(hud3, "number", damage_state)
+			end
+		end
+	end
+
+	if not hud3 and tool_wear > 0 then
+		hud3 = puncher:hud_add({
+			hud_elem_type = "statbar",
+			name = "cottages:anvil_foreground",
+			text = "default_cloud.png^[colorize:#00ff00:256",
+			number = damage_state,
+			direction = 0, -- left to right
+			position = {x=0.5, y=0.65},
+			alignment = {x = 0, y = 0},
+			offset = {x = -320, y = 0},
+			size = {x=32, y=32},
+		})
+	end
+
+	hud_info_by_puncher_name[puncher_name] = { hud1, hud2, hud3, os.time() + hud_timeout }
+end
+
+minetest.register_globalstep(function()
+	local now = os.time()
+	for puncher_name, hud_info in pairs(hud_info_by_puncher_name) do
+		local puncher = minetest.get_player_by_name(puncher_name)
+		if puncher then
+			local hud1, hud2, hud3, hud_expire_time = unpack(hud_info)
+			if now > hud_expire_time then
+				if hud1 then
+					local hud1_def = puncher:hud_get(hud1)
+					if hud1_def and hud1_def.name == "cottages:anvil_tool" then
+						puncher:hud_remove(hud1)
+					end
+				end
+				if hud2 then
+					local hud2_def = puncher:hud_get(hud2)
+					if hud2_def and hud2_def.name == "cottages:anvil_background" then
+						puncher:hud_remove(hud2)
+					end
+				end
+				if hud3 then
+					local hud3_def = puncher:hud_get(hud3)
+					if hud3_def and hud3_def.name == "cottages:anvil_foreground" then
+						puncher:hud_remove(hud3)
+					end
+				end
+
+				hud_info_by_puncher_name[puncher_name] = nil
+			end
+		else
+			hud_info_by_puncher_name[puncher_name] = nil
+		end
+	end
+end)
+
 -- disable repair with anvil by setting a message for the item in question
 cottages.forbid_repair = {}
 -- example for hammer no longer beeing able to repair the hammer
@@ -190,9 +322,6 @@ minetest.register_node("cottages:anvil", {
 			return;
 		end
 
-		-- 65535 is max damage
-		local damage_state = 40-math.floor(input:get_wear()/1638);
-
 		-- just to make sure that it really can't get repaired if it should not
 		-- (if the check of placing the item in the input slot failed somehow)
 		if( puncher and name and cottages.forbid_repair[ input:get_name() ]) then
@@ -201,59 +330,7 @@ minetest.register_node("cottages:anvil", {
 			return;
 		end
 
-		local tool_name = input:get_name();
-		local hud_image = "";
-		if( tool_name
-		   and minetest.registered_items[ tool_name ] ) then
-			if(     minetest.registered_items[ tool_name ].inventory_image ) then
-				hud_image = minetest.registered_items[ tool_name ].inventory_image;
-			elseif( minetest.registered_items[ tool_name ].textures 
-			    and type(minetest.registered_items[ tool_name ].textures)=='table') then
-				hud_image = minetest.registered_items[ tool_name ].textures[1];
-			elseif( minetest.registered_items[ tool_name ].textures 
-			    and type(minetest.registered_items[ tool_name ].textures)=='string') then
-				hud_image = minetest.registered_items[ tool_name ].textures;
-			end
-		end
-			
-		local hud1 = puncher:hud_add({
-			hud_elem_type = "image",
-			scale = {x = 15, y = 15},
-			text = hud_image,
-			position = {x = 0.5, y = 0.5},
-			alignment = {x = 0, y = 0}
-		});
-		local hud2 = nil;
-		local hud3 = nil;
-		if( input:get_wear()>0 ) then
-			hud2 = puncher:hud_add({
-				hud_elem_type = "statbar",
-				text = "default_cloud.png^[colorize:#ff0000:256",
-				number = 40,
-				direction = 0, -- left to right
-				position = {x=0.5, y=0.65},
-				alignment = {x = 0, y = 0},
-				offset = {x = -320, y = 0},
-				size = {x=32, y=32},
-			})
-			hud3 = puncher:hud_add({
-				hud_elem_type = "statbar",
-				text = "default_cloud.png^[colorize:#00ff00:256",
-				number = damage_state,
-				direction = 0, -- left to right
-				position = {x=0.5, y=0.65},
-				alignment = {x = 0, y = 0},
-				offset = {x = -320, y = 0},
-				size = {x=32, y=32},
-			});
-		end
-		minetest.after(2, function()
-			if( puncher ) then
-				if(hud1) then puncher:hud_remove(hud1); end
-				if(hud2) then puncher:hud_remove(hud2); end
-				if(hud3) then puncher:hud_remove(hud3); end
-			end
-		end)
+		update_hud(puncher, input)
 
 		-- tell the player when the job is done
 		if(   input:get_wear() == 0 ) then
@@ -320,4 +397,3 @@ minetest.register_craft({
                 {'cottages:anvil'},
                 {cottages.craftitem_stick} }
 })
-
