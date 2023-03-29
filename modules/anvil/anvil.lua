@@ -18,6 +18,7 @@ local v_sub = vector.subtract
 local get_safe_short_description = cottages.util.get_safe_short_description
 local resolve_item = cottages.util.resolve_item
 
+local has_broken_tools = cottages.has.broken_tools
 local has_stamina = cottages.has.stamina
 
 local repair_amount = cottages.settings.anvil.repair_amount
@@ -185,6 +186,11 @@ function anvil.use_anvil(pos, puncher)
 
 		-- do the actual repair
 		tool:add_wear(-repair_amount)
+
+		if has_broken_tools then
+			broken_tools.fix_tool(tool)
+		end
+
 		inv:set_stack("input", 1, tool)
 
 		-- damage the hammer slightly

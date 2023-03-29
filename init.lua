@@ -12,6 +12,7 @@ cottages = {
 
 	has = {
 		anvil = minetest.get_modpath("anvil"),
+		broken_tools = minetest.get_modpath("broken_tools"),
 		bucket = minetest.get_modpath("bucket"),
 		default = minetest.get_modpath("default"),
 		doors = minetest.get_modpath("doors"),
