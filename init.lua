@@ -26,6 +26,7 @@ cottages = {
 		stairs = minetest.get_modpath("stairs"),
 		stairsplus = minetest.get_modpath("stairsplus"),
 		stamina = minetest.get_modpath("stamina") and minetest.global_exists("stamina") and stamina.exhaust_player,
+		staminoid = minetest.get_modpath("staminoid"),
 		technic = minetest.get_modpath("technic"),
 		unified_inventory = minetest.get_modpath("unified_inventory"),
 		wool = minetest.get_modpath("wool"),
