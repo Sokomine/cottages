@@ -1,8 +1,10 @@
 local S = cottages.S
 
+local exhaust_player = cottages.util.exhaust_player
+
 local api = cottages.doorlike
+
 local stamina_use = cottages.settings.doorlike.stamina
-local has_stamina = cottages.has.stamina
 
 -- propagate shutting/closing of window shutters to window shutters below/above this one
 local offsets = {
@@ -43,16 +45,12 @@ end
 
 function api.shutter_open(pos, puncher)
 	api.shutter_operate(pos, "cottages:window_shutter_closed", "cottages:window_shutter_open")
-	if has_stamina then
-		stamina.exhaust_player(puncher, stamina_use, "cottages:shutter")
-	end
+	exhaust_player(puncher, stamina_use, "cottages:shutter")
 end
 
 function api.shutter_close(pos, puncher)
 	api.shutter_operate(pos, "cottages:window_shutter_open", "cottages:window_shutter_closed")
-	if has_stamina then
-		stamina.exhaust_player(puncher, stamina_use, "cottages:shutter")
-	end
+	exhaust_player(puncher, stamina_use, "cottages:shutter")
 end
 
 function api.is_night()
@@ -141,9 +139,7 @@ function api.register_hatch(nodename, description, texture, receipe_item, def)
 				fixed = { -0.5, -0.55, -0.5, 0.5, -0.45, 0.5 },
 			},
 			on_rightclick = function(pos, node, puncher)
-				if has_stamina then
-					stamina.exhaust_player(puncher, stamina_use, nodename)
-				end
+				exhaust_player(puncher, stamina_use, nodename)
 
 				minetest.swap_node(pos, { name = node.name, param2 = new_facedirs[node.param2 + 1] })
 			end,

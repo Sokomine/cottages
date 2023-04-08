@@ -7,8 +7,8 @@ local FS = function(...)
 end
 
 local get_safe_short_description = cottages.util.get_safe_short_description
+local exhaust_player = cottages.util.exhaust_player
 
-local has_stamina = cottages.has.stamina
 local stamina_use = cottages.settings.straw.threshing_stamina
 local threshing_min_per_punch = cottages.settings.straw.threshing_min_per_punch
 local threshing_max_per_punch = cottages.settings.straw.threshing_max_per_punch
@@ -166,9 +166,7 @@ function straw.use_threshing(pos, player)
 
 	minetest.sound_play({ name = cottages.sounds.use_thresher }, { pos = particle_pos, gain = 1, pitch = 0.5 }, true)
 
-	if has_stamina then
-		stamina.exhaust_player(player, stamina_use, "cottages:quern")
-	end
+	exhaust_player(player, stamina_use, "cottages:threshing")
 
 	return true
 end

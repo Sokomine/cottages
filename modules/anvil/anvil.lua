@@ -17,9 +17,9 @@ local v_sub = vector.subtract
 
 local get_safe_short_description = cottages.util.get_safe_short_description
 local resolve_item = cottages.util.resolve_item
+local exhaust_player = cottages.util.exhaust_player
 
 local has_broken_tools = cottages.has.broken_tools
-local has_stamina = cottages.has.stamina
 
 local repair_amount = cottages.settings.anvil.repair_amount
 local hammer_wear = cottages.settings.anvil.hammer_wear
@@ -199,9 +199,7 @@ function anvil.use_anvil(pos, puncher)
 
 		update_hud(puncher, tool)
 
-		if has_stamina then
-			stamina.exhaust_player(puncher, stamina_use, "cottages:anvil")
-		end
+		exhaust_player(puncher, stamina_use, "cottages:anvil")
 	else
 		-- tell the player when the job is done, but only once
 		if meta:get_int("informed") > 0 then

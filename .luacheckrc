@@ -669,6 +669,7 @@ stds.cottages = {
 		"player_monoids",
 		"stairs",
 		"stamina",
+		"staminoid",
 		"unified_inventory",
 	},
 }
