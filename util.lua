@@ -321,7 +321,7 @@ function util.exhaust_player(player, amount, reason)
 	if has_stamina then
 		stamina.exhaust_player(player, amount, reason)
 	elseif has_staminoid then
-		staminoid.exhaust(player, 1, reason)
+		staminoid.exhaust(player, amount / 10, reason)
 	end
 end
 
