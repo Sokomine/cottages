@@ -33,9 +33,9 @@ if ci.stick and ci.glass then
 	minetest.register_craft({
 		output = "cottages:glass_pane 4",
 		recipe = {
-			{ ci.stick, ci.stick, ci.stick },
+			{ "", ci.stick, "" },
 			{ ci.stick, ci.glass, ci.stick },
-			{ ci.stick, ci.stick, ci.stick },
+			{ "", ci.stick, "" },
 		},
 	})
 end
