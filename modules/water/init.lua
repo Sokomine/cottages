@@ -1,4 +1,4 @@
-if not (cottages.craftitems.bucket and cottages.craftitems.bucket_filled) then
+if not cottages.has.bucket then
 	return
 end
 

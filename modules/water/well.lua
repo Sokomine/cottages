@@ -1,3 +1,4 @@
+local f = string.format
 local F = minetest.formspec_escape
 local S = cottages.S
 local FS = function(...)
@@ -14,7 +15,21 @@ local settings = cottages.settings.water
 local sound_handles_by_pos = {}
 local particlespawner_ids_by_pos = {}
 
-local well_fill_time = cottages.settings.water.well_fill_time
+water.registered_fillables = {}
+water.registered_filleds = {}
+
+function water.register_fillable(empty, filled, fill_time)
+	assert(minetest.registered_items[empty], f("item %s does not exist", empty))
+	assert(minetest.registered_items[filled], f("item %s does not exist", filled))
+	assert(not fill_time or fill_time >= 0, f("fill time must be greater than or equal to 0"))
+	local def = {
+		empty = empty,
+		filled = filled,
+		fill_time = fill_time or settings.well_fill_time,
+	}
+	water.register_fillable[empty] = def
+	water.registered_filleds[filled] = def
+end
 
 function water.get_well_fs_parts(pos)
 	return {
@@ -37,54 +52,128 @@ function water.get_well_info(pos)
 	return S("Tree trunk well")
 end
 
-function water.use_well(pos, puncher)
-	local player_name = puncher:get_player_name()
-	local meta = minetest.get_meta(pos)
+if bucket.fork == "flux" then
+	-- bucket redo
+	function water.use_well(pos, puncher)
+		if not minetest.is_player(puncher) then
+			return
+		end
 
-	local pinv = puncher:get_inventory()
-	local bucket = meta:get("bucket")
-
-	local entity_pos = vector.add(pos, vector.new(0, 1 / 4, 0))
-
-	if not bucket then
 		local wielded = puncher:get_wielded_item()
 		local wielded_name = wielded:get_name()
-		if wielded_name == ci.bucket then
-			meta:set_string("bucket", wielded_name)
-
-			water.initialize_entity(pos)
-
-			pinv:remove_item("main", "bucket:bucket_empty")
-
-			local timer = minetest.get_node_timer(pos)
-			timer:start(well_fill_time)
-
-			water.add_filling_effects(pos)
-		elseif wielded_name == ci.bucket_filled then
-			-- empty a bucket
-			pinv:remove_item("main", ci.bucket_filled)
-			pinv:add_item("main", ci.bucket)
-
-			minetest.sound_play({ name = s.water_empty }, { pos = entity_pos, gain = 0.5, pitch = 2.0 }, true)
+		if minetest.get_item_group(wielded_name, "bucket") == 0 then
+			return
 		end
-	elseif bucket == ci.bucket then
-		minetest.chat_send_player(player_name, S("Please wait until your bucket has been filled."))
-		local timer = minetest.get_node_timer(pos)
-		if not timer:is_started() then
-			timer:start(well_fill_time)
-			water.add_filling_effects(pos)
-		end
-	elseif bucket == ci.bucket_filled then
-		meta:set_string("bucket", "")
 
-		for _, obj in ipairs(minetest.get_objects_inside_radius(entity_pos, 0.1)) do
-			local ent = obj:get_luaentity()
-			if ent and ent.name == "cottages:bucket_entity" then
-				obj:remove()
+		if not ci.river_water then
+			return
+		end
+
+		local pinv = puncher:get_inventory()
+		pinv:add_item("main", ci.river_water)
+
+		minetest.sound_play(
+			{ name = "cottages_fill_glass" },
+			{ pos = pos, loop = false, gain = 0.5, pitch = 1.0 },
+			true
+		)
+	end
+else
+	function water.use_well(pos, puncher)
+		local spos = minetest.pos_to_string(pos)
+		local player_name = puncher:get_player_name()
+		local node_meta = minetest.get_meta(pos)
+
+		local pinv = puncher:get_inventory()
+		local current_bucket = node_meta:get("bucket")
+
+		local entity_pos = vector.add(pos, vector.new(0, 1 / 4, 0))
+
+		if not current_bucket then
+			local wielded = puncher:get_wielded_item()
+			local wielded_name = wielded:get_name()
+			local fillable = water.registered_fillables[wielded_name]
+			local filled = water.registered_filleds[wielded_name]
+			if fillable then
+				if fillable.fill_time == 0 then
+					local removed = pinv:remove_item("main", wielded_name)
+					if removed:is_empty() then
+						cottages.log(
+							"error",
+							"well @ %s: failed to remove %s's wielded item %s",
+							spos,
+							player_name,
+							removed:to_string()
+						)
+					else
+						local remainder = pinv:add_item("main", fillable.filled)
+						if not remainder:is_empty() then
+							if not minetest.add_item(pos, remainder) then
+								cottages.log(
+									"error",
+									"well @ %s: somehow lost %s's %s",
+									spos,
+									player_name,
+									remainder:to_string()
+								)
+							end
+						end
+
+						minetest.sound_play(
+							{ name = "cottages_fill_glass" },
+							{ pos = entity_pos, loop = false, gain = 0.5, pitch = 2.0 },
+							true
+						)
+					end
+				else
+					local removed = pinv:remove_item("main", wielded_name)
+					local remainder = node_meta:set_string("bucket", removed)
+					if not remainder:is_empty() then
+						if not minetest.add_item(pos, remainder) then
+							cottages.log(
+								"error",
+								"well @ %s: somehow lost %s's %s",
+								spos,
+								player_name,
+								remainder:to_string()
+							)
+						end
+					end
+
+					water.initialize_entity(pos)
+
+					local timer = minetest.get_node_timer(pos)
+					timer:start(fillable.fill_time)
+
+					water.add_filling_effects(pos)
+				end
+			elseif filled then
+				-- empty a bucket
+				-- TODO error checking and logging
+				pinv:remove_item("main", filled.filled)
+				pinv:add_item("main", filled.empty)
+
+				minetest.sound_play({ name = s.water_empty }, { pos = entity_pos, gain = 0.5, pitch = 2.0 }, true)
 			end
-		end
+		elseif current_bucket then
+			minetest.chat_send_player(player_name, S("Please wait until your bucket has been filled."))
+			local timer = minetest.get_node_timer(pos)
+			if not timer:is_started() then
+				timer:start(settings.well_fill_time)
+				water.add_filling_effects(pos)
+			end
+		elseif current_bucket == ci.bucket_filled then
+			node_meta:set_string("bucket", "")
 
-		pinv:add_item("main", ci.bucket_filled)
+			for _, obj in ipairs(minetest.get_objects_inside_radius(entity_pos, 0.1)) do
+				local ent = obj:get_luaentity()
+				if ent and ent.name == "cottages:bucket_entity" then
+					obj:remove()
+				end
+			end
+
+			pinv:add_item("main", ci.bucket_filled)
+		end
 	end
 end
 

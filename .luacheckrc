@@ -660,6 +660,7 @@ stds.cottages = {
 	        other_fields = true,
 	    },
         "broken_tools",
+        "bucket",
 	    "carts",
 		"default",
 		"doors",

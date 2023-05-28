@@ -54,3 +54,5 @@ CC-by-sa 2.0/de. cottages_slate.png
 Textures not provided but used (need to be supplied by a default mod):
 default_wood.png default_tree.png default_dirt.png default_grass_side.png default_chest_top.png default_chest_side.png
 default_chest_front.png default_stick.png farming_wheat.png
+
+* cottages_fill_glass.1.ogg (C) ezwa 2009 cc0 https://opengameart.org/content/6-short-water-splashes
