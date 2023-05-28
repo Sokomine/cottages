@@ -11,7 +11,7 @@ cottages.anvil.hammer_wear (hammer wear) int 100 0 65536
 cottages.anvil.repair_amount (anvil repair amount) int 4369 0 65535
 
 # amount of stamina to consume per hammer strike
-cottages.anvil.stamina (anvil stamina usage) int 40 0
+cottages.anvil.stamina (anvil stamina usage) int 80 0
 
 # if false, right-click the anvil to place a tool on it
 cottages.anvil.formspec_enabled (enable anvil formspec) bool true
