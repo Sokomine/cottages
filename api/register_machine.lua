@@ -82,6 +82,7 @@ function api.register_machine(name, def)
 		is_ground_content = false,
 		groups = def.groups,
 		sounds = def.sounds,
+		drop = def.drop,
 
 		after_place_node = function(pos, placer, itemstack)
 			local meta = minetest.get_meta(pos)

@@ -24,6 +24,7 @@ if has.default then
 	ci.rail = resolve_item("default:rail")
 	ci.sand = resolve_item("default:sand")
 	ci.steel = resolve_item("default:steel_ingot")
+	ci.steelblock = resolve_item("default:steelblock")
 	ci.stone = resolve_item("default:stone")
 end
 

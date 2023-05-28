@@ -4,6 +4,7 @@ local FS = function(...)
 	return F(S(...))
 end
 local anvil = cottages.anvil
+local ci = cottages.craftitems
 
 local add_entity = minetest.add_entity
 local get_node = minetest.get_node
@@ -29,6 +30,7 @@ local hud_timeout = cottages.settings.anvil.hud_timeout
 local stamina_use = cottages.settings.anvil.stamina
 local tool_entity_enabled = cottages.settings.anvil.tool_entity_enabled
 local tool_entity_displacement = cottages.settings.anvil.tool_entity_displacement
+local destroy_when_dug = cottages.settings.anvil.destroy_when_dug
 
 local hud_info_by_puncher_name = {}
 
@@ -444,6 +446,18 @@ function anvil.preserve_metadata(pos, oldnode, oldmeta, drops)
 	return drops
 end
 
+local drop
+
+if destroy_when_dug then
+	drop = {
+		items = {
+			{
+				items = { ci.steel .. " 7" },
+			},
+		},
+	}
+end
+
 cottages.api.register_machine("cottages:anvil", {
 	description = S("anvil"),
 	drawtype = "nodebox",
@@ -460,6 +474,7 @@ cottages.api.register_machine("cottages:anvil", {
 	tiles = { "cottages_stone.png^[colorize:#000:192" },
 	groups = { cracky = 2 },
 	sounds = cottages.sounds.metal,
+	drop = drop,
 
 	inv_info = {
 		input = 1,

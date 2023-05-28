@@ -1,16 +1,18 @@
 local S = cottages.S
 local ci = cottages.craftitems
 
-if ci.steel then
+if ci.steelblock then
 	minetest.register_craft({
 		output = "cottages:anvil",
 		recipe = {
-			{ ci.steel, ci.steel, ci.steel },
-			{ "", ci.steel, "" },
-			{ ci.steel, ci.steel, ci.steel },
+			{ ci.steelblock, ci.steelblock, ci.steelblock },
+			{ "", ci.steelblock, "" },
+			{ ci.steelblock, ci.steelblock, ci.steelblock },
 		},
 	})
+end
 
+if ci.steel then
 	minetest.register_craft({
 		output = "cottages:hammer",
 		recipe = {

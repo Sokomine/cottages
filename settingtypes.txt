@@ -28,6 +28,9 @@ cottages.anvil.tool_entity_enabled (tool entity enabled) bool false
 # how far above the anvil to put the entity
 cottages.anvil.tool_entity_displacement (tool entity displacement) float .125
 
+# if true, the anvil is destroyed when dug, though it does drop some iron.
+cottages.anvil.destroy_when_dug (destroy anvil when dug) bool true
+
 ###############################################################################
 
 # provides a barrel which can be used to store liquids, and a couple decorative variants.
