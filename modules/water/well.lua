@@ -59,8 +59,49 @@ if bucket.fork == "flux" then
 			return
 		end
 
+		local player_name = puncher:get_player_name()
+		local spos = minetest.pos_to_string(pos)
+		local pinv = puncher:get_inventory()
 		local wielded = puncher:get_wielded_item()
 		local wielded_name = wielded:get_name()
+		local fillable = water.registered_fillables[wielded_name]
+		local entity_pos = vector.add(pos, vector.new(0, 1 / 4, 0))
+
+		if fillable then
+			if fillable.fill_time == 0 then
+				local removed = pinv:remove_item("main", wielded_name)
+				if removed:is_empty() then
+					cottages.log(
+						"error",
+						"well @ %s: failed to remove %s's wielded item %s",
+						spos,
+						player_name,
+						removed:to_string()
+					)
+				else
+					local remainder = pinv:add_item("main", fillable.filled)
+					if not remainder:is_empty() then
+						if not minetest.add_item(pos, remainder) then
+							cottages.log(
+								"error",
+								"well @ %s: somehow lost %s's %s",
+								spos,
+								player_name,
+								remainder:to_string()
+							)
+						end
+					end
+
+					minetest.sound_play(
+						{ name = "cottages_fill_glass" },
+						{ pos = entity_pos, loop = false, gain = 0.5, pitch = 2.0 },
+						true
+					)
+					return
+				end
+			end
+		end
+
 		if minetest.get_item_group(wielded_name, "bucket") == 0 then
 			return
 		end
@@ -69,7 +110,6 @@ if bucket.fork == "flux" then
 			return
 		end
 
-		local pinv = puncher:get_inventory()
 		pinv:add_item("main", ci.river_water)
 
 		minetest.sound_play(
