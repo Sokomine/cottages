@@ -210,7 +210,7 @@ function anvil.use_anvil(pos, puncher)
 
 		meta:set_int("informed", 1)
 
-		local tool_desc = tool:get_short_description() or tool:get_description()
+		local tool_desc = get_safe_short_description(tool)
 		minetest.chat_send_player(puncher_name, S("Your @1 has been repaired successfully.", tool_desc))
 	end
 end
