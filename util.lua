@@ -314,4 +314,15 @@ else
 	end
 end
 
+local has_stamina = cottages.has.stamina
+local has_staminoid = cottages.has.staminoid
+
+function util.exhaust_player(player, amount, reason)
+	if has_stamina then
+		stamina.exhaust_player(player, amount, reason)
+	elseif has_staminoid then
+		staminoid.exhaust(player, amount / 10, reason)
+	end
+end
+
 cottages.util = util

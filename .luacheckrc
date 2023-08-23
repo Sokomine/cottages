@@ -659,7 +659,8 @@ stds.cottages = {
 	        },
 	        other_fields = true,
 	    },
-
+        "broken_tools",
+        "bucket",
 	    "carts",
 		"default",
 		"doors",
@@ -669,6 +670,7 @@ stds.cottages = {
 		"player_monoids",
 		"stairs",
 		"stamina",
+		"staminoid",
 		"unified_inventory",
 	},
 }

@@ -1,6 +1,6 @@
 local S = cottages.S
 
-local has_stamina = cottages.has.stamina
+local exhaust_player = cottages.util.exhaust_player
 local stamina_use = cottages.settings.pitchfork.stamina
 
 minetest.register_node("cottages:pitchfork", {
@@ -91,9 +91,7 @@ local function override_on_dig(node_name, replacement)
 			minetest.swap_node(pos, { name = replacement })
 			minetest.swap_node(pos_above, { name = "cottages:hay_mat", param2 = math.random(2, 25) })
 
-			if has_stamina then
-				stamina.exhaust_player(digger, stamina_use, "cottages:pitchfork")
-			end
+			exhaust_player(digger, stamina_use, "cottages:pitchfork")
 
 			return true
 		end,

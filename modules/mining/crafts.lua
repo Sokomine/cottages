@@ -4,7 +4,9 @@ if ci.cotton then
 	minetest.register_craft({
 		output = "cottages:rope",
 		recipe = {
-			{ ci.cotton, ci.cotton, ci.cotton },
+			{ ci.cotton, "", "" },
+			{ "", ci.cotton, "" },
+			{ "", "", ci.cotton },
 		},
 	})
 end

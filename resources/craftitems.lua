@@ -24,16 +24,25 @@ if has.default then
 	ci.rail = resolve_item("default:rail")
 	ci.sand = resolve_item("default:sand")
 	ci.steel = resolve_item("default:steel_ingot")
+	ci.steelblock = resolve_item("default:steelblock")
 	ci.stone = resolve_item("default:stone")
 end
 
 if has.bucket then
-	ci.bucket = resolve_item("bucket:bucket_empty")
-	ci.bucket_filled = resolve_item("bucket:bucket_river_water")
+	if bucket.fork == "flux" then
+		ci.bucket = resolve_item("bucket:bucket_steel")
+	else
+		ci.bucket = resolve_item("bucket:bucket_empty")
+		ci.bucket_filled = resolve_item("bucket:bucket_river_water")
+	end
 end
 
 if has.carts then
 	ci.rail = resolve_item("carts:rail")
+end
+
+if has.default then
+	ci.river_water = resolve_item("default:river_water_source")
 end
 
 if has.doors then

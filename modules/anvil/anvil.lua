@@ -4,6 +4,7 @@ local FS = function(...)
 	return F(S(...))
 end
 local anvil = cottages.anvil
+local ci = cottages.craftitems
 
 local add_entity = minetest.add_entity
 local get_node = minetest.get_node
@@ -17,8 +18,9 @@ local v_sub = vector.subtract
 
 local get_safe_short_description = cottages.util.get_safe_short_description
 local resolve_item = cottages.util.resolve_item
+local exhaust_player = cottages.util.exhaust_player
 
-local has_stamina = cottages.has.stamina
+local has_broken_tools = cottages.has.broken_tools
 
 local repair_amount = cottages.settings.anvil.repair_amount
 local hammer_wear = cottages.settings.anvil.hammer_wear
@@ -28,6 +30,7 @@ local hud_timeout = cottages.settings.anvil.hud_timeout
 local stamina_use = cottages.settings.anvil.stamina
 local tool_entity_enabled = cottages.settings.anvil.tool_entity_enabled
 local tool_entity_displacement = cottages.settings.anvil.tool_entity_displacement
+local destroy_when_dug = cottages.settings.anvil.destroy_when_dug
 
 local hud_info_by_puncher_name = {}
 
@@ -185,6 +188,11 @@ function anvil.use_anvil(pos, puncher)
 
 		-- do the actual repair
 		tool:add_wear(-repair_amount)
+
+		if has_broken_tools then
+			broken_tools.fix_tool(tool)
+		end
+
 		inv:set_stack("input", 1, tool)
 
 		-- damage the hammer slightly
@@ -193,9 +201,7 @@ function anvil.use_anvil(pos, puncher)
 
 		update_hud(puncher, tool)
 
-		if has_stamina then
-			stamina.exhaust_player(puncher, stamina_use, "cottages:anvil")
-		end
+		exhaust_player(puncher, stamina_use, "cottages:anvil")
 	else
 		-- tell the player when the job is done, but only once
 		if meta:get_int("informed") > 0 then
@@ -204,7 +210,7 @@ function anvil.use_anvil(pos, puncher)
 
 		meta:set_int("informed", 1)
 
-		local tool_desc = tool:get_short_description() or tool:get_description()
+		local tool_desc = get_safe_short_description(tool)
 		minetest.chat_send_player(puncher_name, S("Your @1 has been repaired successfully.", tool_desc))
 	end
 end
@@ -440,6 +446,18 @@ function anvil.preserve_metadata(pos, oldnode, oldmeta, drops)
 	return drops
 end
 
+local drop
+
+if destroy_when_dug then
+	drop = {
+		items = {
+			{
+				items = { ci.steel .. " 7" },
+			},
+		},
+	}
+end
+
 cottages.api.register_machine("cottages:anvil", {
 	description = S("anvil"),
 	drawtype = "nodebox",
@@ -456,6 +474,7 @@ cottages.api.register_machine("cottages:anvil", {
 	tiles = { "cottages_stone.png^[colorize:#000:192" },
 	groups = { cracky = 2 },
 	sounds = cottages.sounds.metal,
+	drop = drop,
 
 	inv_info = {
 		input = 1,

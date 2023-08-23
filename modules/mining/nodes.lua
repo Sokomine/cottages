@@ -52,7 +52,7 @@ else
 		wield_image = "default_ladder_wood.png",
 		drawtype = "raillike",
 		tiles = {
-			"default_ladder_wood.png^carts_rail_straight.png^cottages_rope.png",
+			"default_ladder_wood.png^cottages_rope.png",
 		},
 		paramtype = "light",
 		paramtype2 = "wallmounted",
