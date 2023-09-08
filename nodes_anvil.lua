@@ -249,9 +249,15 @@ minetest.register_node("cottages:anvil", {
 		end
 		minetest.after(2, function()
 			if( puncher ) then
-				if(hud1) then puncher:hud_remove(hud1); end
-				if(hud2) then puncher:hud_remove(hud2); end
-				if(hud3) then puncher:hud_remove(hud3); end
+				if( hud1 ) then
+					puncher:hud_remove(hud1);
+				end
+				if( hud2 ) then
+					puncher:hud_remove(hud2);
+				end
+				if( hud3 ) then
+					puncher:hud_remove(hud3);
+				end
 			end
 		end)
 
