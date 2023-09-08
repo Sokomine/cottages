@@ -9,12 +9,6 @@
 
 local S = cottages.S
 
--- disable repair with anvil by setting a message for the item in question
-cottages.forbid_repair = {}
--- example for hammer no longer beeing able to repair the hammer
---cottages.forbid_repair["cottages:hammer"] = 'The hammer is too complex for repairing.'
-
-
 -- the hammer for the anvil
 minetest.register_tool("cottages:hammer", {
         description = S("Steel hammer for repairing tools on the anvil"),
@@ -144,12 +138,6 @@ minetest.register_node("cottages:anvil", {
 				S('The workpiece slot is for damaged tools only.'));
 			return 0;
 		end
-		if(   listname=='input'
-                 and  cottages.forbid_repair[ stack:get_name() ]) then
-			minetest.chat_send_player( player:get_player_name(),
-				S(cottages.forbid_repair[ stack:get_name() ]));
-			return 0;
-		end
 		return stack:get_count()
 	end,
 
@@ -192,14 +180,6 @@ minetest.register_node("cottages:anvil", {
 
 		-- 65535 is max damage
 		local damage_state = 40-math.floor(input:get_wear()/1638);
-
-		-- just to make sure that it really can't get repaired if it should not
-		-- (if the check of placing the item in the input slot failed somehow)
-		if( puncher and name and cottages.forbid_repair[ input:get_name() ]) then
-			minetest.chat_send_player( name,
-				S(cottages.forbid_repair[ input:get_name() ]));
-			return;
-		end
 
 		local tool_name = input:get_name();
 		local hud_image = "";
@@ -249,9 +229,15 @@ minetest.register_node("cottages:anvil", {
 		end
 		minetest.after(2, function()
 			if( puncher ) then
-				if(hud1) then puncher:hud_remove(hud1); end
-				if(hud2) then puncher:hud_remove(hud2); end
-				if(hud3) then puncher:hud_remove(hud3); end
+			    if( hud1 ) then
+					puncher:hud_remove(hud1);
+				end
+				if( hud2 ) then
+					puncher:hud_remove(hud2);
+				end
+				if( hud3 ) then
+					puncher:hud_remove(hud3);
+				end
 			end
 		end)
 
