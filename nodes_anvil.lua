@@ -145,10 +145,10 @@ minetest.register_node("cottages:anvil", {
 			return 0;
 		end
 		if(   listname=='input'
-         and  cottages.forbid_repair[ stack:get_name() ]) then
-				minetest.chat_send_player( player:get_player_name(),
-						S(cottages.forbid_repair[ stack:get_name() ]));
-				return 0;
+                 and  cottages.forbid_repair[ stack:get_name() ]) then
+			minetest.chat_send_player( player:get_player_name(),
+				S(cottages.forbid_repair[ stack:get_name() ]));
+			return 0;
 		end
 		return stack:get_count()
 	end,
