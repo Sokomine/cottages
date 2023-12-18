@@ -11,28 +11,26 @@ Anvil =
 The workpiece slot is for damaged tools only. =
 Your tool has been repaired successfully. =
 Your workpiece improves. =
-Anvil (owned by %s) = 
-Workpiece: = 
-Optional = 
-storage for = 
-your hammer = 
-Owner: %s = 
-Punch anvil with hammer to = 
-repair tool in workpiece-slot. = 
+Anvil (owned by @1) =
+Workpiece: =
+Optional =
+storage for =
+your hammer =
+Owner: @1 =
+Punch anvil with hammer to =
+repair tool in workpiece-slot. =
 
 ### nodes_barrel.lua ###
 Pour: =
 Fill: =
-barrel (closed) =
-barrel (open) =
-barrel (closed), lying somewhere =
-barrel (opened), lying somewhere =
+Barrel (closed) =
+Barrel (open) =
 tub =
 
 ### nodes_chests.lua ###
-private NPC chest = 
-chest for work utils and kitchens = 
-storage chest = 
+private NPC chest =
+chest for work utils and kitchens =
+storage chest =
 
 ### nodes_doorlike.lua ###
 opened window shutters =
@@ -61,7 +59,7 @@ open storage shelf (empty) =
 stovepipe =
 washing place =
 Sorry. This washing place is out of water. Please place it above water! =
-You feel much cleaner after some washing. = 
+You feel much cleaner after some washing. =
 
 ### nodes_historic.lua ###
 wagon wheel =
@@ -77,7 +75,7 @@ straw ground for animals =
 simple glass pane =
 
 ### nodes_roof.lua ###
-Roof straw = 
+Roof straw =
 Roof wood =
 Roof black =
 Roof red =
@@ -107,30 +105,30 @@ straw bale =
 straw =
 threshing floor =
 Threshing floor =
-Threshing floor (owned by %s) =
-Public threshing floor (owned by %s) =
-Private threshing floor (owned by %s) =
-Harvested wheat: = 
-Straw: = 
-Seeds: = 
-Owner: %s = 
-Punch threshing floor with a stick = 
-to get straw and seeds from wheat. = 
-You have threshed %s wheat (%s are left). =
-You have threshed the last %s wheat. =
+Threshing floor (owned by @1) =
+Public threshing floor (owned by @1) =
+Private threshing floor (owned by @1) =
+Harvested wheat: =
+Straw: =
+Seeds: =
+Owner: @1 =
+Punch threshing floor with a stick =
+to get straw and seeds from wheat. =
+You have threshed @1 wheat (@2 are left). =
+You have threshed the last @1 wheat. =
 mill, powered by punching =
 Mill, powered by punching =
-Mill, powered by punching (owned by %s) =
-Public mill, powered by punching (owned by %s) =
-Private mill, powered by punching (owned by %s) =
+Mill, powered by punching (owned by @1) =
+Public mill, powered by punching (owned by @1) =
+Private mill, powered by punching (owned by @1) =
 Wheat seeds: =
 Flour: =
 Mill =
-Owner: %s =
+Owner: @1 =
 Punch this hand-driven mill =
 to convert wheat seeds into flour. =
-You have grinded %s wheat seeds (%s are left). =
-You have grinded the last %s wheat seeds. =
+You have grinded @1 wheat seeds (@2 are left). =
+You have grinded the last @1 wheat seeds. =
 
 Your threshing floor can now be used by other players as well. =
 Your mill, powered by punching can now be used by other players as well. =
@@ -141,8 +139,8 @@ Your mill, powered by punching can only be used by yourself. =
 Public? =
 
 Public tree trunk well =
-Public tree trunk well (owned by %s) =
-This tree trunk well is owned by %s. You can't use it. =
+Public tree trunk well (owned by @1) =
+This tree trunk well is owned by @1. You can't use it. =
 Sorry. You have no room for the bucket. Please free some space in your inventory first! =
 Your tree trunk well can now be used by other players as well. =
 Your tree trunk well can only be used by yourself. =
