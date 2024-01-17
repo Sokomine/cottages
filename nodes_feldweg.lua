@@ -563,16 +563,18 @@ elseif( cottages_feldweg_mode == "mesh"
 		"default_dirt.png^default_dry_grass_side.png", -- side
 		"cottages_feldweg_surface.png^default_dry_grass.png",
 	}
-	variants["bamboo"] = {
-		"ethereal_grass_bamboo_top.png", -- grass top
-		"default_dirt.png", -- bottom
-		"default_dirt.png^ethereal_grass_bamboo_side.png", -- side
-		"_bamboo",
-		"ethereal:bamboo_dirt",
-		" on bamboo dirt",
-		"default_dirt.png^ethereal_grass_bamboo_side.png", -- side
-		"cottages_feldweg_surface.png^ethereal_grass_bamboo_top.png",
-	}
+	if minetest.get_modpath("ethereal") then
+		variants["bamboo"] = {
+			"ethereal_grass_bamboo_top.png", -- grass top
+			"default_dirt.png", -- bottom
+			"default_dirt.png^ethereal_grass_bamboo_side.png", -- side
+			"_bamboo",
+			"ethereal:bamboo_dirt",
+			" on bamboo dirt",
+			"default_dirt.png^ethereal_grass_bamboo_side.png", -- side
+			"cottages_feldweg_surface.png^ethereal_grass_bamboo_top.png",
+		}
+	end
 
 	for k, v in pairs(variants) do
 		cottages.register_nodes_mesh(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
