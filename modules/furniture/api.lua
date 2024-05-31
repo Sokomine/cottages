@@ -39,7 +39,7 @@ function api.get_up(player)
 		player_monoids.jump:del_change(player, "cottages:furniture")
 		player_monoids.gravity:del_change(player, "cottages:furniture")
 	else
-		player:set_physics_override(1, 1, 1)
+		player:set_physics_override({ speed = 1, jump = 1, gravity = 1 })
 	end
 
 	player_api.player_attached[player_name] = nil
@@ -61,7 +61,7 @@ function api.stop_moving(player)
 		player_monoids.jump:add_change(player, 0, "cottages:furniture")
 		player_monoids.gravity:add_change(player, 0, "cottages:furniture")
 	else
-		player:set_physics_override(0, 0, 0)
+		player:set_physics_override({ speed = 0, jump = 0, gravity = 0 })
 	end
 end
 
