@@ -6,6 +6,25 @@
 
 local S = cottages.S
 
+cottages.threshing_floor_receipes = {}
+-- wheat is almost always available
+cottages.threshing_floor_receipes['farming:wheat'] = cottages.craftitem_seed_wheat
+-- these are from farming_plus:
+cottages.threshing_floor_receipes['farming:rye'] = 'farming:seed_rye'
+cottages.threshing_floor_receipes['farming:oat'] = 'farming:seed_oat'
+cottages.threshing_floor_receipes['farming:barley'] = 'farming:seed_barley'
+cottages.threshing_floor_receipes['farming:rice'] = 'farming:seed_rice'
+
+
+cottages.can_thresh_stack = function(stack)
+	return (stack
+		and not(stack:is_empty())
+		and stack:get_name()
+		and cottages.threshing_floor_receipes[stack:get_name()]
+		-- the product has to be known
+		and minetest.registered_items[cottages.threshing_floor_receipes[stack:get_name()]])
+end
+
 
 -- an even simpler from of bed - usually for animals 
 -- it is a nodebox and not wallmounted because that makes it easier to replace beds with straw mats
@@ -87,12 +106,12 @@ local cottages_formspec_treshing_floor =
                                 "list[current_name;harvest;1,1;2,1;]"..
                                 "list[current_name;straw;5,0;2,2;]"..
                                 "list[current_name;seeds;5,2;2,2;]"..
-					"label[1,0.5;"..S("Harvested wheat:").."]"..
+					"label[1,0.5;"..S("Harvested crop:").."]"..
 					"label[4,0.0;"..S("Straw:").."]"..
 					"label[4,2.0;"..S("Seeds:").."]"..
 					"label[0,-0.5;"..S("Threshing floor").."]"..
 					"label[0,2.5;"..S("Punch threshing floor with a stick").."]"..
-					"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
+					"label[0,3.0;"..S("to get straw and seeds from crop.").."]"..
                                 "list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:threshing_floor", {
@@ -178,7 +197,7 @@ minetest.register_node("cottages:threshing_floor", {
 		-- only accept input the threshing floor can use/process
 		if(    listname=='straw'
 		    or listname=='seeds' 
-		    or (listname=='harvest' and stack and stack:get_name() ~= 'farming:wheat' )) then
+		    or (listname=='harvest' and not(cottages.can_thresh_stack(stack)))) then
 			return 0;
 		end
 
@@ -220,9 +239,8 @@ minetest.register_node("cottages:threshing_floor", {
 		local stack1 = inv:get_stack( 'harvest', 1);
 		local stack2 = inv:get_stack( 'harvest', 2);
 
-		if(       (      stack1:is_empty()  and stack2:is_empty())
-			or( not( stack1:is_empty()) and stack1:get_name() ~= 'farming:wheat')
-			or( not( stack2:is_empty()) and stack2:get_name() ~= 'farming:wheat')) then
+		if(   not(cottages.can_thresh_stack(stack1))
+		  and not(cottages.can_thresh_stack(stack2))) then
 
 --			minetest.chat_send_player( name, 'One of the input slots contains something else than wheat, or there is no wheat at all.');
 			-- update the formspec
@@ -231,42 +249,69 @@ minetest.register_node("cottages:threshing_floor", {
 				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
 			return;
 		end
+		-- determine what to thresh
+		local crop_name = ""
+		-- we now process other crop as well - but wheat is the historic one, so we keep the var name
+		local found_wheat = 0
+		if(not(stack1:is_empty())) then
+			crop_name = stack1:get_name()
+			found_wheat = stack1:get_count()
+		elseif(not(stack2:is_empty())) then
+			crop_name = stack2:get_name()
+			found_wheat = stack2:get_count()
+		end
+		-- if both stacks contain the same crop, we may add it
+		if(stack1:get_name() == stack2:get_name()) then
+			found_wheat = stack1:get_count() + stack2:get_count()
+		end
+		-- how will the seeds be called?
+		local seed_name = cottages.threshing_floor_receipes[crop_name]
 
 		-- on average, process 25 wheat at each punch (10..40 are possible)
 		local anz_wheat = 10 + math.random( 0, 30 );
-		-- we already made sure there is only wheat inside
-		local found_wheat = stack1:get_count() + stack2:get_count();
 		
 		-- do not process more wheat than present in the input slots
 		if( found_wheat < anz_wheat ) then
 			anz_wheat = found_wheat;
 		end
 
+		-- adjust textures
 		local overlay1 = "^farming_wheat.png";
 		local overlay2 = "^"..cottages.straw_texture;
 		local overlay3 = "^"..cottages.texture_wheat_seed;
+		local def = minetest.registered_items[crop_name]
+		if(def and def.inventory_image) then
+			overlay1 = "^"..tostring(def.inventory_image)
+		end
+		def = minetest.registered_items[seed_name]
+		if(def and def.inventory_image) then
+			overlay3 = "^"..tostring(def.inventory_image)
+		end
+
 
 		-- this can be enlarged by a multiplicator if desired
 		local anz_straw = anz_wheat;
 		local anz_seeds = anz_wheat;
 
-		if(    inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw ))
-		   and inv:room_for_item('seeds',cottages.craftitem_seed_wheat..' '..tostring( anz_seeds ))) then
+		if(  not(inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw )))
+		  or not(inv:room_for_item('seeds', seed_name..' '..tostring( anz_seeds )))) then
+			minetest.chat_send_player(name, S('The output slots are full. Please make room before threshing more!'))
+			return
+		end
 
-			-- the player gets two kind of output
-			inv:add_item("straw",'cottages:straw_mat '..tostring( anz_straw ));
-			inv:add_item("seeds",cottages.craftitem_seed_wheat..' '..tostring( anz_seeds ));
-			-- consume the wheat
-			inv:remove_item("harvest", 'farming:wheat '..tostring( anz_wheat ));
+		-- the player gets two kind of output
+		inv:add_item("straw", 'cottages:straw_mat '..tostring( anz_straw ))
+		inv:add_item("seeds", seed_name..' '..tostring( anz_seeds ))
+		-- consume the wheat
+		inv:remove_item("harvest", crop_name..' '..tostring( anz_wheat ))
 
-			local anz_left = found_wheat - anz_wheat;
-			if( anz_left > 0 ) then
---				minetest.chat_send_player( name, S('You have threshed %s wheat (%s are left).'):format(anz_wheat,anz_left));
-			else
---				minetest.chat_send_player( name, S('You have threshed the last %s wheat.'):format(anz_wheat));
-				overlay1 = "";
-			end
-		end	
+		local anz_left = found_wheat - anz_wheat;
+		if( anz_left > 0 ) then
+--			minetest.chat_send_player( name, S('You have threshed %s wheat (%s are left).'):format(anz_wheat,anz_left));
+		else
+--			minetest.chat_send_player( name, S('You have threshed the last %s wheat.'):format(anz_wheat));
+			overlay1 = "";
+		end
 
 		local hud0 = puncher:hud_add({
 			name = "cottages_threshing_floor_base",
