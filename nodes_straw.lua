@@ -323,7 +323,20 @@ minetest.register_node("cottages:threshing_floor", {
 
 		if(  not(inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw )))
 		  or not(inv:room_for_item('seeds', seed_name..' '..tostring( anz_seeds )))) then
-			minetest.chat_send_player(name, S('The output slots are full. Please make room before threshing more!'))
+			local hud_list = {{
+				name = "cottages_threshing_floor_full",
+				direction = 0,
+				z_index = 115,
+				type = "text",
+				text = tostring(S('The output slots are full. Please make room before threshing more!')),
+--				number = 0x00CC00,
+				number = 0xFFFFFF,
+				alignment = {x = 0, y = 0},
+				scale = {x = 2, y = 2}, -- bounding rectangle of the text
+				position = {x = 0.5, y = 0.65},
+				}}
+			-- show those huds to the player (and hide them after 2 secons)
+			cottages.add_hud_list(puncher, 2, hud_list)
 			return
 		end
 
