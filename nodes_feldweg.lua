@@ -575,10 +575,12 @@ elseif( cottages_feldweg_mode == "mesh"
 	}
 
 	for k, v in pairs(variants) do
-		cottages.register_nodes_mesh(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
-		register_recipes(true, v[4], v[5])
-		-- register the two slope nodes
-		cottages.register_nodes_slope(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
+		if(minetest.registered_nodes[v[5]]) then
+			cottages.register_nodes_mesh(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
+			register_recipes(true, v[4], v[5])
+			-- register the two slope nodes
+			cottages.register_nodes_slope(v[4], v[1], v[2], v[3], cottages_feldweg_mode, v[6], v[7], v[8])
+		end
 	end
 end
 
