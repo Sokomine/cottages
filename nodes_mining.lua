@@ -35,6 +35,21 @@ minetest.register_craft({
         }
 })
 
+minetest.register_craft({
+	output = "cottages:rope",
+	recipe = {
+		{"farming:cotton","","farming:cotton"},
+		{"","farming:cotton",""}
+        }
+})
+
+minetest.register_craft({
+	output = "cottages:rope 3",
+	recipe = {
+		{"cottages:hay_mat"}
+        }
+})
+
 
 -- Note: This rope also counts as a rail node; thus, carts can move through it
 minetest.register_node("cottages:ladder_with_rope_and_rail", {
