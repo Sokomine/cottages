@@ -26,6 +26,29 @@ cottages.can_thresh_stack = function(stack)
 end
 
 
+
+--cottages.handmill_product = {}
+cottages.handmill_product[cottages.craftitem_seed_wheat] = 'farming:flour'
+-- these are from farming_plus:
+cottages.handmill_product['farming:seed_rye'] = 'farming:flour'
+cottages.handmill_product['farming:seed_oat'] = 'farming:flour'
+cottages.handmill_product['farming:seed_barley'] = 'farming:flour'
+cottages.handmill_product['farming:seed_rice'] = 'farming:rice_flour'
+-- specific to some mods:
+cottages.handmill_product['farming:corn'] = 'yl_seasons:corn_flour'
+cottages.handmill_product['farming:seeds_sunflower'] = 'cucina_vegana:sunflower_seeds_flour'
+-- farming:flour_multigrain is probably best still done by alternate ways of crafting
+
+cottages.can_mill_stack = function(stack)
+	return (stack
+		and not(stack:is_empty())
+		and stack:get_name()
+		and cottages.handmill_product[stack:get_name()]
+		-- the product has to be known
+		and minetest.registered_items[cottages.handmill_product[stack:get_name()]])
+end
+
+
 -- an even simpler from of bed - usually for animals 
 -- it is a nodebox and not wallmounted because that makes it easier to replace beds with straw mats
 minetest.register_node("cottages:straw_mat", {
@@ -402,11 +425,11 @@ local cottages_handmill_formspec = "size[8,8]"..
 				"button_exit[6.0,0.0;1.5,0.5;public;"..S("Public?").."]"..
                                 "list[current_name;seeds;1,1;1,1;]"..
                                 "list[current_name;flour;5,1;2,2;]"..
-					"label[0,0.5;"..S("Wheat seeds:").."]"..
+					"label[0,0.5;"..S("Seeds:").."]"..
 					"label[4,0.5;"..S("Flour:").."]"..
 					"label[0,-0.3;"..S("Mill").."]"..
 					"label[0,2.5;"..S("Punch this hand-driven mill").."]"..
-					"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
+					"label[0,3.0;"..S("to convert seeds into flour.").."]"..
                                 "list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:handmill", {
@@ -482,7 +505,7 @@ minetest.register_node("cottages:handmill", {
 		local meta = minetest.get_meta(pos)
 		-- only accept input the threshing floor can use/process
 		if(    listname=='flour'
-		    or (listname=='seeds' and stack and not( cottages.handmill_product[ stack:get_name()] ))) then
+		    or (listname=='seeds' and not(cottages.can_mill_stack(stack)) )) then
 			return 0;
 		end
 
