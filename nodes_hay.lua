@@ -3,12 +3,19 @@
 --
 local S = cottages.S
 
+local dirt_with_grass = 'default:dirt_with_grass'
+local dirt = 'default:dirt'
+if(not(minetest.registered_nodes[dirt_with_grass])) then
+	dirt_with_grass = 'mcl_core:dirt_with_grass'
+	dirt = 'mcl_core:dirt'
+end
 -- If default:dirt_with_grass is digged while wielding a pitchfork, it will
 -- turn into dirt and get some hay placed above it.
 -- The hay will disappear (decay) after a couple of minutes.
-if(     minetest.registered_items["default:dirt_with_grass"]
+if(     minetest.registered_items[dirt_with_grass]
+    and minetest.registered_items[dirt]
     and minetest.registered_tools["cottages:pitchfork"]) then
-  minetest.override_item("default:dirt_with_grass", {
+  minetest.override_item(dirt_with_grass, {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if( not( pos ) or not( digger )) then
 			return
@@ -25,7 +32,7 @@ if(     minetest.registered_items["default:dirt_with_grass"]
 		if( not(node_above) or not(node_above.name) or node_above.name ~= "air" ) then
 			return nil
 		end
-		minetest.swap_node( pos,       {name="default:dirt"})
+		minetest.swap_node( pos,       {name=dirt})
 		minetest.add_node(  pos_above, {name="cottages:hay_mat", param2=math.random(2,25)}) 
 		-- start a node timer so that the hay will decay after some time
 		local timer = minetest.get_node_timer(pos_above)
@@ -34,7 +41,7 @@ if(     minetest.registered_items["default:dirt_with_grass"]
 		end
 		-- prevent dirt from beeing multiplied this way (that is: give no dirt!)
 		local inv = digger:get_inventory()
-		inv:remove_item('main', 'default:dirt 1')
+		inv:remove_item('main', tostring(dirt)..' 1')
 		return
 	end,
   })
