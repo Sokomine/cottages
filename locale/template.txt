@@ -116,6 +116,7 @@ Seeds: =
 Owner: %s = 
 Punch threshing floor with a stick = 
 to get straw and seeds from wheat. = 
+The output slots are full. Please make room before threshing more! =
 You have threshed %s wheat (%s are left). =
 You have threshed the last %s wheat. =
 mill, powered by punching =

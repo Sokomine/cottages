@@ -117,6 +117,7 @@ Seeds: = Koerner
 Owner: %s = Besitzer: %s
 Punch threshing floor with a stick = Schlage mit einem Stock auf den Dreschboden 
 to get straw and seeds from wheat. = um Stroh und Koerner vom Weizen zu bekommen.
+The output slots are full. Please make room before threshing more! = Die Ausgabefächer sind voll. Bitte schaffe Platz bevor Du weiter drescht!
 You have threshed %s wheat (%s are left). =  Du hast %s Weizenaehren gedroschen (%s bleiben uebrig).
 You have threshed the last %s wheat. =  Du hast die letzten %s Weizenaehren gedroschen.
 mill, powered by punching = Muehle, durch Schlagen antreiben
