@@ -216,7 +216,7 @@ minetest.register_node("cottages:anvil", {
 			end
 		end
 			
-		local hud1 = puncher:hud_add({
+		local hud_list = {{
 			name = "cottages_anvil_broken_tool_img",
 			direction = 0,
 			z_index = 90,
@@ -225,11 +225,9 @@ minetest.register_node("cottages:anvil", {
 			text = hud_image,
 			position = {x = 0.5, y = 0.5},
 			alignment = {x = 0, y = 0}
-		});
-		local hud2 = nil;
-		local hud3 = nil;
+		}}
 		if( input:get_wear()>0 ) then
-			hud2 = puncher:hud_add({
+			table.insert(hud_list, {
 				name = "cottages_anvil_wear_red",
 				z_index = 111,
 				type = "statbar",
@@ -241,7 +239,7 @@ minetest.register_node("cottages:anvil", {
 				offset = {x = -320, y = 0},
 				size = {x=32, y=32},
 			})
-			hud3 = puncher:hud_add({
+			table.insert(hud_list, {
 				name = "cottages_anvil_wear_green",
 				z_index = 112,
 				type = "statbar",
@@ -252,15 +250,10 @@ minetest.register_node("cottages:anvil", {
 				alignment = {x = 0, y = 0},
 				offset = {x = -320, y = 0},
 				size = {x=32, y=32},
-			});
+			})
 		end
-		minetest.after(2, function()
-			if( puncher ) then
-				if(hud1) then puncher:hud_remove(hud1); end
-				if(hud2) then puncher:hud_remove(hud2); end
-				if(hud3) then puncher:hud_remove(hud3); end
-			end
-		end)
+		-- show the hud list (removing them later on is handled automaticly)
+		cottages.add_hud_list(puncher, 2, hud_list)
 
 		-- tell the player when the job is done
 		if(   input:get_wear() == 0 ) then

@@ -220,6 +220,11 @@ minetest.register_node("cottages:threshing_floor", {
 		if( not( pos ) or not( node ) or not( puncher )) then
 			return;
 		end
+
+		-- too fast punching - either from anvil or from threshing floor
+		if(cottages.hud_wait[puncher]) then
+			return
+		end
 		-- only punching with a normal stick is supposed to work
 		local wielded = puncher:get_wielded_item();
 		if(    not( wielded )
@@ -306,6 +311,12 @@ minetest.register_node("cottages:threshing_floor", {
 		inv:remove_item("harvest", crop_name..' '..tostring( anz_wheat ))
 
 		local anz_left = found_wheat - anz_wheat;
+		if( not( anz_straw )) then
+			anz_straw = "0";
+		end
+		if( not( anz_seeds )) then
+			anz_seeds = "0"
+		end
 		if( anz_left > 0 ) then
 --			minetest.chat_send_player( name, S('You have threshed %s wheat (%s are left).'):format(anz_wheat,anz_left));
 		else
@@ -313,7 +324,7 @@ minetest.register_node("cottages:threshing_floor", {
 			overlay1 = "";
 		end
 
-		local hud0 = puncher:hud_add({
+		local hud_list = {{
 			name = "cottages_threshing_floor_base",
 			direction = 0,
 			z_index = 110,
@@ -322,9 +333,7 @@ minetest.register_node("cottages:threshing_floor", {
 			text = "cottages_junglewood.png^[colorize:#888888:128",
 			position = {x = 0.5, y = 0.5},
 			alignment = {x = 0, y = 0}
-		});
-
-		local hud1 = puncher:hud_add({
+		}, {
 			name = "cottages_threshing_floor_overlay1",
 			direction = 0,
 			z_index = 111,
@@ -333,8 +342,7 @@ minetest.register_node("cottages:threshing_floor", {
 			text = "cottages_junglewood.png"..overlay1,
 			position = {x = 0.4, y = 0.5},
 			alignment = {x = 0, y = 0}
-		});
-		local hud2 = puncher:hud_add({
+		}, {
 			name = "cottages_threshing_floor_overlay2",
 			direction = 0,
 			z_index = 112,
@@ -343,8 +351,7 @@ minetest.register_node("cottages:threshing_floor", {
 			text = "cottages_junglewood.png"..overlay2,
 			position = {x = 0.6, y = 0.35},
 			alignment = {x = 0, y = 0}
-		});
-		local hud3 = puncher:hud_add({
+		}, {
 			name = "cottages_threshing_floor_overlay3",
 			direction = 0,
 			z_index = 113,
@@ -353,9 +360,7 @@ minetest.register_node("cottages:threshing_floor", {
 			text = "cottages_junglewood.png"..overlay3,
 			position = {x = 0.6, y = 0.65},
 			alignment = {x = 0, y = 0}
-		});
-
-		local hud4 = puncher:hud_add({
+		}, {
 			name = "cottages_threshing_floor_remaining",
 			direction = 0,
 			z_index = 114,
@@ -365,14 +370,7 @@ minetest.register_node("cottages:threshing_floor", {
 			alignment = {x = 0, y = 0},
 			scale = {x = 100, y = 100}, -- bounding rectangle of the text
 			position = {x = 0.4, y = 0.5},
-		});
-		if( not( anz_straw )) then
-			anz_straw = "0";
-		end
-		if( not( anz_seeds )) then
-			anz_seeds = "0"
-		end
-		local hud5 = puncher:hud_add({
+		}, {
 			name = "cottages_threshing_floor_anz_straw",
 			direction = 0,
 			z_index = 115,
@@ -382,8 +380,7 @@ minetest.register_node("cottages:threshing_floor", {
 			alignment = {x = 0, y = 0},
 			scale = {x = 100, y = 100}, -- bounding rectangle of the text
 			position = {x = 0.6, y = 0.35},
-		});
-		local hud6 = puncher:hud_add({
+		}, {
 			name = "cottages_threshing_floor_anz_seeds",
 			direction = 0,
 			z_index = 116,
@@ -393,21 +390,9 @@ minetest.register_node("cottages:threshing_floor", {
 			alignment = {x = 0, y = 0},
 			scale = {x = 100, y = 100}, -- bounding rectangle of the text
 			position = {x = 0.6, y = 0.65},
-		});
-
-
-
-		minetest.after(2, function()
-			if( puncher ) then
-				if(hud1) then puncher:hud_remove(hud1); end
-				if(hud2) then puncher:hud_remove(hud2); end
-				if(hud3) then puncher:hud_remove(hud3); end
-				if(hud4) then puncher:hud_remove(hud4); end
-				if(hud5) then puncher:hud_remove(hud5); end
-				if(hud6) then puncher:hud_remove(hud6); end
-				if(hud0) then puncher:hud_remove(hud0); end
-			end
-		end)
+		}}
+		-- show those huds to the player (and hide them after 2 secons)
+		cottages.add_hud_list(puncher, 2, hud_list)
 	end,
 })
 
