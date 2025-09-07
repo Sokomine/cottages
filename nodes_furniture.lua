@@ -22,7 +22,7 @@ minetest.register_node("cottages:bed_foot", {
 	tiles = {"cottages_beds_bed_top_bottom.png", cottages.texture_furniture,  "cottages_beds_bed_side.png",  "cottages_beds_bed_side.png",  "cottages_beds_bed_side.png",  "cottages_beds_bed_side.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
-	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,animates_player=1},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",
@@ -57,7 +57,7 @@ minetest.register_node("cottages:bed_head", {
 	tiles = {"cottages_beds_bed_top_top.png", cottages.texture_furniture,  "cottages_beds_bed_side_top_r.png",  "cottages_beds_bed_side_top_l.png",  cottages.texture_furniture,  "cottages_beds_bed_side.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
-	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,animates_player=1},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",
@@ -98,7 +98,7 @@ minetest.register_node("cottages:sleeping_mat", {
         paramtype = 'light',
         paramtype2 = "facedir",
         walkable = false,
-        groups = { snappy = 3, sleeping_mat = 1 },
+        groups = { snappy = 3, sleeping_mat = 1, animates_player = 1},
 	sounds = cottages.sounds.leaves,
         selection_box = {
                         type = "wallmounted",
@@ -132,7 +132,7 @@ minetest.register_node("cottages:sleeping_mat_head", {
         sunlight_propagates = true,
         paramtype = 'light',
         paramtype2 = "facedir",
-        groups = { snappy = 3, sleeping_mat = 1 },
+        groups = { snappy = 3, sleeping_mat = 1, animates_player = 1 },
 	sounds = cottages.sounds.leaves,
         node_box = {
                 type = "fixed",
@@ -161,7 +161,7 @@ minetest.register_node("cottages:bench", {
 	tiles = {"cottages_minimal_wood.png", "cottages_minimal_wood.png",  "cottages_minimal_wood.png",  "cottages_minimal_wood.png",  "cottages_minimal_wood.png",  "cottages_minimal_wood.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
-	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,animates_player=1},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",
@@ -417,11 +417,49 @@ cottages.is_bed = function(pos, node)
 	return false
 end
 
+
+-- players might leave beds/benches in unintended ways (or other mods mess up with the logic)
+-- we need to make sure they won't be stuck with their last animation
+local attached_players = {}
+local fix_player_animation_job
+
+local function fix_player_animations(active_loop)
+	if fix_player_animation_job and not active_loop then -- we already have a loop running
+		return
+	end
+	local continue_looping = false
+	for playername, last_pos in pairs(attached_players) do
+		-- is the player still at the position where we expect him to be
+		local player = minetest.get_player_by_name(playername)
+		local player_pos = player and vector.round(player:get_pos())
+		local same_position = player_pos and vector.equals(player_pos, last_pos)
+
+		-- is the node still around (might be dug/whatever)
+		local nodename = minetest.get_node(last_pos).name
+		local node_animates_player = minetest.get_item_group(nodename, "animates_player") ~= 0
+		
+		if same_position and node_animates_player then
+			continue_looping = true
+		else
+			if player then
+				cottages.stand(player)
+			end
+			attached_players[playername] = nil
+		end
+	end
+	if continue_looping then
+		fix_player_animation_job = minetest.after(1, fix_player_animations, true)
+	else
+		fix_player_animation_job = nil
+	end
+end
+
 cottages.stand = function (player)
 	local pname = player:get_player_name()
 	player_api.player_attached[pname] = false
 	player:set_physics_override({speed = 1, jump = 1, gravity = 1})
 	player_api.set_animation(player, "stand", 30)
+	attached_players[pname] = nil
 end
 
 cottages.sit = function (player)
@@ -429,6 +467,8 @@ cottages.sit = function (player)
 	player_api.set_animation(player, "sit", 30)
 	player:set_physics_override({speed = 0, jump = 0, gravity = 0})
 	player_api.player_attached[pname] = true
+	attached_players[pname] = vector.round(player:get_pos())
+	fix_player_animations()
 end
 
 cottages.lay = function (player)
@@ -436,6 +476,8 @@ cottages.lay = function (player)
 	player_api.set_animation(player, "lay", 30)
 	player:set_physics_override({speed = 0, jump = 0, gravity = 0})
 	player_api.player_attached[pname] = true
+	attached_players[pname] = vector.round(player:get_pos())
+	fix_player_animations()
 end
 
 cottages.sit_on_bench = function( pos, node, clicker, itemstack, pointed_thing )

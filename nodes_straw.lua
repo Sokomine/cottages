@@ -61,7 +61,7 @@ minetest.register_node("cottages:straw_mat", {
         paramtype = 'light',
         paramtype2 = "facedir",
         walkable = false,
-	groups = { hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable=3 , sleeping_mat=1, },
+	groups = { hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable=3 , sleeping_mat=1, animates_player=1 },
 	sounds = cottages.sounds.leaves,
 	node_box = {
 		type = "fixed",
