@@ -87,7 +87,7 @@ cottages.water_gen_fill_bucket = function(pos)
 	end
 	-- abort if the water has not been running long enough
 	-- (the player may have removed a bucket before it was full)
-	start = meta:get_string("fillstarttime")
+	local start = meta:get_string("fillstarttime")
 	if( (minetest.get_us_time()/1000000) - tonumber(start) < cottages.water_fill_time -2) then
 		return
 	end

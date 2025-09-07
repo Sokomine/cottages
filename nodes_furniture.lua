@@ -509,7 +509,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		-- search for a second mat right next to this one
 		local offset = {{x=0,z=-1}, {x=-1,z=0}, {x=0,z=1}, {x=1,z=0}};
 		for i,off in ipairs( offset ) do
-			node2 = minetest.get_node( {x=pos.x+off.x, y=pos.y, z=pos.z+off.z} );
+			local node2 = minetest.get_node( {x=pos.x+off.x, y=pos.y, z=pos.z+off.z} );
 			if( node2.name == 'cottages:sleeping_mat' or node2.name=='cottages:straw_mat' or node.name=='cottages:sleeping_mat_head' ) then
 				-- if a second mat is found, sleeping is possible
 				allow_sleep = true;
