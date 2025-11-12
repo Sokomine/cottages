@@ -14,6 +14,7 @@
 -- TODO: change the textures of the bed (make the clothing white, foot path not entirely covered with cloth)
 
 local S = cottages.S
+local has_player_monoids = minetest.get_modpath("player_monoids")
 
 -- a bed without functionality - just decoration
 minetest.register_node("cottages:bed_foot", {
@@ -375,6 +376,10 @@ cottages.allow_sit = function( player, pos )
 	end
 
 	local pname = player:get_player_name()
+	if player_api.player_attached[pname] then
+		-- another mod controls the player, we might break it's logic
+		return false
+	end
 
 	local p_above = minetest.get_node( {x=pos.x, y=pos.y+1, z=pos.z});
 	if( not( p_above) or not( p_above.name ) or p_above.name ~= 'air' ) then
@@ -438,7 +443,11 @@ local function fix_player_animations(active_loop)
 		local nodename = minetest.get_node(last_pos).name
 		local node_animates_player = minetest.get_item_group(nodename, "animates_player") ~= 0
 		
-		if same_position and node_animates_player then
+		-- check for
+			-- teleport (p.ex. /spawn)
+			-- node destruction
+			-- other mods detaching the player
+		if same_position and node_animates_player and player_api.player_attached[playername] then
 			continue_looping = true
 		else
 			if player then
@@ -457,7 +466,13 @@ end
 cottages.stand = function (player)
 	local pname = player:get_player_name()
 	player_api.player_attached[pname] = false
-	player:set_physics_override({speed = 1, jump = 1, gravity = 1})
+	if has_player_monoids then
+		player_monoids.speed:del_change(player, "cottages:furniture")
+		player_monoids.jump:del_change(player, "cottages:furniture")
+		player_monoids.gravity:del_change(player, "cottages:furniture")
+	else
+		player:set_physics_override({speed = 1, jump = 1, gravity = 1})
+	end
 	player_api.set_animation(player, "stand", 30)
 	attached_players[pname] = nil
 end
@@ -465,7 +480,13 @@ end
 cottages.sit = function (player)
 	local pname = player:get_player_name()
 	player_api.set_animation(player, "sit", 30)
-	player:set_physics_override({speed = 0, jump = 0, gravity = 0})
+	if has_player_monoids then
+		player_monoids.speed:add_change(player, 0, "cottages:furniture")
+		player_monoids.jump:add_change(player, 0, "cottages:furniture")
+		player_monoids.gravity:add_change(player, 0, "cottages:furniture")
+	else
+		player:set_physics_override({speed = 0, jump = 0, gravity = 0})
+	end
 	player_api.player_attached[pname] = true
 	attached_players[pname] = vector.round(player:get_pos())
 	fix_player_animations()
@@ -474,7 +495,13 @@ end
 cottages.lay = function (player)
 	local pname = player:get_player_name()
 	player_api.set_animation(player, "lay", 30)
-	player:set_physics_override({speed = 0, jump = 0, gravity = 0})
+	if has_player_monoids then
+		player_monoids.speed:add_change(player, 0, "cottages:furniture")
+		player_monoids.jump:add_change(player, 0, "cottages:furniture")
+		player_monoids.gravity:add_change(player, 0, "cottages:furniture")
+	else
+		player:set_physics_override({speed = 0, jump = 0, gravity = 0})
+	end
 	player_api.player_attached[pname] = true
 	attached_players[pname] = vector.round(player:get_pos())
 	fix_player_animations()
