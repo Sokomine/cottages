@@ -377,8 +377,13 @@ cottages.allow_sit = function( player, pos )
 
 	local pname = player:get_player_name()
 	if player_api.player_attached[pname] then
-		-- another mod controls the player, we might break it's logic
-		return false
+		-- it is possible that the player is sitting and wants to lie down or get up
+		d = vector.distance(pos, player:get_pos())
+		if(d > 1.1) then
+			-- the player is sitting - but not on this object that was right-clicked;
+			-- someone else is responsible for handling this click
+			return false
+		end
 	end
 
 	local p_above = minetest.get_node( {x=pos.x, y=pos.y+1, z=pos.z});
