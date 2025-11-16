@@ -17,7 +17,7 @@ local S = cottages.S
 -----------------------------------------------------------------------------------------------------------
 
 -- propagate shutting/closing of window shutters to window shutters below/above this one
-cottages_window_sutter_operate = function( pos, old_node_state_name, new_node_state_name )
+local cottages_window_sutter_operate = function( pos, old_node_state_name, new_node_state_name )
    
    local offsets   = {-1,1,-2,2,-3,3};
    local stop_up   = 0;
@@ -298,7 +298,7 @@ minetest.register_node("cottages:gate_open", {
 
 -- hatches rotate around their axis
 --  old facedir:  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
-new_facedirs = { 10,19, 4,13, 2,18,22,14,20,16, 0,12,11, 3, 7,21, 9,23, 5, 1, 8,15, 6,17};
+local new_facedirs = { 10,19, 4,13, 2,18,22,14,20,16, 0,12,11, 3, 7,21, 9,23, 5, 1, 8,15, 6,17};
 
 
 cottages.register_hatch = function( nodename, description, texture, receipe_item )

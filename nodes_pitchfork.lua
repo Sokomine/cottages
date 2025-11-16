@@ -8,7 +8,7 @@ local S = cottages.S
 local add_hay_group = {"farming:straw", "dryplants:reed", "darkage:straw_bale"}
 for i, v in ipairs(add_hay_group) do
 	if( minetest.registered_items[v]) then
-		new_groups = minetest.registered_items[v].groups
+		local new_groups = minetest.registered_items[v].groups
 		new_groups.hay = 3
 		minetest.override_item(v, {groups = new_groups})
 	end
