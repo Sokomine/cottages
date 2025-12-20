@@ -1,0 +1,86 @@
+[cottages]
+
+# Cottages Furniture
+# Set this to false to disable the cottages_furniture content
+# Optional, default is true
+cottages_furniture (Cottages Furniture) bool true
+
+# Cottages Historic
+# Set this to false to disable the cottages_historic content
+# Optional, default is true
+cottages_historic (Cottages Historic) bool true
+
+# Cottages Feldweg
+# Set this to false to disable the cottages_feldweg content
+# Optional, default is true
+cottages_feldweg (Cottages Feldweg) bool true
+
+# Cottages Feldweg Mode
+# Set this to choose the cottages_feldweg_mode
+# Optional, default is "mesh"
+cottages_feldweg_mode (Cottages Feldweg Mode) enum mesh mesh,simple,flat,nodebox,mesh_incl_45
+
+# Cottages Pitchfork
+# Set this to false to disable the cottages_pitchfork content
+# Optional, default is true
+cottages_pitchfork (Cottages Pitchfork) bool true
+
+# Cottages Straw
+# Set this to false to disable the cottages_straw content
+# Optional, default is true
+cottages_straw (Cottages Straw) bool true
+
+# Cottages Hay
+# Set this to false to disable the cottages_hay content
+# Optional, default is true
+cottages_hay (Cottages Hay) bool true
+
+# Cottages Anvil
+# Set this to false to disable the cottages_anvil content
+# Optional, default is true
+cottages_anvil (Cottages Anvil) bool true
+
+# Cottages Doorlike
+# Set this to false to disable the cottages_doorlike content
+# Optional, default is true
+cottages_doorlike (Cottages Doorlike) bool true
+
+# Cottages Fences
+# Set this to false to disable the cottages_fences content
+# Optional, default is true
+cottages_fences (Cottages Fences) bool true
+
+# Cottages Roof
+# Set this to false to disable the cottages_roof content
+# Optional, default is true
+cottages_roof (Cottages Roof) bool true
+
+# Cottages Barrel
+# Set this to false to disable the cottages_barrel content
+# Optional, default is true
+cottages_barrel (Cottages Barrel) bool true
+
+# Cottages Mining
+# Set this to false to disable the cottages_mining content
+# Optional, default is true
+cottages_mining (Cottages Mining) bool true
+
+# Cottages Water
+# Set this to false to disable the cottages_water content
+# Optional, default is true
+cottages_water (Cottages Water) bool true
+
+# Cottages Chests
+# Set this to false to disable the cottages_chests content
+# Optional, default is true
+cottages_chests (Cottages Chests) bool true
+
+# Cottages UI recipes
+# Set this to false to disable the cottages_unified_inventory_receipes content
+# Optional, default is true
+cottages_unified_inventory_receipes (Cottages UI recipes) bool true
+
+# Cottages Alias
+# Set this to false to disable the cottages_alias content
+# Optional, default is true
+cottages_alias (Cottages Alias) bool true
