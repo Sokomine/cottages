@@ -120,8 +120,9 @@ minetest.register_node("cottages:hay_bale", {
 minetest.register_craft({
 	output = "cottages:hay_mat 9",
 	recipe = {
-		{"cottages:hay"},
+		{"cottages:hay", "cottages:pitchfork"},
 	},
+	replacements = {{"cottages:pitchfork", "cottages:pitchfork"}}
 })
 
 minetest.register_craft({
