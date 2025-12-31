@@ -22,6 +22,9 @@
 --          Added threshing floor.
 --          Added hand-driven mill.
 
+core.log('action','[MOD] loading cottages')
+local mod_start_time = minetest.get_us_time()
+
 cottages = {}
 
 -- Boilerplate to support localized strings if intllib mod is installed.
@@ -109,3 +112,6 @@ dofile(minetest.get_modpath("cottages").."/alias.lua");
 
 -- variable no longer needed
 cottages.S = nil;
+
+local mod_load_time = (minetest.get_us_time() - mod_start_time) / 1000000
+core.log('action','[MOD] cottages loaded.. ['.. mod_load_time ..'s]')
