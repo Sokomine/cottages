@@ -34,6 +34,7 @@ cottages.handmill_product['farming:seed_rye'] = 'farming:flour'
 cottages.handmill_product['farming:seed_oat'] = 'farming:flour'
 cottages.handmill_product['farming:seed_barley'] = 'farming:flour'
 cottages.handmill_product['farming:seed_rice'] = 'farming:rice_flour'
+cottages.handmill_product['farming:rice'] = 'farming:rice_flour'
 -- specific to some mods:
 cottages.handmill_product['farming:corn'] = 'yl_seasons:corn_flour'
 cottages.handmill_product['farming:seeds_sunflower'] = 'cucina_vegana:sunflower_seeds_flour'
