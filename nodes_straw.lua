@@ -13,7 +13,7 @@ cottages.threshing_floor_receipes['farming:wheat'] = cottages.craftitem_seed_whe
 cottages.threshing_floor_receipes['farming:rye'] = 'farming:seed_rye'
 cottages.threshing_floor_receipes['farming:oat'] = 'farming:seed_oat'
 cottages.threshing_floor_receipes['farming:barley'] = 'farming:seed_barley'
-cottages.threshing_floor_receipes['farming:rice'] = 'farming:seed_rice'
+cottages.threshing_floor_receipes['default:junglegrass'] = 'farming:seed_rice 3'
 
 
 cottages.can_thresh_stack = function(stack)
