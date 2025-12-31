@@ -87,28 +87,73 @@ dofile(minetest.get_modpath("cottages").."/functions.lua");
 -- anvil and threshing floor show huds
 dofile(minetest.get_modpath("cottages").."/hud_functions.lua");
 
--- uncomment parts you do not want
-dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_feldweg.lua");
--- allows to dig hay and straw fast
-dofile(minetest.get_modpath("cottages").."/nodes_pitchfork.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_hay.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_anvil.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_doorlike.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_fences.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_water.lua");
---dofile(minetest.get_modpath("cottages").."/nodes_chests.lua");
+-- set the setting to false in minetest.conf if you do not want the specific part
+if minetest.settings:get_bool("cottages_furniture", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
+end
 
--- add receipes for threshing floor and handmill to unified_inventory
-dofile(minetest.get_modpath("cottages").."/unified_inventory_receipes.lua");
+if minetest.settings:get_bool("cottages_historic", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
+end
 
--- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod
-dofile(minetest.get_modpath("cottages").."/alias.lua");
+if minetest.settings:get_bool("cottages_feldweg", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_feldweg.lua");
+end
+
+if minetest.settings:get_bool("cottages_pitchfork", true) then
+	-- allows to dig hay and straw fast
+	dofile(minetest.get_modpath("cottages").."/nodes_pitchfork.lua");
+end
+
+if minetest.settings:get_bool("cottages_straw", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");
+end
+
+if minetest.settings:get_bool("cottages_hay", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_hay.lua");
+end
+
+if minetest.settings:get_bool("cottages_anvil", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_anvil.lua");
+end
+
+if minetest.settings:get_bool("cottages_doorlike", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_doorlike.lua");
+end
+
+if minetest.settings:get_bool("cottages_fences", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_fences.lua");
+end
+
+if minetest.settings:get_bool("cottages_roof", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
+end
+
+if minetest.settings:get_bool("cottages_barrel", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
+end
+
+if minetest.settings:get_bool("cottages_mining", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
+end
+
+if minetest.settings:get_bool("cottages_water", true) then
+	dofile(minetest.get_modpath("cottages").."/nodes_water.lua");
+end
+
+if minetest.settings:get_bool("cottages_chests", true) then
+	--dofile(minetest.get_modpath("cottages").."/nodes_chests.lua");
+end
+
+if minetest.settings:get_bool("cottages_unified_inventory_receipes", true) then
+	-- add receipes for threshing floor and handmill to unified_inventory
+	dofile(minetest.get_modpath("cottages").."/unified_inventory_receipes.lua");
+end
+
+if minetest.settings:get_bool("cottages_alias", true) then
+	-- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod
+	dofile(minetest.get_modpath("cottages").."/alias.lua");
+end
 
 -- variable no longer needed
 cottages.S = nil;
