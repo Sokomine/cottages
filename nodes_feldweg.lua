@@ -17,6 +17,7 @@ local S = cottages.S
 -- * mesh: like nodebox - except that it uses a nice roundish model
 local cottages_feldweg_mode = minetest.settings:get("cottages_feldweg_mode")
 if(     cottages_feldweg_mode ~= "mesh"
+    and cottages_feldweg_mode ~= "simple"
     and cottages_feldweg_mode ~= "flat"
     and cottages_feldweg_mode ~= "nodebox"
     and cottages_feldweg_mode ~= "mesh_incl_45") then
@@ -368,7 +369,7 @@ if( cottages_feldweg_mode == "flat" ) then
 elseif( cottages_feldweg_mode == "nodebox" ) then
 	cottages.register_feldweg_node("cottages:feldweg", {
 	        description = S("dirt road"),
-		tiles = {"cottages_feldweg_orig.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer

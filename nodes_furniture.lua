@@ -101,9 +101,6 @@ minetest.register_node("cottages:sleeping_mat", {
         walkable = false,
         groups = { snappy = 3, sleeping_mat = 1, animates_player = 1},
 	sounds = cottages.sounds.leaves,
-        selection_box = {
-                        type = "wallmounted",
-                        },
         node_box = {
                 type = "fixed",
                 fixed = {
@@ -569,7 +566,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		else
 			clicker:set_pos( player_pos )
 			cottages.sit(clicker)
-			minetest.chat_send_player( pname, 'Aaah! What a comftable '..place_name..'. A second right-click will let you sleep.');
+			minetest.chat_send_player( pname, 'Aaah! What a comfortable '..place_name..'. A second right-click will let you sleep.');
 		end
 	else
 		if (animation and animation.animation=="sit") then -- let the player up
@@ -579,7 +576,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		else
 			clicker:set_pos( player_pos )
 			cottages.sit(clicker)
-			minetest.chat_send_player( pname, 'Comftable, but not good enough for a nap. Right-click again if you want to get back up.');
+			minetest.chat_send_player( pname, 'Comfortable, but not good enough for a nap. Right-click again if you want to get back up.');
 		end
 	end
 end
