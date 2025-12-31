@@ -78,11 +78,11 @@ end
                 },
 		drop = "cottages:barrel",
 --                on_rightclick = function(pos, node, puncher)
---                    minetest.add_node(pos, {name = "cottages:barrel_open", param2 = node.param2})
+--                    minetest.swap_node(pos, {name = "cottages:barrel_open", param2 = node.param2})
 --                end,
 -- TODO: on_rightclick is no longer available - maybe open if empty and closed if full?
                 on_punch      = function(pos, node, puncher)
-                    minetest.add_node(pos, {name = "cottages:barrel_lying", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:barrel_lying", param2 = node.param2})
                 end,
 
                 on_construct = function( pos )
@@ -109,10 +109,16 @@ end
                 },
 		drop = "cottages:barrel",
 --                on_rightclick = function(pos, node, puncher)
---                    minetest.add_node(pos, {name = "cottages:barrel", param2 = node.param2})
+--                    minetest.swap_node(pos, {name = "cottages:barrel", param2 = node.param2})
 --                end,
                 on_punch      = function(pos, node, puncher)
-                    minetest.add_node(pos, {name = "cottages:barrel_lying_open", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:barrel_lying_open", param2 = node.param2})
+                end,
+                can_dig = function(pos, player)
+                   return barrel.can_dig(pos, player)
+                end,
+                on_metadata_inventory_put = function(pos, listname, index, stack, player)
+                   return barrel.on_metadata_inventory_put(pos, listname, index, stack, player)
                 end,
 		is_ground_content = false,
         })
@@ -129,14 +135,20 @@ end
                 },
 		drop = "cottages:barrel",
                 on_rightclick = function(pos, node, puncher)
-                    minetest.add_node(pos, {name = "cottages:barrel_lying_open", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:barrel_lying_open", param2 = node.param2})
                 end,
                 on_punch      = function(pos, node, puncher)
                     if( node.param2 < 4 ) then
-                       minetest.add_node(pos, {name = "cottages:barrel_lying", param2 = (node.param2+1)})
+                       minetest.swap_node(pos, {name = "cottages:barrel_lying", param2 = (node.param2+1)})
                     else
-                       minetest.add_node(pos, {name = "cottages:barrel", param2 = 0})
+                       minetest.swap_node(pos, {name = "cottages:barrel", param2 = 0})
                     end
+                end,
+                can_dig = function(pos, player)
+                   return barrel.can_dig(pos, player)
+                end,
+                on_metadata_inventory_put = function(pos, listname, index, stack, player)
+                   return barrel.on_metadata_inventory_put(pos, listname, index, stack, player)
                 end,
 		is_ground_content = false,
         })
@@ -153,14 +165,20 @@ end
                 },
 		drop = "cottages:barrel",
                 on_rightclick = function(pos, node, puncher)
-                    minetest.add_node(pos, {name = "cottages:barrel_lying", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "cottages:barrel_lying", param2 = node.param2})
                 end,
                 on_punch      = function(pos, node, puncher)
                     if( node.param2 < 4 ) then
-                       minetest.add_node(pos, {name = "cottages:barrel_lying_open", param2 = (node.param2+1)})
+                       minetest.swap_node(pos, {name = "cottages:barrel_lying_open", param2 = (node.param2+1)})
                     else
-                       minetest.add_node(pos, {name = "cottages:barrel_open", param2 = 0})
+                       minetest.swap_node(pos, {name = "cottages:barrel_open", param2 = 0})
                     end
+                end,
+                can_dig = function(pos, player)
+                   return barrel.can_dig(pos, player)
+                end,
+                on_metadata_inventory_put = function(pos, listname, index, stack, player)
+                   return barrel.on_metadata_inventory_put(pos, listname, index, stack, player)
                 end,
 		is_ground_content = false,
 
