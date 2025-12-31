@@ -378,7 +378,7 @@ cottages.allow_sit = function( player, pos )
 	local pname = player:get_player_name()
 	if player_api.player_attached[pname] then
 		-- it is possible that the player is sitting and wants to lie down or get up
-		d = vector.distance(pos, player:get_pos())
+		local d = vector.distance(pos, player:get_pos())
 		if(d > 1.1) then
 			-- the player is sitting - but not on this object that was right-clicked;
 			-- someone else is responsible for handling this click
@@ -392,7 +392,7 @@ cottages.allow_sit = function( player, pos )
 		return
 	end
 
-	local velo = player:get_player_velocity()
+	local velo = player:get_velocity()
 	local max_velo = 0.0001;
 	if vector.length(velo) < max_velo then
 		return true;
