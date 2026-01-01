@@ -26,6 +26,10 @@ Autor: Sokomine
 ---
 --- Textures and media:
 ---
+whosit (CC 0):
+   models/cottages_wagonwheel_round.obj
+   models/cottages_wagonwheel_voxel_crimes.obj
+
 VanessaE (CC-by-SA 3.0):
    cottages_waonwheel.png 
    cottages_homedecor_shingles_asphalt.png

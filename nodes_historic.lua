@@ -11,6 +11,8 @@
 local S = cottages.S
 
 -- can be used to buid real stationary wagons or attached to walls as decoration
+
+--[[ the old version - a flat 2d one
 minetest.register_node("cottages:wagon_wheel", {
         description = S("wagon wheel"),
         drawtype = "signlike",
@@ -28,6 +30,90 @@ minetest.register_node("cottages:wagon_wheel", {
         groups = {choppy=2,dig_immediate=2,attached_node=1},
         legacy_wallmounted = true,
 	is_ground_content = false,
+})
+--]]
+
+
+minetest.register_node("cottages:wagon_wheel", {
+	description = S("wagon wheel"),
+	drawtype = "mesh",
+	mesh = "cottages_wagonwheel_round.obj",
+	-- alternate:
+	--mesh = "cottages_wagonwheel_voxel.obj",
+        tiles = {"cottages_wagonwheel.png"}, -- done by VanessaE!
+	--tiles = {"default_junglewood.png"}, -- looks also acceptable
+        inventory_image = "cottages_wagonwheel.png",
+        wield_image = "cottages_wagonwheel.png",
+        paramtype = "light",
+        paramtype2 = "wallmounted",
+        selection_box = {
+                type = "wallmounted",
+        },
+	-- TODO: collusion box
+        sunlight_propagates = true,
+        walkable = false,
+        groups = {choppy=2,dig_immediate=2,},
+        legacy_wallmounted = true,
+	is_ground_content = false,
+--	visual_scale = 0.9, -- looks better in parts but also moves the wheel too far away from the wall
+})
+
+
+minetest.register_node("cottages:wagon_wheel_road", {
+        description = S("wagon wheel on dirt road, sitting half a block behind"),
+        drawtype = "mesh",
+	mesh = "cottages_wagonwheel_voxel_crimes.obj",
+	-- alternate:
+	--mesh = "cottages_wagonwheel_voxel.obj",
+        tiles = {"cottages_wagonwheel.png"}, -- done by VanessaE!
+	--tiles = {"default_junglewood.png"}, -- looks also acceptable
+--        inventory_image = "cottages_wagonwheel.png",  -- not set - so you can distinguish it easier from the other one
+--        wield_image = "cottages_wagonwheel.png", -- not set - so it will look diffrently in itemframe (perhaps may help sometimes)
+        paramtype = "light",
+        paramtype2 = "wallmounted",
+        selection_box = {
+                type = "wallmounted",
+        },
+	-- TODO: collusion box
+        sunlight_propagates = true,
+        walkable = false,
+        groups = {choppy=2,dig_immediate=2,},
+        legacy_wallmounted = true,
+	is_ground_content = false,
+--	visual_scale = 0.9,
+})
+
+
+
+-- bottom or side for a cart for loading items. for now: use in combination with an itemframe for actual load
+minetest.register_node("cottages:cart_load", {
+		description = S("cart load"),
+		drawtype = "nodebox",
+                -- top, bottom, side1, side2, inner, outer
+		tiles = {"default_wood.png"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		use_texture_alpha = "clip",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{ -0.5,    0, -0.5, -0.4, 0.5, 0.5}, -- left
+				{  0.4,    0, -0.5,  0.5, 0.5, 0.5}, -- right
+--				{ -0.5,    0,  0.4,  0.5, 0.5, 0.5}, -- back
+				{ -0.5,    0, -0.5,  0.5, 0.1, 0.5}, -- bottom
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{ -0.5,    0, -0.5, -0.4, 0.5, 0.5}, -- left
+				{  0.4,    0, -0.5,  0.5, 0.5, 0.5}, -- right
+--				{ -0.5,    0,  0.4,  0.5, 0.5, 0.5}, -- back
+				{ -0.5,    0, -0.5,  0.5, 0.1, 0.5}, -- bottom
+			},
+		},
+		is_ground_content = false,
 })
 
 
