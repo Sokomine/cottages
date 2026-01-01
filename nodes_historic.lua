@@ -85,9 +85,9 @@ minetest.register_node("cottages:wagon_wheel_road", {
 
 
 
--- bottom or side for a cart for loading items. for now: use in combination with an itemframe for actual load
-minetest.register_node("cottages:cart_load", {
-		description = S("cart load"),
+-- bottom or side for a wagon for loading items. for now: use in combination with an itemframe for actual load
+minetest.register_node("cottages:wagon_load", {
+		description = S("wagon load"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {"default_wood.png"},
@@ -289,6 +289,33 @@ minetest.register_craft({
 		{cottages.craftitem_iron, cottages.craftitem_stick,       cottages.craftitem_iron }
 	}
 })
+
+-- craft the special wheel with the offset for the dirt roads
+minetest.register_craft({
+	output = "cottages:wagon_wheel_road",
+	recipe = {{"cottages:wagon_wheel"}},
+})
+
+minetest.register_craft({
+	output = "cottages:wagon_wheel",
+	recipe = {{"cottages:wagon_wheel_road"}},
+})
+
+
+if(minetest.get_modpath('moreblocks')) then
+	minetest.register_craft({
+		output = "cottages:wagon_load",
+		recipe = {{"moreblocks:panel_wood_1", "moreblocks:slab_wood_1", "moreblocks:panel_wood_1"}},
+	})
+else
+	minetest.register_craft({
+		output = "cottages:wagon_load 4",
+		recipe = {{"stairs:slab_wood", "",                 "stairs:slab_wood"},
+		          {"",                 "stairs:slab_wood", ""},
+		          {"",                 "default:stick",    ""}},
+	})
+end
+
 
 minetest.register_craft({
 	output = "cottages:loam 4",
