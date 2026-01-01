@@ -37,7 +37,7 @@ minetest.register_node("cottages:wagon_wheel", {
 minetest.register_node("cottages:wagon_wheel", {
 	description = S("wagon wheel"),
 	drawtype = "mesh",
-	mesh = "cottages_wagonwheel_round.obj",
+	mesh = "cottages_wagonwheel_round_with_axle.obj",
 	-- alternate:
 	--mesh = "cottages_wagonwheel_voxel.obj",
         tiles = {"cottages_wagonwheel.png"}, -- done by VanessaE!
