@@ -33,6 +33,15 @@ minetest.register_node("cottages:wagon_wheel", {
 })
 --]]
 
+local wagon_wheel_box_side = {-1/2, -1/2, -1/2, -1/2+1/5, 1/2, 1/2}
+
+local rotate_to_bottom = function(b)
+    return {b[2], b[1], b[3], b[5], b[4], b[6]}
+end
+
+local rotate_to_top = function(b)
+    return {b[2], -b[4], b[3], b[5], -b[1], b[6]}
+end
 
 minetest.register_node("cottages:wagon_wheel", {
 	description = S("wagon wheel"),
@@ -47,9 +56,12 @@ minetest.register_node("cottages:wagon_wheel", {
         paramtype = "light",
         paramtype2 = "wallmounted",
         selection_box = {
-                type = "wallmounted",
+            type = "wallmounted",
+            wall_side = wagon_wheel_box_side,
+            wall_top = rotate_to_top(wagon_wheel_box_side),
+            wall_bottom = rotate_to_bottom(wagon_wheel_box_side),
         },
-	-- TODO: collusion box
+        -- TODO: collision box
         sunlight_propagates = true,
         walkable = false,
         groups = {choppy=2,dig_immediate=2,},
@@ -58,6 +70,8 @@ minetest.register_node("cottages:wagon_wheel", {
 --	visual_scale = 0.9, -- looks better in parts but also moves the wheel too far away from the wall
 })
 
+
+local wagon_wheel_box_road = {-1, -1/2, -1/2, -1/2+1/5, 1/2, 1/2}
 
 minetest.register_node("cottages:wagon_wheel_road", {
         description = S("wagon wheel on dirt road, sitting half a block behind"),
@@ -73,8 +87,11 @@ minetest.register_node("cottages:wagon_wheel_road", {
         paramtype2 = "wallmounted",
         selection_box = {
                 type = "wallmounted",
+                wall_side = wagon_wheel_box_road,
+                wall_top = rotate_to_top(wagon_wheel_box_road),
+                wall_bottom = rotate_to_bottom(wagon_wheel_box_road),
         },
-	-- TODO: collusion box
+	-- TODO: collision box
         sunlight_propagates = true,
         walkable = false,
         groups = {choppy=2,dig_immediate=2,},
