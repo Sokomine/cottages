@@ -13,16 +13,43 @@ cottages.threshing_floor_receipes['farming:wheat'] = cottages.craftitem_seed_whe
 cottages.threshing_floor_receipes['farming:rye'] = 'farming:seed_rye'
 cottages.threshing_floor_receipes['farming:oat'] = 'farming:seed_oat'
 cottages.threshing_floor_receipes['farming:barley'] = 'farming:seed_barley'
-cottages.threshing_floor_receipes['default:junglegrass'] = 'farming:seed_rice 3'
+-- alternate ways of getting straw
+cottages.threshing_floor_receipes['default:junglegrass'] = 'farming:rice 3'
+--cottages.threshing_floor_receipes['group:leaves'] = 'default:stick'
+cottages.threshing_floor_receipes['default:papyrus'] = 'farming:sugar'
+
+
+
+-- is stack contained in receipe_table - and if so: what will be the output?
+cottages.get_product = function(stack, receipe_table)
+	if(not(stack) or stack:is_empty() or not(stack:get_name())) then
+		return ""
+	end
+	local input = stack:get_name()
+	local found = input
+	if(not(receipe_table[found])) then
+		found = ""
+		for k, v in pairs(receipe_table) do
+			if(string.sub(k, 1, 6) == "group:"
+			  and core.get_item_group(input, string.sub(k, 7)) > 0) then
+				found = k
+			end
+		end
+	end
+	if(not(found)) then
+		return ""
+	end
+	local output = receipe_table[found]
+	local output_name = ItemStack(output or ""):get_name()
+	if(not(output) or not(output_name) or output_name == "" or not(core.registered_items[output_name])) then
+		return ""
+	end
+	return output
+end
 
 
 cottages.can_thresh_stack = function(stack)
-	return (stack
-		and not(stack:is_empty())
-		and stack:get_name()
-		and cottages.threshing_floor_receipes[stack:get_name()]
-		-- the product has to be known
-		and minetest.registered_items[cottages.threshing_floor_receipes[stack:get_name()]])
+	return cottages.get_product(stack, cottages.threshing_floor_receipes) ~= ""
 end
 
 
@@ -40,13 +67,9 @@ cottages.handmill_product['farming:corn'] = 'yl_seasons:corn_flour'
 cottages.handmill_product['farming:seeds_sunflower'] = 'cucina_vegana:sunflower_seeds_flour'
 -- farming:flour_multigrain is probably best still done by alternate ways of crafting
 
+
 cottages.can_mill_stack = function(stack)
-	return (stack
-		and not(stack:is_empty())
-		and stack:get_name()
-		and cottages.handmill_product[stack:get_name()]
-		-- the product has to be known
-		and minetest.registered_items[cottages.handmill_product[stack:get_name()]])
+	return cottages.get_product(stack, cottages.handmill_product) ~= ""
 end
 
 
@@ -294,7 +317,12 @@ minetest.register_node("cottages:threshing_floor", {
 			found_wheat = stack1:get_count() + stack2:get_count()
 		end
 		-- how will the seeds be called?
-		local seed_name = cottages.threshing_floor_receipes[crop_name]
+		local seed_stack_str = cottages.get_product(ItemStack(crop_name), cottages.threshing_floor_receipes)
+		if(not(seed_stack_str) or seed_stack_str == "") then
+			return
+		end
+		local seed_stack = ItemStack(seed_stack_str)
+		local seed_name = seed_stack:get_name()
 
 		-- on average, process 25 wheat at each punch (10..40 are possible)
 		local anz_wheat = 10 + math.random( 0, 30 );
@@ -320,7 +348,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 		-- this can be enlarged by a multiplicator if desired
 		local anz_straw = anz_wheat;
-		local anz_seeds = anz_wheat;
+		local anz_seeds = anz_wheat * seed_stack:get_count()
 
 		if(  not(inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw )))
 		  or not(inv:room_for_item('seeds', seed_name..' '..tostring( anz_seeds )))) then
@@ -551,19 +579,16 @@ minetest.register_node("cottages:handmill", {
 		local input = inv:get_list('seeds');
 		local stack1 = inv:get_stack( 'seeds', 1);
 
-		if(       (      stack1:is_empty())
-			or( not( stack1:is_empty())
-			     and not( cottages.handmill_product[ stack1:get_name() ] ))) then
-
-			if not( stack1:is_empty() ) then
-				minetest.chat_send_player(name,"Nothing happens...")
-			end
+		local product_stack_str = cottages.get_product(stack1, cottages.handmill_product)
+		if(product_stack_str == "") then
+			minetest.chat_send_player(name,"Nothing happens...")
 			-- update the formspec
 			meta:set_string("formspec",
 				cottages_handmill_formspec..
 				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
 			return;
 		end
+		local product_stack = ItemStack(product_stack_str or "")
 
 		-- turning the mill is a slow process; 1-21 flour are generated per turn
 		local anz = 1 + math.random( cottages.handmill_min_per_turn, cottages.handmill_max_per_turn );
@@ -575,7 +600,6 @@ minetest.register_node("cottages:handmill", {
 			anz = found;
 		end
 
-		local product_stack = ItemStack( cottages.handmill_product[ stack1:get_name() ]);
 		local anz_result = anz;
 		-- items that produce more
 		if( product_stack:get_count()> 1 ) then

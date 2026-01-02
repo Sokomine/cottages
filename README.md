@@ -14,7 +14,15 @@ Special functions:
 * Window shutters use an abm to automaticly close at night and open at day.
 * The treshing place can be used to seperate harvested wheat into wheat seeds
   and straw. The straw is useful for roofing purposes, straw bales etc.
+  You can add your own receipes by adding somewhere for example:
+   `cottages.threshing_floor_receipes['farming:rye'] = 'farming:seed_rye'`
+  The input item can also be a group entry, e.g. 'group:leaves'.
+  The output item can be a stack of more than one, i.e. 'farming:seed_rye 3'.
 * The handmill turns wheat seeds into flour.
+  You can add your own receipes by adding somewhere for example:
+   `cottages.handmill_product['farming:seed_rye'] = 'farming:flour'`
+  The input item can also be a group entry, e.g. 'group:leaves'.
+  The output item can be a stack of more than one, i.e. 'farming:seed_rye 3'.
 * With anvil and hammer, tools can be repaired.
 * The barrels do not yet have any further functionality. They may be used for
   brewing in the future. Until then, punching makes them rotate and switch from
