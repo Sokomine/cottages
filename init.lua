@@ -27,12 +27,7 @@ local mod_start_time = minetest.get_us_time()
 
 cottages = {}
 
--- Boilerplate to support localized strings if intllib mod is installed.
-if minetest.get_modpath( "intllib" ) and intllib then
-	cottages.S = intllib.Getter()
-else
-	cottages.S = function(s) return s end
-end
+cottages.S = core.get_translator(core.get_current_modname())
 
 cottages.sounds = {}
 -- MineClone2 needs special treatment; default is only needed for
